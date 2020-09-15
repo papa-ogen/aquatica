@@ -1,15 +1,20 @@
 import * as CONSTANTS from './utils/constants';
 import { Ship, Surface } from './scenes/index';
-import { Circle } from './ui-kit/index';
+import { Circle, Text } from './ui-kit/index';
 import Room from './prefabs/Room';
+import { CANVAS_HEIGHT } from './utils/constants';
 
 class Game {
-  constructor(assets = [], MouseEvents) {
+  constructor({
+    assets = [], MouseEvents,
+    debug = false,
+  }) {
     this.canvas = document.getElementById('aquatic');
     this.canvas.width = CONSTANTS.CANVAS_WIDTH;
     this.canvas.height = CONSTANTS.CANVAS_HEIGHT;
     this.ctx = this.canvas.getContext('2d');
     this.BB = this.canvas.getBoundingClientRect();
+    this.debug = debug;
     this.offsetX = this.BB.left;
     this.offsetY = this.BB.top;
     this.isDragging = false;
@@ -77,8 +82,23 @@ class Game {
     if (this.MouseEvents) this.addEvents();
   }
 
+  debugger() {
+    const text = new Text({
+      ctx: this.ctx,
+      x: 10,
+      y: CANVAS_HEIGHT - 16,
+      text: 'debug mode',
+    });
+
+    text.draw();
+  }
+
   draw(time) {
     this.currentScene.draw(time);
+
+    if (this.debug) {
+      this.debugger();
+    }
   }
 }
 

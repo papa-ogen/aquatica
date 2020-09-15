@@ -7,7 +7,11 @@ const assets = [{
   src: 'https://media.gettyimages.com/photos/top-view-of-a-sand-sea-bottom-picture-id825179646?s=2048x2048',
 }];
 
-const game = new Game(assets, MouseEvents);
+const game = new Game({
+  assets,
+  MouseEvents,
+  debug: true,
+});
 
 // prep game
 game.init();
