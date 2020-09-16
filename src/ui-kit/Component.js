@@ -3,9 +3,10 @@ class Component {
     ctx,
     x = 50, y = 50,
     text,
-    color = 'red',
+    color = '#111',
     isActive = true,
     callback = () => null,
+    opacity = 1,
   }) {
     this.ctx = ctx;
     this.x = x;
@@ -16,7 +17,8 @@ class Component {
     this.body = new Path2D();
     this.color = color;
     this.callback = callback;
+    this.opacity = opacity;
   }
 }
 
-module.exports = Component;
+export default Component;

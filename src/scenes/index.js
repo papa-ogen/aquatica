@@ -1,7 +1,7 @@
-import Ship from './Ship';
+import BelowSurface from './BelowSurface';
 import Surface from './Surface';
 
-module.exports = {
-  Ship,
+export {
+  BelowSurface,
   Surface,
 };

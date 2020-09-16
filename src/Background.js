@@ -49,4 +49,4 @@ class Background {
   }
 }
 
-module.exports = Background;
+export default Background;

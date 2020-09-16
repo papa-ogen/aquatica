@@ -12,6 +12,16 @@ function onMouseDown(e, aquatica) {
     }
   });
 
+  if (scene.ship) {
+    scene.ship.layout.forEach((layout) => {
+      if (aquatica.ctx.isPointInPath(layout.body, e.offsetX, e.offsetY)) {
+        layout.callback();
+      }
+    });
+  }
+
+  return;
+
   // current mouse pos
   const mx = parseInt(e.clientX - aquatica.offsetX, 10);
   const my = parseInt(e.clientY - aquatica.offsetY, 10);
@@ -37,6 +47,8 @@ function onMouseUp(e, aquatica) {
   // tell the browser we're handling this mouse event
   e.preventDefault();
   e.stopPropagation();
+
+  return;
 
   // clear all the dragging flags
   aquatica.isDragging = false;

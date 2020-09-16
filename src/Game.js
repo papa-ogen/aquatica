@@ -1,8 +1,9 @@
 import * as CONSTANTS from './utils/constants';
-import { Ship, Surface } from './scenes/index';
-import { Circle, Text } from './ui-kit/index';
-import Room from './prefabs/Room';
+import { BelowSurface, Surface } from './scenes';
+import { Circle, Text } from './ui-kit';
 import { CANVAS_HEIGHT } from './utils/constants';
+import Ship from './prefabs/Ship';
+import ships from './data/ships';
 
 class Game {
   constructor({
@@ -20,28 +21,40 @@ class Game {
     this.isDragging = false;
     this.startX = 0;
     this.startY = 0;
+    // creating user ship
+    this.ship = new Ship({
+      ctx: this.ctx,
+      name: 'Maria',
+      onClick: () => console.log('click'),
+      ...ships[0],
+    });
     this.scenes = [
-      new Ship('Ship', this, [
-        new Room(this.ctx, CONSTANTS.GRID_SIZE * 10, CONSTANTS.GRID_SIZE * 3, 'Main'),
-        new Room(this.ctx, CONSTANTS.GRID_SIZE * 16, CONSTANTS.GRID_SIZE * 3, 'Research'),
-      ],
-      [new Circle({
-        ctx: this.ctx,
-        text: 'Surface',
-        callback: () => {
-          const [, surface] = this.scenes;
-          this.currentScene = surface;
-        },
-      })]),
-      new Surface('Surface', this, [], [new Circle({
-        ctx: this.ctx,
-        text: 'Ship',
-        color: 'purple',
-        callback: () => {
-          const [ship] = this.scenes;
-          this.currentScene = ship;
-        },
-      })]),
+      new BelowSurface({
+        name: 'Below Surface',
+        game: this,
+        ship: this.ship,
+        uiElements: [new Circle({
+          ctx: this.ctx,
+          text: 'Surface',
+          callback: () => {
+            const [, surface] = this.scenes;
+            this.currentScene = surface;
+          },
+        })],
+      }),
+      new Surface({
+        name: 'Surface',
+        game: this,
+        uiElements: [new Circle({
+          ctx: this.ctx,
+          text: 'Dive',
+          color: 'purple',
+          callback: () => {
+            const [ship] = this.scenes;
+            this.currentScene = ship;
+          },
+        })],
+      }),
     ];
 
     const [ship] = this.scenes;
@@ -67,9 +80,9 @@ class Game {
     this.assets.forEach((asset) => {
       const img = new Image();
       img.src = asset.src;
-      img.onload = function () {
+      img.onload = () => {
         asset.loaded = true; // eslint-disable-line
-        asset.img = this;// eslint-disable-line
+        asset.img = img;// eslint-disable-line
         console.log('asset loaded ', asset.name); // eslint-disable-line
       };
     });
@@ -102,4 +115,4 @@ class Game {
   }
 }
 
-module.exports = Game;
+export default Game;

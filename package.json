@@ -6,11 +6,17 @@
   "scripts": {
     "start": "parcel index.html",
     "lint": "eslint \"src/**/*.js\"",
-    "fix": "eslint --fix"
+    "fix": "eslint --fix",
+    "test": "tape -r esm src/**/*.test.js | node_modules/.bin/tap-spec"
   },
   "devDependencies": {
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0"
+    "eslint-plugin-import": "^2.22.0",
+    "tap-spec": "^5.0.0"
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "tape": "^5.0.1"
   }
 }

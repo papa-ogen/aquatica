@@ -2,8 +2,10 @@ import * as CONSTANTS from '../utils/constants';
 import Scene from '../prefabs/Scene';
 
 class Surface extends Scene {
-  constructor(name, game, rooms = [], uiElements = []) {
-    super(name, game, uiElements);
+  constructor({
+    name, game, rooms = [], uiElements = [],
+  }) {
+    super({ name, game, uiElements });
     this.rooms = rooms;
   }
 

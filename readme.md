@@ -1,5 +1,8 @@
 http://localhost:1234
 
+Testing:
+If needed, preload babel: https://www.npmjs.com/package/tape
+
 // Drag and drop
 - [ ] Move all functionality into some kind of event class (clean Game)
 - [ ] Drag room bug: room is moved to current mouse pos
@@ -11,15 +14,20 @@ http://localhost:1234
 - [ ] Add fish
 - [ ] Add plants
 
-// Ship Layout
+// Ship 
+- [ ] Ship type (layout, loadout, cost, hull, weapons)
 - [ ] Draggable layout
 - [ ] Add room
 - [ ] Remove room
 - [ ] Edit room
 
-// Ship stats
-- [ ] Hull, Weaponry etc
+- [ ] Upgrade ship
 
-// Player stats
+// Player
 - [ ] Money, resources etc
 
+// Trading
+- [ ] Visit city (atoll)
+
+// Hunt/gather
+- [ ] Send diving bell, divers, sub to get resources

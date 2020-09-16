@@ -1,23 +1,28 @@
 import Component from './Component';
+import * as CONSTANTS from '../utils/constants';
 
 class Text extends Component {
   constructor({
     ctx,
     x = 50, y = 50,
     text,
-    color = 'red',
+    color,
     size = 16,
+    align = CONSTANTS.TEXT_ALIGN_LEFT,
+    opacity,
   }) {
     super({
-      ctx, x, y, text, color,
+      ctx, x, y, text, color, opacity,
     });
 
     this.size = size;
+    this.align = align;
   }
 
   draw() {
+    this.ctx.textAlign = this.align;
     this.ctx.font = `${this.size}px Times New Roman`;
-    this.ctx.fillStyle = 'Black';
+    this.ctx.fillStyle = this.color;
     this.ctx.fillText(this.text, this.x, this.y);
   }
 }
