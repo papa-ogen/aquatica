@@ -1,13 +1,16 @@
 import * as CONSTANTS from '../utils/constants';
 import { getGridCenter } from '../utils';
+import { Text} from '../ui-kit'
 
 class Ship {
   constructor({
-    ctx, name, layout, type,
+    ctx, name, layout, type, width, height
   }) {
     this.ctx = ctx;
     this.name = name;
     this.type = type;
+    this.width = width
+    this.height = height
     this.layout = layout.map((l, i) => ({
       ...l,
       color: 'lightblue',
@@ -32,10 +35,17 @@ class Ship {
   }
 
   layoutName(layout, centerX, centerY) {
-    const { x, y } = layout;
-    this.ctx.fillStyle = 'black';
-    this.ctx.font = '14px Times New Roman';
-    this.ctx.fillText(layout.name, centerX + x, centerY + y + CONSTANTS.GRID_SIZE);
+    const { x, y, name } = layout;
+    const text = new Text({ 
+      ctx: this.ctx, 
+      text: name, 
+      x:  centerX + x,
+      y: centerY + y + CONSTANTS.GRID_SIZE,
+      size: 14,
+      align: 'left'
+    })
+
+    text.draw()
   }
 
   draw() {
@@ -47,13 +57,14 @@ class Ship {
     this.ctx.fillText(this.type, CONSTANTS.CANVAS_WIDTH / 2, CONSTANTS.CANVAS_HEIGHT - 25);
     this.ctx.textAlign = 'left';
 
+    const [centerX] = getGridCenter(CONSTANTS.HORIZONTAL_ROWS, CONSTANTS.GRID_SIZE)
+    const [centerY] = getGridCenter(CONSTANTS.VERTICAL_ROWS, CONSTANTS.GRID_SIZE);
+    
     this.layout.forEach((layout) => {
-      const centerX = getGridCenter(CONSTANTS.HORIZONTAL_ROWS, CONSTANTS.GRID_SIZE);
-      const centerY = getGridCenter(CONSTANTS.VERTICAL_ROWS, CONSTANTS.GRID_SIZE);
 
-      this.createLayout(layout, centerX, centerY);
+      this.createLayout(layout, centerX - (this.width / 4), centerY);
 
-      this.layoutName(layout, centerX, centerY);
+      this.layoutName(layout, centerX - (this.width / 4), centerY);
     });
   }
 }

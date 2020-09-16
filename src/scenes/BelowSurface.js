@@ -10,23 +10,16 @@ class BelowSurface extends Scene {
   }) {
     super({ name, game, uiElements });
 
-    this.ctx = game.ctx;
     this.bg = new Background(game);
     this.ship = ship;
-    this.sceneName = new Text({
-      ctx: this.ctx,
-      text: this.name,
-      align: CONSTANTS.TEXT_ALIGN_CENTER,
-      x: CONSTANTS.CANVAS_WIDTH / 2,
-      y: 35,
-      size: 24,
-    });
   }
 
   draw(time) {
     this.bg.draw(time);
-    this.sceneName.draw();
+
     this.ship.draw();
+
+    super.draw()
 
     this.uiElements.forEach((element) => {
       element.draw();

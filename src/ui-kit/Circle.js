@@ -30,7 +30,7 @@ class Circle extends Component {
 
     this.ctx.font = '16px Times New Roman';
     this.ctx.fillStyle = 'Black';
-    this.ctx.fillText(this.text, this.x - 27, this.y + 5);
+    this.ctx.fillText(this.text, this.x, this.y + 5);
   }
 }
 

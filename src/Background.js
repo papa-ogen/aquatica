@@ -41,7 +41,7 @@ class Background {
 
     this.seaBottom();
 
-    if (this.game.isDragging) {
+    if (!this.game.debug) {
       this.createGrid();
     }
 
