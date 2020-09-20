@@ -4,8 +4,9 @@ import { Text } from '../ui-kit';
 
 class Ship {
   constructor({
-    ctx, name, layout, type, width, height,
+    ctx, game, name, layout, type, width, height,
   }) {
+    this.game = game;
     this.ctx = ctx;
     this.name = name;
     this.type = type;
@@ -24,15 +25,17 @@ class Ship {
   }
 
   createLayout(layout, centerX, centerY) {
+    const { img: bg } = this.game.findAssetByName('layout-square');
+    const { img: bgHovered } = this.game.findAssetByName('layout-square-hovered');
+    const isHovered = layout.isHovered ? bgHovered : bg;
     const {
       body, x, y, width, height,
     } = layout;
-    body.rect(centerX + x,
-      centerY + y - (height / 2) + +CONSTANTS.GRID_SIZE,
-      width,
-      height);
-    this.ctx.fillStyle = layout.isHovered ? 'lime' : layout.color;
+    const offsetX = centerX + x;
+    const offsetY = centerY + y - (height / 2) + +CONSTANTS.GRID_SIZE;
+    body.rect(offsetX, offsetY, width, height);
     this.ctx.fill(body);
+    this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
   }
 
   layoutName(layout, centerX, centerY) {

@@ -3,10 +3,6 @@ http://localhost:1234
 Testing:
 If needed, preload babel: https://www.npmjs.com/package/tape
 
-// Drag and drop
-- [ ] Move all functionality into some kind of event class (clean Game)
-- [ ] Drag room bug: room is moved to current mouse pos
-
 // Level
 - [x] Switch between levels
 
@@ -16,11 +12,10 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 
 // Ship 
 - [ ] Ship type (layout, loadout, cost, hull, weapons)
-- [ ] Draggable layout
+- [ ] click to add layout
 - [ ] Add room
 - [ ] Remove room
 - [ ] Edit room
-
 - [ ] Upgrade ship
 
 // Player
@@ -33,5 +28,8 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 - [ ] Send diving bell, divers, sub to get resources
 
 // Canvas
-- [ ] Implement ui canvas
-- [ ] Bg canvas should not update on every frame
+- [x] Implement ui canvas
+- [x] Bg canvas should not update on every frame
+- [ ] Load sprites
+- [ ] Animate sprites
+- [ ] Transitions

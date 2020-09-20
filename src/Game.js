@@ -30,6 +30,7 @@ class Game {
 
     // creating user ship
     this.ship = new Ship({
+      game: this,
       ctx: this.canvas.ctx,
       name: 'Maria',
       onClick: () => console.log('click'),
@@ -86,6 +87,10 @@ class Game {
     text.draw();
   }
 
+  findAssetByName(name) {
+    return this.assets.find((a) => a.name === name);
+  }
+
   draw(time) {
     this.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
     this.uiCanvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
@@ -93,10 +98,12 @@ class Game {
     this.assetsHasLoaded = !this.assets.some((asset) => !asset.loaded);
 
     if (this.assetsHasLoaded) {
+      console.log('loading complete');
       this.currentScene.init();
       this.currentScene.draw(time);
     } else {
-      console.log('loading');
+      const loadedAssets = this.assets.reduce((total, asset) => (asset.loaded ? total += 1 : total), 0);
+      console.log(`loading ${loadedAssets} of ${this.assets.length}`);
     }
 
     if (this.debug) {
