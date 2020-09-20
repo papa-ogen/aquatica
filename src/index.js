@@ -3,7 +3,7 @@ import * as MouseEvents from './utils/mouseEvents';
 
 const assets = [{
   name: 'sea-bottom',
-  src: 'https://media.gettyimages.com/photos/top-view-of-a-sand-sea-bottom-picture-id825179646?s=2048x2048',
+  src: require('./assets/bg-under-surface.png'),
 },
 {
   name: 'layout-square',
