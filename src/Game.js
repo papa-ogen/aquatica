@@ -1,8 +1,9 @@
 import * as CONSTANTS from './utils/constants';
 import { BelowSurface, Surface } from './scenes';
-import { Circle, Text } from './ui-kit';
+import { Text } from './ui-kit';
 import { CANVAS_HEIGHT } from './utils/constants';
 import Ship from './prefabs/Ship';
+import Player from './prefabs/Player';
 import ships from './data/ships';
 import Canvas from './prefabs/Canvas';
 
@@ -13,47 +14,10 @@ class Game {
   }) {
     this.canvas = new Canvas({ id: 'game', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
     this.bgCanvas = new Canvas({ id: 'background', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
-    // this.uiCanvas = new Canvas({ id: 'ui', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
+    this.uiCanvas = new Canvas({ id: 'ui', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
     this.debug = debug;
 
-    // creating user ship
-    this.ship = new Ship({
-      ctx: this.canvas.ctx,
-      name: 'Maria',
-      onClick: () => console.log('click'),
-      ...ships[0],
-    });
-    this.scenes = [
-      new BelowSurface({
-        name: 'Below Surface',
-        game: this,
-        ship: this.ship,
-        uiElements: [new Circle({
-          ctx: this.canvas.ctx,
-          text: 'Surface',
-          callback: () => {
-            const [, surface] = this.scenes;
-            this.currentScene = surface;
-          },
-        })],
-      }),
-      new Surface({
-        name: 'Surface',
-        game: this,
-        uiElements: [new Circle({
-          ctx: this.canvas.ctx,
-          text: 'Dive',
-          color: 'purple',
-          callback: () => {
-            const [ship] = this.scenes;
-            this.currentScene = ship;
-          },
-        })],
-      }),
-    ];
-
-    const [ship] = this.scenes;
-    this.currentScene = ship;
+    this.player = new Player({ money: 10000, oxygen: 100 });
 
     this.assets = assets.map((asset) => ({
       name: asset.name,
@@ -63,12 +27,34 @@ class Game {
     }));
     this.assetsHasLoaded = false;
     this.MouseEvents = MouseEvents;
+
+    // creating user ship
+    this.ship = new Ship({
+      ctx: this.canvas.ctx,
+      name: 'Maria',
+      onClick: () => console.log('click'),
+      ...ships[0],
+    });
+    // create game scenes
+    this.scenes = [
+      new BelowSurface({
+        name: 'Below Surface',
+        game: this,
+      }),
+      new Surface({
+        name: 'Surface',
+        game: this,
+      }),
+    ];
+
+    const [start] = this.scenes;
+    this.currentScene = start;
   }
 
   addEvents() {
-    this.canvas.canvas.onmousedown = (e) => this.MouseEvents.onMouseDown(e, this);
-    this.canvas.canvas.onmouseup = (e) => this.MouseEvents.onMouseUp(e, this);
-    this.canvas.canvas.onmousemove = (e) => this.MouseEvents.onMouseMove(e, this);
+    this.uiCanvas.canvas.onmousedown = (e) => this.MouseEvents.onMouseDown(e, this);
+    this.uiCanvas.canvas.onmouseup = (e) => this.MouseEvents.onMouseUp(e, this);
+    this.uiCanvas.canvas.onmousemove = (e) => this.MouseEvents.onMouseMove(e, this);
   }
 
   loadAssets() {
@@ -81,12 +67,11 @@ class Game {
         console.log('asset loaded ', asset.name); // eslint-disable-line
       };
     });
-
-    this.assetsHasLoaded = true;
   }
 
   init() {
     this.loadAssets();
+
     if (this.MouseEvents) this.addEvents();
   }
 
@@ -102,7 +87,17 @@ class Game {
   }
 
   draw(time) {
-    this.currentScene.draw(time);
+    this.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
+    this.uiCanvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
+
+    this.assetsHasLoaded = !this.assets.some((asset) => !asset.loaded);
+
+    if (this.assetsHasLoaded) {
+      this.currentScene.init();
+      this.currentScene.draw(time);
+    } else {
+      console.log('loading');
+    }
 
     if (this.debug) {
       this.debugger();

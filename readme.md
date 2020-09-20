@@ -31,3 +31,7 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 
 // Hunt/gather
 - [ ] Send diving bell, divers, sub to get resources
+
+// Canvas
+- [ ] Implement ui canvas
+- [ ] Bg canvas should not update on every frame

@@ -1,17 +1,34 @@
-import * as CONSTANTS from '../utils/constants';
 import Scene from '../prefabs/Scene';
+import Background from '../prefabs/Background';
+import { Circle } from '../ui-kit';
 
 class Surface extends Scene {
   constructor({
     name, game, uiElements = [],
   }) {
-    super({ name, game, uiElements });
+    super({
+      name,
+      game,
+      uiElements: [...uiElements, new Circle({
+        ctx: game.uiCanvas.ctx,
+        text: 'Dive',
+        color: 'purple',
+        callback: () => {
+          const [belowSurface] = game.scenes;
+          game.currentScene = belowSurface;
+          game.currentScene.init();
+        },
+      })],
+    });
+
+    this.bg = new Background({ game });
+  }
+
+  init() {
+    this.bg.draw();
   }
 
   draw() {
-    this.game.canvas.ctx.fillStyle = 'blue';
-    this.game.canvas.ctx.fillRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
-
     super.draw();
 
     this.uiElements.forEach((element) => {
@@ -20,4 +37,4 @@ class Surface extends Scene {
   }
 }
 
-module.exports = Surface;
+export default Surface;

@@ -1,6 +1,5 @@
 import Game from './Game';
 import * as MouseEvents from './utils/mouseEvents';
-import * as CONSTANTS from './utils/constants';
 
 const assets = [{
   name: 'sea-bottom',
@@ -10,18 +9,14 @@ const assets = [{
 const game = new Game({
   assets,
   MouseEvents,
-  debug: true,
+  debug: false,
 });
 
 // prep game
 game.init();
 
 function draw(time) {
-  game.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
-
-  if (game.assetsHasLoaded) {
-    game.draw(time);
-  }
+  game.draw(time);
 
   window.requestAnimationFrame(draw);
 }

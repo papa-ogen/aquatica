@@ -7,7 +7,7 @@ function onMouseDown(e, aquatica) {
   const scene = aquatica.currentScene;
 
   scene.uiElements.forEach((element) => {
-    if (aquatica.canvas.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
+    if (aquatica.uiCanvas.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
       element.callback();
     }
   });
@@ -61,14 +61,14 @@ function onMouseUp(e, aquatica) {
 }
 
 // handle mouse moves
-function onMouseMove(e, aquatica) {
+function onMouseMove(e, game) {
   e.preventDefault();
   e.stopPropagation();
 
-  const scene = aquatica.currentScene;
+  const scene = game.currentScene;
 
   scene.uiElements.forEach((element) => {
-    if (aquatica.canvas.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
+    if (game.uiCanvas.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
       element.isHovered = true;
     } else {
       element.isHovered = false;
@@ -77,7 +77,7 @@ function onMouseMove(e, aquatica) {
 
   if (scene.ship) {
     scene.ship.layout.forEach((layout) => {
-      if (aquatica.canvas.ctx.isPointInPath(layout.body, e.offsetX, e.offsetY)) {
+      if (game.canvas.ctx.isPointInPath(layout.body, e.offsetX, e.offsetY)) {
         layout.isHovered = true;
       } else {
         layout.isHovered = false;
@@ -88,23 +88,23 @@ function onMouseMove(e, aquatica) {
   // if we're dragging anything...
   return;
 
-  if (aquatica.isDragging) {
+  if (game.isDragging) {
     // tell the browser we're handling this mouse event
 
     // get the current mouse position
-    const mx = parseInt(e.clientX - aquatica.offsetX, 10);
-    const my = parseInt(e.clientY - aquatica.offsetY, 10);
+    const mx = parseInt(e.clientX - game.offsetX, 10);
+    const my = parseInt(e.clientY - game.offsetY, 10);
 
     // calculate the distance the mouse has moved
     // since the last mousemove
-    const dx = mx - aquatica.startX;
-    const dy = my - aquatica.startY;
+    const dx = mx - game.startX;
+    const dy = my - game.startY;
 
     // move each rect that isDragging
     // by the distance the mouse has moved
     // since the last mousemove
-    for (let i = 0; i < aquatica.currentScene.rooms.length; i += 1) {
-      const room = aquatica.currentScene.rooms[i];
+    for (let i = 0; i < game.currentScene.rooms.length; i += 1) {
+      const room = game.currentScene.rooms[i];
 
       if (room.isDragging) {
         room.opacity = 0.5;
@@ -116,8 +116,8 @@ function onMouseMove(e, aquatica) {
     }
 
     // reset the starting mouse position for the next mousemove
-    aquatica.startX = mx;
-    aquatica.startY = my;
+    game.startX = mx;
+    game.startY = my;
   }
 }
 
