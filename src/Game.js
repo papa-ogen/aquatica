@@ -4,26 +4,21 @@ import { Circle, Text } from './ui-kit';
 import { CANVAS_HEIGHT } from './utils/constants';
 import Ship from './prefabs/Ship';
 import ships from './data/ships';
+import Canvas from './prefabs/Canvas';
 
 class Game {
   constructor({
     assets = [], MouseEvents,
     debug = false,
   }) {
-    this.canvas = document.getElementById('aquatic');
-    this.canvas.width = CONSTANTS.CANVAS_WIDTH;
-    this.canvas.height = CONSTANTS.CANVAS_HEIGHT;
-    this.ctx = this.canvas.getContext('2d');
-    this.BB = this.canvas.getBoundingClientRect();
+    this.canvas = new Canvas({ id: 'game', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
+    this.bgCanvas = new Canvas({ id: 'background', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
+    // this.uiCanvas = new Canvas({ id: 'ui', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
     this.debug = debug;
-    this.offsetX = this.BB.left;
-    this.offsetY = this.BB.top;
-    this.isDragging = false;
-    this.startX = 0;
-    this.startY = 0;
+
     // creating user ship
     this.ship = new Ship({
-      ctx: this.ctx,
+      ctx: this.canvas.ctx,
       name: 'Maria',
       onClick: () => console.log('click'),
       ...ships[0],
@@ -34,7 +29,7 @@ class Game {
         game: this,
         ship: this.ship,
         uiElements: [new Circle({
-          ctx: this.ctx,
+          ctx: this.canvas.ctx,
           text: 'Surface',
           callback: () => {
             const [, surface] = this.scenes;
@@ -46,7 +41,7 @@ class Game {
         name: 'Surface',
         game: this,
         uiElements: [new Circle({
-          ctx: this.ctx,
+          ctx: this.canvas.ctx,
           text: 'Dive',
           color: 'purple',
           callback: () => {
@@ -71,9 +66,9 @@ class Game {
   }
 
   addEvents() {
-    this.canvas.onmousedown = (e) => this.MouseEvents.onMouseDown(e, this);
-    this.canvas.onmouseup = (e) => this.MouseEvents.onMouseUp(e, this);
-    this.canvas.onmousemove = (e) => this.MouseEvents.onMouseMove(e, this);
+    this.canvas.canvas.onmousedown = (e) => this.MouseEvents.onMouseDown(e, this);
+    this.canvas.canvas.onmouseup = (e) => this.MouseEvents.onMouseUp(e, this);
+    this.canvas.canvas.onmousemove = (e) => this.MouseEvents.onMouseMove(e, this);
   }
 
   loadAssets() {
@@ -97,7 +92,7 @@ class Game {
 
   debugger() {
     const text = new Text({
-      ctx: this.ctx,
+      ctx: this.canvas.ctx,
       x: 10,
       y: CANVAS_HEIGHT - 16,
       text: 'debug mode',

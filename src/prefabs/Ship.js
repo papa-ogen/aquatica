@@ -1,16 +1,16 @@
 import * as CONSTANTS from '../utils/constants';
 import { getGridCenter } from '../utils';
-import { Text} from '../ui-kit'
+import { Text } from '../ui-kit';
 
 class Ship {
   constructor({
-    ctx, name, layout, type, width, height
+    ctx, name, layout, type, width, height,
   }) {
     this.ctx = ctx;
     this.name = name;
     this.type = type;
-    this.width = width
-    this.height = height
+    this.width = width;
+    this.height = height;
     this.layout = layout.map((l, i) => ({
       ...l,
       color: 'lightblue',
@@ -18,6 +18,7 @@ class Ship {
       callback: () => {
         this.layout[i].color = 'red';
       },
+      isHovered: false,
     }));
     this.opacity = 1;
   }
@@ -30,22 +31,22 @@ class Ship {
       centerY + y - (height / 2) + +CONSTANTS.GRID_SIZE,
       width,
       height);
-    this.ctx.fillStyle = layout.color;
+    this.ctx.fillStyle = layout.isHovered ? 'lime' : layout.color;
     this.ctx.fill(body);
   }
 
   layoutName(layout, centerX, centerY) {
     const { x, y, name } = layout;
-    const text = new Text({ 
-      ctx: this.ctx, 
-      text: name, 
-      x:  centerX + x,
+    const text = new Text({
+      ctx: this.ctx,
+      text: name,
+      x: centerX + x,
       y: centerY + y + CONSTANTS.GRID_SIZE,
       size: 14,
-      align: 'left'
-    })
+      align: 'left',
+    });
 
-    text.draw()
+    text.draw();
   }
 
   draw() {
@@ -57,11 +58,10 @@ class Ship {
     this.ctx.fillText(this.type, CONSTANTS.CANVAS_WIDTH / 2, CONSTANTS.CANVAS_HEIGHT - 25);
     this.ctx.textAlign = 'left';
 
-    const [centerX] = getGridCenter(CONSTANTS.HORIZONTAL_ROWS, CONSTANTS.GRID_SIZE)
+    const [centerX] = getGridCenter(CONSTANTS.HORIZONTAL_ROWS, CONSTANTS.GRID_SIZE);
     const [centerY] = getGridCenter(CONSTANTS.VERTICAL_ROWS, CONSTANTS.GRID_SIZE);
-    
-    this.layout.forEach((layout) => {
 
+    this.layout.forEach((layout) => {
       this.createLayout(layout, centerX - (this.width / 4), centerY);
 
       this.layoutName(layout, centerX - (this.width / 4), centerY);

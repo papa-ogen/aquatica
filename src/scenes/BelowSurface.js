@@ -1,7 +1,5 @@
-import * as CONSTANTS from '../utils/constants';
 import Scene from '../prefabs/Scene';
 import Background from '../Background';
-import { Text } from '../ui-kit';
 
 class BelowSurface extends Scene {
   constructor({
@@ -19,7 +17,7 @@ class BelowSurface extends Scene {
 
     this.ship.draw();
 
-    super.draw()
+    super.draw();
 
     this.uiElements.forEach((element) => {
       element.draw();

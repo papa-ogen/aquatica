@@ -9,10 +9,10 @@ class Surface extends Scene {
   }
 
   draw() {
-    this.game.ctx.fillStyle = 'blue';
-    this.game.ctx.fillRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
+    this.game.canvas.ctx.fillStyle = 'blue';
+    this.game.canvas.ctx.fillRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
 
-    super.draw()
+    super.draw();
 
     this.uiElements.forEach((element) => {
       element.draw();

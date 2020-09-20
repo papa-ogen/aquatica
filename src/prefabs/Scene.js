@@ -5,7 +5,7 @@ class Scene {
   constructor({ name, game, uiElements = [] }) {
     this.name = name;
     this.game = game;
-    this.ctx = game.ctx
+    this.ctx = game.canvas.ctx;
     this.uiElements = uiElements;
     this.sceneName = new Text({
       ctx: this.ctx,
@@ -18,7 +18,7 @@ class Scene {
   }
 
   draw() {
-    this.sceneName.draw()
+    this.sceneName.draw();
   }
 }
 

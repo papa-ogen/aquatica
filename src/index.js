@@ -17,7 +17,7 @@ const game = new Game({
 game.init();
 
 function draw(time) {
-  game.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
+  game.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
 
   if (game.assetsHasLoaded) {
     game.draw(time);

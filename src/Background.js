@@ -3,7 +3,7 @@ import * as CONSTANTS from './utils/constants';
 class Background {
   constructor(game) {
     this.game = game;
-    this.ctx = game.ctx;
+    this.ctx = game.bgCanvas.ctx;
   }
 
   createGrid() {
@@ -45,7 +45,7 @@ class Background {
       this.createGrid();
     }
 
-    this.game.canvas.style.filter = 'none';
+    // this.game.canvas.style.filter = 'none';
   }
 }
 

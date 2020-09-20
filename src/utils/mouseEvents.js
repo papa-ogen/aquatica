@@ -7,14 +7,14 @@ function onMouseDown(e, aquatica) {
   const scene = aquatica.currentScene;
 
   scene.uiElements.forEach((element) => {
-    if (aquatica.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
+    if (aquatica.canvas.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
       element.callback();
     }
   });
 
   if (scene.ship) {
     scene.ship.layout.forEach((layout) => {
-      if (aquatica.ctx.isPointInPath(layout.body, e.offsetX, e.offsetY)) {
+      if (aquatica.canvas.ctx.isPointInPath(layout.body, e.offsetX, e.offsetY)) {
         layout.callback();
       }
     });
@@ -68,12 +68,22 @@ function onMouseMove(e, aquatica) {
   const scene = aquatica.currentScene;
 
   scene.uiElements.forEach((element) => {
-    if (aquatica.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
+    if (aquatica.canvas.ctx.isPointInPath(element.body, e.offsetX, e.offsetY)) {
       element.isHovered = true;
     } else {
       element.isHovered = false;
     }
   });
+
+  if (scene.ship) {
+    scene.ship.layout.forEach((layout) => {
+      if (aquatica.canvas.ctx.isPointInPath(layout.body, e.offsetX, e.offsetY)) {
+        layout.isHovered = true;
+      } else {
+        layout.isHovered = false;
+      }
+    });
+  }
 
   // if we're dragging anything...
   return;

@@ -1,6 +1,7 @@
 <!doctype html>
 
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
 
@@ -8,12 +9,29 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    #main {
+      position: relative;
+    }
+
+    #background,
+    #game,
+    #ui {
+      position: absolute;
+    }
+  </style>
 </head>
 
 <body>
-    
-<canvas id="aquatic"></canvas>
+
+  <div id="main">
+    <canvas id="background"></canvas>
+    <canvas id="game"></canvas>
+    <!-- <canvas id="ui"></canvas> -->
+  </div>
 
   <script src="src/index.js"></script>
 </body>
+
 </html>
