@@ -1,25 +1,39 @@
-import * as CONSTANTS from '../utils/constants';
 import Scene from '../prefabs/Scene';
-import Background from '../Background';
-import { Text } from '../ui-kit';
+import Background from '../prefabs/Background';
+import { Circle } from '../ui-kit';
 
 class BelowSurface extends Scene {
   constructor({
     name, game, uiElements = [],
-    ship,
   }) {
-    super({ name, game, uiElements });
+    super({
+      name,
+      game,
+      uiElements: [...uiElements, new Circle({
+        ctx: game.uiCanvas.ctx,
+        text: 'Surface',
+        callback: () => {
+          const [, surface] = game.scenes;
+          game.currentScene = surface;
+          game.currentScene.init();
+        },
+      })],
+    });
 
-    this.bg = new Background(game);
-    this.ship = ship;
+    const asset = this.game.assets.find((a) => a.name === 'sea-bottom');
+
+    this.bg = new Background({ game, asset });
+    this.ship = this.game.ship;
   }
 
-  draw(time) {
-    this.bg.draw(time);
+  init() {
+    this.bg.draw();
+  }
+
+  draw() {
+    super.draw();
 
     this.ship.draw();
-
-    super.draw()
 
     this.uiElements.forEach((element) => {
       element.draw();

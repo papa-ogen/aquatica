@@ -6,7 +6,7 @@ test('Get center of grid', (t) => {
   const tiles = 25;
   const tileSize = 32;
 
-  t.equal(getGridCenter(tiles, tileSize), [416, 13]);
+  t.ok(getGridCenter(tiles, tileSize), [416, 13]);
 
   t.end();
 });
