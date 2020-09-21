@@ -32,21 +32,30 @@ class Ship {
       body, x, y, width, height,
     } = layout;
     const offsetX = centerX + x;
-    const offsetY = centerY + y - (height / 2) + +CONSTANTS.GRID_SIZE;
+    const offsetY = centerY + y;
     body.rect(offsetX, offsetY, width, height);
     this.ctx.fill(body);
+
+    if (layout.type === 'ordinance') {
+      this.ctx.globalAlpha = 0.4;
+    }
+
     this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+
+    this.ctx.globalAlpha = 1;
   }
 
   layoutName(layout, centerX, centerY) {
-    const { x, y, name } = layout;
+    const {
+      x, y, name, height,
+    } = layout;
     const text = new Text({
       ctx: this.ctx,
       text: name,
       x: centerX + x,
-      y: centerY + y + CONSTANTS.GRID_SIZE,
+      y: centerY + y + (height / 2),
       size: 14,
-      align: 'left',
+      align: 'align',
     });
 
     text.draw();

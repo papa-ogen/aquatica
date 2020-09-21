@@ -17,7 +17,7 @@ const assets = [{
 const game = new Game({
   assets,
   MouseEvents,
-  debug: false,
+  debug: true,
 });
 
 // prep game

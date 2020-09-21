@@ -8,6 +8,12 @@ const TEXT_ALIGN_LEFT = 'left';
 const TEXT_ALIGN_CENTER = 'center';
 const TEXT_ALIGN_RIGHT = 'right';
 
+const ACTIONS = {
+  BATTLE_STATIONS: 'To Battle Stations!',
+  PERISCOPE_DEPTH: 'Periscope depth',
+  EMERGENCY_DEPTH: 'Emergency depth',
+};
+
 export {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
@@ -17,4 +23,5 @@ export {
   TEXT_ALIGN_LEFT,
   TEXT_ALIGN_CENTER,
   TEXT_ALIGN_RIGHT,
+  ACTIONS,
 };

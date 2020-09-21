@@ -1,7 +1,26 @@
 class Player {
-  constructor({ money, oxygen }) {
-    this.money = money;
+  constructor({
+    credits, oxygen, food, coffee, water, waste, fuel, position = {
+      lon: 0,
+      lat: 0,
+    },
+    depth,
+    bubble,
+    noiseLevel,
+    ballast,
+  }) {
+    this.credits = credits;
     this.oxygen = oxygen;
+    this.food = food;
+    this.coffee = coffee;
+    this.water = water;
+    this.waste = waste;
+    this.fuel = fuel;
+    this.position = position;
+    this.depth = depth;
+    this.bubble = bubble;
+    this.noiseLevel = noiseLevel;
+    this.ballast = ballast;
   }
 }
 

@@ -1,6 +1,7 @@
 import Scene from '../prefabs/Scene';
 import Background from '../prefabs/Background';
 import { Circle } from '../ui-kit';
+import Sonar from '../prefabs/Sonar';
 
 class BelowSurface extends Scene {
   constructor({
@@ -24,6 +25,7 @@ class BelowSurface extends Scene {
 
     this.bg = new Background({ game, asset });
     this.ship = this.game.ship;
+    this.sonar = new Sonar({ ctx: this.game.canvas.ctx });
   }
 
   init() {
@@ -34,6 +36,7 @@ class BelowSurface extends Scene {
     super.draw();
 
     this.ship.draw();
+    this.sonar.draw();
 
     this.uiElements.forEach((element) => {
       element.draw();
