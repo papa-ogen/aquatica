@@ -60,7 +60,7 @@ class Game {
     ];
 
     const [start] = this.scenes;
-    this.currentScene = start;
+    this._currentScene = start;
   }
 
   addEvents() {
@@ -102,6 +102,14 @@ class Game {
     return this.assets.find((a) => a.name === name);
   }
 
+  set currentScene(scene) {
+    this._currentScene = scene;
+  }
+
+  get currentScene() {
+    return this._currentScene;
+  }
+
   draw(time) {
     this.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
     this.uiCanvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
@@ -113,7 +121,8 @@ class Game {
       this.currentScene.init();
       this.currentScene.draw(time);
     } else {
-      const loadedAssets = this.assets.reduce((total, asset) => (asset.loaded ? total += 1 : total), 0);
+      const loadedAssets = this.assets.reduce((total,
+        asset) => (asset.loaded ? total += 1 : total), 0);
       console.log(`loading ${loadedAssets} of ${this.assets.length}`);
     }
 

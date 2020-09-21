@@ -4,9 +4,10 @@ import { Text } from '../ui-kit';
 
 class Ship {
   constructor({
-    ctx, game, name, layout, type, cost, minCrew, cargoCapacity, fuelCapacity, oxygenCapacity, foodCapacity,
-    waterCapacity, wasteCapacity, maxSpeed, effectiveSpeed, dryWeight, ordinance, maxDepth, periscopeDepth,
-    width, height,
+    ctx, game,
+    name, layout, type, cost, minCrew, cargoCapacity, fuelCapacity, oxygenCapacity, foodCapacity,
+    waterCapacity, wasteCapacity, maxSpeed, effectiveSpeed, dryWeight, ordinance, maxDepth,
+    periscopeDepth, width, height,
   }) {
     this.game = game;
     this.ctx = ctx;
@@ -41,9 +42,6 @@ class Ship {
   }
 
   createLayout(layout, centerX, centerY) {
-    const { img: bg } = this.game.findAssetByName('layout-square');
-    const { img: bgHovered } = this.game.findAssetByName('layout-square-hovered');
-    const isHovered = layout.isHovered ? bgHovered : bg;
     const {
       body, x, y, width, height,
     } = layout;
@@ -56,7 +54,21 @@ class Ship {
       this.ctx.globalAlpha = 0.4;
     }
 
-    this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+    if (layout.img) {
+      const { img: bg } = this.game.findAssetByName(layout.img);
+      const { img: bgHovered } = this.game.findAssetByName(`${layout.img}-hover`);
+
+      const isHovered = layout.isHovered ? bgHovered : bg;
+
+      this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+    } else {
+      const { img: bg } = this.game.findAssetByName('layout-square');
+      const { img: bgHovered } = this.game.findAssetByName('layout-square-hovered');
+
+      const isHovered = layout.isHovered ? bgHovered : bg;
+
+      this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+    }
 
     this.ctx.globalAlpha = 1;
   }

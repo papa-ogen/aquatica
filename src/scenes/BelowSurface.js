@@ -16,7 +16,7 @@ class BelowSurface extends Scene {
         text: 'Surface',
         callback: () => {
           const [, surface] = game.scenes;
-          game.currentScene = surface;
+          game.currentScene(surface);
           game.currentScene.init();
         },
       })],
@@ -60,7 +60,9 @@ class BelowSurface extends Scene {
     ];
 
     hudItems = hudItems.map((item, i) => (
-      this.createHudItem(item, CONSTANTS.CANVAS_WIDTH - CONSTANTS.GRID_SIZE, CONSTANTS.GRID_SIZE * (i + 1))
+      this.createHudItem(item,
+        CONSTANTS.CANVAS_WIDTH - CONSTANTS.GRID_SIZE,
+        CONSTANTS.GRID_SIZE * (i + 1))
     ));
 
     hudItems.forEach((hudItem) => {

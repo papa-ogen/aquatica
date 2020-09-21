@@ -12,7 +12,24 @@ const assets = [{
 {
   name: 'layout-square-hovered',
   src: require('./assets/layout-square-hovered.png'),
-}];
+},
+{
+  name: 'cockpit',
+  src: require('./assets/cockpit.gif'),
+},
+{
+  name: 'cockpit-hover',
+  src: require('./assets/cockpit-hover.png'),
+},
+{
+  name: 'main',
+  src: require('./assets/main.png'),
+},
+{
+  name: 'main-hover',
+  src: require('./assets/main-hover.png'),
+},
+];
 
 const game = new Game({
   assets,
