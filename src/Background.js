@@ -7,20 +7,21 @@ class Background {
   }
 
   createGrid() {
+    this.ctx.beginPath();
     this.ctx.strokeStyle = 'rgba(0, 0, 100, 1)';
+    this.ctx.lineWidth = 1;
 
     for (let i = 0; i < CONSTANTS.HORIZONTAL_ROWS; i += 1) {
-      this.ctx.lineWidth = 1;
       this.ctx.moveTo(i * CONSTANTS.GRID_SIZE, 0);
       this.ctx.lineTo(i * CONSTANTS.GRID_SIZE, CONSTANTS.CANVAS_HEIGHT);
-      this.ctx.stroke();
     }
 
     for (let j = 0; j < CONSTANTS.VERTICAL_ROWS; j += 1) {
       this.ctx.moveTo(0, j * CONSTANTS.GRID_SIZE);
       this.ctx.lineTo(CONSTANTS.CANVAS_WIDTH, j * CONSTANTS.GRID_SIZE);
-      this.ctx.stroke();
     }
+
+    this.ctx.stroke();
   }
 
   seaBottom() {
@@ -41,7 +42,7 @@ class Background {
 
     this.seaBottom();
 
-    if (!this.game.debug) {
+    if (this.game.isDragging) {
       this.createGrid();
     }
 

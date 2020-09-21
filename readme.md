@@ -1,5 +1,10 @@
 http://localhost:1234
 
+Optimization
+- https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
+- https://www.html5rocks.com/en/tutorials/canvas/performance/#toc-ref
+- https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/
+
 Testing:
 If needed, preload babel: https://www.npmjs.com/package/tape
 
