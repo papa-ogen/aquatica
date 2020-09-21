@@ -27,6 +27,7 @@ class Game {
       water: userShip.wasteCapacity,
       fuel: userShip.fuelCapacity,
       waste: userShip.wasteCapacity,
+      crew: 10,
     });
 
     this.assets = assets.map((asset) => ({

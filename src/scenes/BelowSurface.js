@@ -28,55 +28,39 @@ class BelowSurface extends Scene {
     this.ship = this.game.ship;
     this.sonar = new Sonar({ ctx: this.game.canvas.ctx });
     this.name = 'Didde drake';
+
+    this.positionText = this.createHudItem(`lat ${this.game.player.position.lat}, lon ${this.game.player.position.lon}`, CONSTANTS.GRID_SIZE, CONSTANTS.CANVAS_HEIGHT - (CONSTANTS.GRID_SIZE / 2), CONSTANTS.TEXT_ALIGN_LEFT);
   }
 
-  createHudItem(name, value, x, y) {
+  createHudItem(text, x, y, align = CONSTANTS.TEXT_ALIGN_RIGHT) {
     return new Text({
       ctx: this.ctx,
-      text: `${name}: ${value}`,
+      text,
       x,
       y,
-      align: CONSTANTS.TEXT_ALIGN_RIGHT,
+      align,
     });
   }
 
   hud() {
     const {
-      credits, oxygen, food, coffee, water, fuel, waste,
+      credits, oxygen, food, coffee, water, fuel, waste, engineHeat, crew,
     } = this.game.player;
     let hudItems = [
-      {
-        name: 'Credits',
-        value: credits,
-      },
-      {
-        name: 'Oxygen',
-        value: oxygen,
-      },
-      {
-        name: 'Food',
-        value: food,
-      },
-      {
-        name: 'Coffee',
-        value: coffee,
-      },
-      {
-        name: 'Water',
-        value: water,
-      },
-      {
-        name: 'Fuel',
-        value: fuel,
-      },
-      {
-        name: 'Waste',
-        value: waste,
-      },
+      `Credits: ${credits}`,
+      `Oxygen: ${oxygen}`,
+      `Food: ${food}`,
+      `Coffee: ${coffee}`,
+      `Water: ${water}`,
+      `Fuel: ${fuel}`,
+      `Food: ${food}`,
+      `Waste: ${waste}`,
+      `Engine Heat: ${engineHeat}`,
+      `Crew: ${crew}`,
     ];
 
     hudItems = hudItems.map((item, i) => (
-      this.createHudItem(item.name, item.value, CONSTANTS.CANVAS_WIDTH - CONSTANTS.GRID_SIZE, CONSTANTS.GRID_SIZE * (i + 1))
+      this.createHudItem(item, CONSTANTS.CANVAS_WIDTH - CONSTANTS.GRID_SIZE, CONSTANTS.GRID_SIZE * (i + 1))
     ));
 
     hudItems.forEach((hudItem) => {
@@ -93,6 +77,7 @@ class BelowSurface extends Scene {
 
     this.ship.draw();
     this.sonar.draw();
+    this.positionText.draw();
 
     this.hud();
 
