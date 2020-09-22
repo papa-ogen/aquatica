@@ -6,7 +6,7 @@ class Text extends Component {
     ctx,
     x = 50, y = 50,
     text,
-    color,
+    color = CONSTANTS.COLORS.WHITE.HEX,
     size = 16,
     align = CONSTANTS.TEXT_ALIGN_LEFT,
     opacity,
@@ -21,7 +21,7 @@ class Text extends Component {
 
   draw() {
     this.ctx.textAlign = this.align;
-    this.ctx.font = `${this.size}px Times New Roman`;
+    this.ctx.font = `${this.size}px "Exo 2"`;
     this.ctx.fillStyle = this.color;
     this.ctx.fillText(this.text, this.x, this.y);
   }

@@ -6,7 +6,7 @@ class Player {
       lon: "39°09'24.6''S",
       lat: "175°37'55.8''E",
     },
-    depth,
+    depth = 0,
     bubble,
     noiseLevel,
     ballast,

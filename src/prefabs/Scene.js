@@ -10,7 +10,7 @@ class Scene {
       ctx: this.ctx,
       text: this.name,
       align: CONSTANTS.TEXT_ALIGN_CENTER,
-      x: CONSTANTS.CANVAS_WIDTH / 2,
+      x: CONSTANTS.CANVAS_HORIZONTAL_CENTER,
       y: CONSTANTS.GRID_SIZE * 1.2,
       size: 24,
     })];

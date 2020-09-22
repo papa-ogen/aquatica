@@ -39,6 +39,22 @@ class Ship {
       isHovered: false,
     }));
     this.opacity = 1;
+    this.shipNameText = new Text({
+      ctx: this.ctx,
+      size: 20,
+      text: this.name,
+      x: CONSTANTS.CANVAS_HORIZONTAL_CENTER,
+      y: CONSTANTS.CANVAS_HEIGHT - 50,
+      align: CONSTANTS.TEXT_ALIGN_CENTER,
+    });
+    this.shipTypeText = new Text({
+      ctx: this.ctx,
+      size: 16,
+      text: this.type,
+      x: CONSTANTS.CANVAS_HORIZONTAL_CENTER,
+      y: CONSTANTS.CANVAS_HEIGHT - 25,
+      align: CONSTANTS.TEXT_ALIGN_CENTER,
+    });
   }
 
   createLayout(layout, centerX, centerY) {
@@ -82,23 +98,19 @@ class Ship {
     const text = new Text({
       ctx: this.ctx,
       text: name,
-      x: centerX + x,
+      x: centerX,
       y: centerY + y + (height / 2),
       size: 14,
-      align: 'align',
+      color: CONSTANTS.COLORS.BLACK.HEX,
+      align: CONSTANTS.TEXT_ALIGN_LEFT,
     });
 
     text.draw();
   }
 
   draw() {
-    this.ctx.textAlign = 'center';
-    this.ctx.font = '20px Times New Roman';
-    this.ctx.fillStyle = 'Black';
-    this.ctx.fillText(this.name, CONSTANTS.CANVAS_WIDTH / 2, CONSTANTS.CANVAS_HEIGHT - 50);
-    this.ctx.font = '16px Times New Roman';
-    this.ctx.fillText(this.type, CONSTANTS.CANVAS_WIDTH / 2, CONSTANTS.CANVAS_HEIGHT - 25);
-    this.ctx.textAlign = 'left';
+    this.shipNameText.draw();
+    this.shipTypeText.draw();
 
     const centerX = CONSTANTS.GRID_SIZE * 12; // TODO: fix centering
     const centerY = CONSTANTS.GRID_SIZE * 7; // TODO: fix centering

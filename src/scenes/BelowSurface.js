@@ -44,7 +44,8 @@ class BelowSurface extends Scene {
 
   hud() {
     const {
-      credits, oxygen, food, coffee, water, fuel, waste, engineHeat, crew,
+      credits, oxygen, food, coffee, water, fuel, waste,
+      engineHeat, crew, depth,
     } = this.game.player;
     let hudItems = [
       `Credits: ${credits}`,
@@ -57,6 +58,7 @@ class BelowSurface extends Scene {
       `Waste: ${waste}`,
       `Engine Heat: ${engineHeat}`,
       `Crew: ${crew}`,
+      `Current depth: ${depth}`,
     ];
 
     hudItems = hudItems.map((item, i) => (

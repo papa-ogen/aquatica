@@ -1,5 +1,7 @@
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 600;
+const CANVAS_VERTICAL_CENTER = CANVAS_HEIGHT / 2;
+const CANVAS_HORIZONTAL_CENTER = CANVAS_WIDTH / 2;
 const GRID_SIZE = 32;
 const VERTICAL_ROWS = CANVAS_HEIGHT / GRID_SIZE;
 const HORIZONTAL_ROWS = CANVAS_WIDTH / GRID_SIZE;
@@ -12,6 +14,8 @@ const ACTIONS = {
   BATTLE_STATIONS: 'To Battle Stations!',
   PERISCOPE_DEPTH: 'Periscope depth',
   EMERGENCY_DEPTH: 'Emergency depth',
+  TURN_OFF_ENGINE: 'Turn off Engine',
+  TURN_ON_ENGINE: 'Turn on Engine',
 };
 
 const SHIP_STATE = {
@@ -27,17 +31,19 @@ const SHIP_LEVEL = {
 };
 
 const COLORS = {
-  JET: { hex: '#353535', rgb: [53, 53, 53] },
-  MING: { hex: '#3C6E71', rgb: [60, 110, 113] },
-  WHITE: { hex: '#fffff', rgb: [0, 0, 0] },
-  BLACK: { hex: '#000000', rgb: [255, 255, 255] },
-  GAINSBORO: { hex: '#D9D9D9', rgb: [217, 217, 217] },
-  INDIGO_DYE: { hex: '#284B63', rgb: [40, 74, 99] },
+  JET: { HEX: '#353535', RGB: [53, 53, 53] },
+  MING: { HEX: '#3C6E71', RGB: [60, 110, 113] },
+  WHITE: { HEX: '#FEFFED', RGB: [254, 255, 237] },
+  BLACK: { HEX: '#000000', RGB: [0, 0, 0] },
+  GAINSBORO: { HEX: '#D9D9D9', RGB: [217, 217, 217] },
+  INDIGO_DYE: { HEX: '#284B63', RGB: [40, 74, 99] },
 };
 
 export {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
+  CANVAS_VERTICAL_CENTER,
+  CANVAS_HORIZONTAL_CENTER,
   GRID_SIZE,
   VERTICAL_ROWS,
   HORIZONTAL_ROWS,
