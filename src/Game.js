@@ -17,7 +17,18 @@ class Game {
     this.uiCanvas = new Canvas({ id: 'ui', width: CONSTANTS.CANVAS_WIDTH, height: CONSTANTS.CANVAS_HEIGHT });
     this.debug = debug;
 
-    this.player = new Player({ money: 10000, oxygen: 100 });
+    const userShip = ships[0];
+
+    this.player = new Player({
+      credits: 10000,
+      oxygen: userShip.oxygenCapacity,
+      food: userShip.foodCapacity,
+      coffee: 100,
+      water: userShip.wasteCapacity,
+      fuel: userShip.fuelCapacity,
+      waste: userShip.wasteCapacity,
+      crew: 10,
+    });
 
     this.assets = assets.map((asset) => ({
       name: asset.name,
@@ -34,7 +45,7 @@ class Game {
       ctx: this.canvas.ctx,
       name: 'Maria',
       onClick: () => console.log('click'),
-      ...ships[0],
+      ...userShip,
     });
     // create game scenes
     this.scenes = [
@@ -102,7 +113,8 @@ class Game {
       this.currentScene.init();
       this.currentScene.draw(time);
     } else {
-      const loadedAssets = this.assets.reduce((total, asset) => (asset.loaded ? total += 1 : total), 0);
+      const loadedAssets = this.assets.reduce((total,
+        asset) => (asset.loaded ? total += 1 : total), 0);
       console.log(`loading ${loadedAssets} of ${this.assets.length}`);
     }
 

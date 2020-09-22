@@ -20,16 +20,16 @@ export default [
     width: CONSTANTS.GRID_SIZE * 4,
     height: CONSTANTS.GRID_SIZE * 7,
     layout: [
-      {
-        id: 'torpedos',
-        name: 'Torpedos',
-        type: 'ordinance',
-        x: 0,
-        y: -CONSTANTS.GRID_SIZE * 1,
-        width: CONSTANTS.GRID_SIZE * 4,
-        height: CONSTANTS.GRID_SIZE * 1,
-        hull: 10,
-      },
+      // {
+      //   id: 'torpedos',
+      //   name: 'Torpedos',
+      //   type: 'ordinance',
+      //   x: 0,
+      //   y: -CONSTANTS.GRID_SIZE * 1,
+      //   width: CONSTANTS.GRID_SIZE * 4,
+      //   height: CONSTANTS.GRID_SIZE * 1,
+      //   hull: 10,
+      // },
       {
         id: 'main',
         name: 'Command Center',
@@ -39,6 +39,7 @@ export default [
         width: CONSTANTS.GRID_SIZE * 4,
         height: CONSTANTS.GRID_SIZE * 4,
         hull: 100,
+        img: 'main',
       },
       {
         id: 'engine',
@@ -59,6 +60,7 @@ export default [
         width: CONSTANTS.GRID_SIZE * 2,
         height: CONSTANTS.GRID_SIZE * 1,
         hull: 30,
+        img: 'cockpit',
       },
       // {
       //   id: 'right',

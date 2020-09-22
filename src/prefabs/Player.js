@@ -3,8 +3,8 @@ import * as CONSTANTS from '../utils/constants';
 class Player {
   constructor({
     credits, oxygen, food, coffee, water, waste, fuel, position = {
-      lon: 0,
-      lat: 0,
+      lon: "39°09'24.6''S",
+      lat: "175°37'55.8''E",
     },
     depth,
     bubble,
@@ -12,6 +12,8 @@ class Player {
     ballast,
     shipState = CONSTANTS.SHIP_STATE.ANCHOR,
     shipLevel = CONSTANTS.SHIP_LEVEL.ABOVE_WATER,
+    engineHeat = 0,
+    crew,
   }) {
     this.credits = credits;
     this.oxygen = oxygen;
@@ -27,6 +29,8 @@ class Player {
     this.ballast = ballast;
     this.shipState = shipState;
     this.shipLevel = shipLevel;
+    this.engineHeat = engineHeat;
+    this.crew = crew;
   }
 }
 

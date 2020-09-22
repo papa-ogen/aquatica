@@ -4,12 +4,29 @@ import { Text } from '../ui-kit';
 
 class Ship {
   constructor({
-    ctx, game, name, layout, type, width, height,
+    ctx, game,
+    name, layout, type, cost, minCrew, cargoCapacity, fuelCapacity, oxygenCapacity, foodCapacity,
+    waterCapacity, wasteCapacity, maxSpeed, effectiveSpeed, dryWeight, ordinance, maxDepth,
+    periscopeDepth, width, height,
   }) {
     this.game = game;
     this.ctx = ctx;
     this.name = name;
     this.type = type;
+    this.cost = cost;
+    this.minCrew = minCrew;
+    this.cargoCapacity = cargoCapacity;
+    this.fuelCapacity = fuelCapacity;
+    this.oxygenCapacity = oxygenCapacity;
+    this.foodCapacity = foodCapacity;
+    this.waterCapacity = waterCapacity;
+    this.wasteCapacity = wasteCapacity;
+    this.maxSpeed = maxSpeed;
+    this.effectiveSpeed = effectiveSpeed;
+    this.dryWeight = dryWeight;
+    this.ordinance = ordinance;
+    this.maxDepth = maxDepth;
+    this.periscopeDepth = periscopeDepth;
     this.width = width;
     this.height = height;
     this.layout = layout.map((l, i) => ({
@@ -25,9 +42,6 @@ class Ship {
   }
 
   createLayout(layout, centerX, centerY) {
-    const { img: bg } = this.game.findAssetByName('layout-square');
-    const { img: bgHovered } = this.game.findAssetByName('layout-square-hovered');
-    const isHovered = layout.isHovered ? bgHovered : bg;
     const {
       body, x, y, width, height,
     } = layout;
@@ -40,7 +54,21 @@ class Ship {
       this.ctx.globalAlpha = 0.4;
     }
 
-    this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+    if (layout.img) {
+      const { img: bg } = this.game.findAssetByName(layout.img);
+      const { img: bgHovered } = this.game.findAssetByName(`${layout.img}-hover`);
+
+      const isHovered = layout.isHovered ? bgHovered : bg;
+
+      this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+    } else {
+      const { img: bg } = this.game.findAssetByName('layout-square');
+      const { img: bgHovered } = this.game.findAssetByName('layout-square-hovered');
+
+      const isHovered = layout.isHovered ? bgHovered : bg;
+
+      this.ctx.drawImage(isHovered, offsetX, offsetY, width, height);
+    }
 
     this.ctx.globalAlpha = 1;
   }
@@ -70,8 +98,8 @@ class Ship {
     this.ctx.fillText(this.type, CONSTANTS.CANVAS_WIDTH / 2, CONSTANTS.CANVAS_HEIGHT - 25);
     this.ctx.textAlign = 'left';
 
-    const [centerX] = getGridCenter(CONSTANTS.HORIZONTAL_ROWS, CONSTANTS.GRID_SIZE);
-    const [centerY] = getGridCenter(CONSTANTS.VERTICAL_ROWS, CONSTANTS.GRID_SIZE);
+    const centerX = CONSTANTS.GRID_SIZE * 12; // TODO: fix centering
+    const centerY = CONSTANTS.GRID_SIZE * 7; // TODO: fix centering
 
     this.layout.forEach((layout) => {
       this.createLayout(layout, centerX - (this.width / 4), centerY);

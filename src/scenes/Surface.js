@@ -21,7 +21,9 @@ class Surface extends Scene {
       })],
     });
 
-    this.bg = new Background({ game });
+    const asset = this.game.assets.find((a) => a.name === 'surface-bg');
+
+    this.bg = new Background({ game, asset });
   }
 
   init() {
