@@ -16,7 +16,7 @@ class BelowSurface extends Scene {
         text: 'Surface',
         callback: () => {
           const [, surface] = game.scenes;
-          game.currentScene(surface);
+          game.currentScene = surface;
           game.currentScene.init();
         },
       })],

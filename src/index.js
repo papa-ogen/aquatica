@@ -6,6 +6,10 @@ const assets = [{
   src: require('./assets/bg-under-surface.png'),
 },
 {
+  name: 'surface-bg',
+  src: require('./assets/shark-bg.jpg'),
+},
+{
   name: 'layout-square',
   src: require('./assets/layout-square.png'),
 },

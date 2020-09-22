@@ -60,7 +60,7 @@ class Game {
     ];
 
     const [start] = this.scenes;
-    this._currentScene = start;
+    this.currentScene = start;
   }
 
   addEvents() {
@@ -100,14 +100,6 @@ class Game {
 
   findAssetByName(name) {
     return this.assets.find((a) => a.name === name);
-  }
-
-  set currentScene(scene) {
-    this._currentScene = scene;
-  }
-
-  get currentScene() {
-    return this._currentScene;
   }
 
   draw(time) {
