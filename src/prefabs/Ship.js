@@ -1,14 +1,16 @@
 import * as CONSTANTS from '../utils/constants';
 import { getGridCenter } from '../utils';
 import { Text } from '../ui-kit';
+import GameObject from './GameObject';
 
-class Ship {
+class Ship extends GameObject {
   constructor({
     ctx, game,
     name, layout, type, cost, minCrew, cargoCapacity, fuelCapacity, oxygenCapacity, foodCapacity,
     waterCapacity, wasteCapacity, maxSpeed, effectiveSpeed, dryWeight, ordinance, maxDepth,
     periscopeDepth, width, height,
   }) {
+    super({ game, ctx });
     this.game = game;
     this.ctx = ctx;
     this.name = name;

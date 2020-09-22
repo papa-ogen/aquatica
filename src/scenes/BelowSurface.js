@@ -30,6 +30,7 @@ class BelowSurface extends Scene {
     this.name = 'Didde drake';
 
     this.positionText = this.createHudItem(`lat ${this.game.player.position.lat}, lon ${this.game.player.position.lon}`, CONSTANTS.GRID_SIZE, CONSTANTS.CANVAS_HEIGHT - (CONSTANTS.GRID_SIZE / 2), CONSTANTS.TEXT_ALIGN_LEFT);
+    this.gameAssets = [this.ship, this.sonar, this.positionText];
   }
 
   createHudItem(text, x, y, align = CONSTANTS.TEXT_ALIGN_RIGHT) {
@@ -79,9 +80,9 @@ class BelowSurface extends Scene {
   draw() {
     super.draw();
 
-    this.ship.draw();
-    this.sonar.draw();
-    this.positionText.draw();
+    this.gameAssets.forEach((asset) => {
+      asset.draw();
+    });
 
     this.hud();
 

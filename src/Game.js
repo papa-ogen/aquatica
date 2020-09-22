@@ -82,12 +82,6 @@ class Game {
     });
   }
 
-  init() {
-    this.loadAssets();
-
-    if (this.MouseEvents) this.addEvents();
-  }
-
   debugger() {
     const text = new Text({
       ctx: this.canvas.ctx,
@@ -107,14 +101,26 @@ class Game {
     return this.amountOfAssetsLoaded === this.assets.length;
   }
 
-  draw(time) {
-    this.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
-    this.uiCanvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
+  init() {
+    this.loadAssets();
+
+    if (this.MouseEvents) this.addEvents();
+  }
+
+  update(time) {
+    this.currentScene.gameAssets.forEach((asset) => {
+      asset.update(time);
+    });
+  }
+
+  draw() {
+    this.canvas.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.uiCanvas.ctx.clearRect(0, 0, this.uiCanvas.width, this.uiCanvas.height);
 
     if (this.assetsHasLoaded()) {
       // console.log('loading complete');
       this.currentScene.init();
-      this.currentScene.draw(time);
+      this.currentScene.draw();
     }
 
     if (this.debug) {

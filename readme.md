@@ -16,7 +16,7 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 - [ ] Add plants
 
 // Ship 
-- [ ] Ship type (layout, loadout, cost, hull, weapons)
+- [x] Ship type (layout, loadout, cost, hull, weapons)
 - [ ] click to add layout
 - [ ] Add room
 - [ ] Remove room
@@ -24,10 +24,10 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 - [ ] Upgrade ship
 
 // Player
-- [ ] Money, resources etc
+- [x] Money, resources etc
 
 // Trading
-- [ ] Visit city (atoll)
+- [ ] Visit city (atoll, oil rig)
 
 // Hunt/gather
 - [ ] Send diving bell, divers, sub to get resources
@@ -36,5 +36,5 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 - [x] Implement ui canvas
 - [x] Bg canvas should not update on every frame
 - [ ] Load sprites
-- [ ] Animate sprites
+- [ ] Animate sprites - https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations
 - [ ] Transitions

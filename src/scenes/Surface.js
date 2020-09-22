@@ -12,7 +12,6 @@ class Surface extends Scene {
       uiElements: [...uiElements, new Circle({
         ctx: game.uiCanvas.ctx,
         text: 'Dive',
-        color: 'purple',
         callback: () => {
           const [belowSurface] = game.scenes;
           game.currentScene = belowSurface;

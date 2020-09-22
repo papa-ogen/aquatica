@@ -19,6 +19,10 @@ class Component {
     this.callback = callback;
     this.opacity = opacity;
   }
+
+  update() {} // eslint-disable-line
+
+  draw() {} // eslint-disable-line
 }
 
 export default Component;
