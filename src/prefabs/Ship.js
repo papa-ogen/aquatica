@@ -48,7 +48,9 @@ class Ship {
     const offsetX = centerX + x;
     const offsetY = centerY + y;
     body.rect(offsetX, offsetY, width, height);
+    this.ctx.globalAlpha = 0;
     this.ctx.fill(body);
+    this.ctx.globalAlpha = 1;
 
     if (layout.type === 'ordinance') {
       this.ctx.globalAlpha = 0.4;

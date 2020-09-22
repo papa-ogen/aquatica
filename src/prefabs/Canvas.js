@@ -11,6 +11,10 @@ class Canvas {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
   }
+
+  hide() {
+    this.canvas.style.display = 'none';
+  }
 }
 
 export default Canvas;

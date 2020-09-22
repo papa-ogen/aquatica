@@ -36,7 +36,7 @@ class Game {
       loaded: false,
       img: undefined,
     }));
-    this.assetsHasLoaded = false;
+    this.amountOfAssetsLoaded = 0;
     this.MouseEvents = MouseEvents;
 
     // creating user ship
@@ -76,7 +76,8 @@ class Game {
       img.onload = () => {
         asset.loaded = true; // eslint-disable-line
         asset.img = img;// eslint-disable-line
-        console.log('asset loaded ', asset.name); // eslint-disable-line
+        this.amountOfAssetsLoaded += 1;
+        console.log(`${this.amountOfAssetsLoaded} of ${this.assets.length} loaded`); // eslint-disable-line
       };
     });
   }
@@ -102,20 +103,18 @@ class Game {
     return this.assets.find((a) => a.name === name);
   }
 
+  assetsHasLoaded() {
+    return this.amountOfAssetsLoaded === this.assets.length;
+  }
+
   draw(time) {
     this.canvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
     this.uiCanvas.ctx.clearRect(0, 0, CONSTANTS.CANVAS_WIDTH, CONSTANTS.CANVAS_HEIGHT);
 
-    this.assetsHasLoaded = !this.assets.some((asset) => !asset.loaded);
-
-    if (this.assetsHasLoaded) {
-      console.log('loading complete');
+    if (this.assetsHasLoaded()) {
+      // console.log('loading complete');
       this.currentScene.init();
       this.currentScene.draw(time);
-    } else {
-      const loadedAssets = this.assets.reduce((total,
-        asset) => (asset.loaded ? total += 1 : total), 0);
-      console.log(`loading ${loadedAssets} of ${this.assets.length}`);
     }
 
     if (this.debug) {
