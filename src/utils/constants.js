@@ -26,6 +26,15 @@ const SHIP_LEVEL = {
   BELOW_WATER: 'below-water',
 };
 
+const COLORS = {
+  JET: { hex: '#353535', rgb: [53, 53, 53] },
+  MING: { hex: '#3C6E71', rgb: [60, 110, 113] },
+  WHITE: { hex: '#fffff', rgb: [0, 0, 0] },
+  BLACK: { hex: '#000000', rgb: [255, 255, 255] },
+  GAINSBORO: { hex: '#D9D9D9', rgb: [217, 217, 217] },
+  INDIGO_DYE: { hex: '#284B63', rgb: [40, 74, 99] },
+};
+
 export {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
@@ -38,4 +47,5 @@ export {
   ACTIONS,
   SHIP_STATE,
   SHIP_LEVEL,
+  COLORS,
 };
