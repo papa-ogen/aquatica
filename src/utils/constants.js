@@ -14,6 +14,18 @@ const ACTIONS = {
   EMERGENCY_DEPTH: 'Emergency depth',
 };
 
+const SHIP_STATE = {
+  MOVING: 'moving',
+  ANCHOR: 'anchor',
+  DIVING: 'diving',
+  RESURFACING: 'resurfacing',
+};
+
+const SHIP_LEVEL = {
+  ABOVE_WATER: 'above-water',
+  BELOW_WATER: 'below-water',
+};
+
 export {
   CANVAS_WIDTH,
   CANVAS_HEIGHT,
@@ -24,4 +36,6 @@ export {
   TEXT_ALIGN_CENTER,
   TEXT_ALIGN_RIGHT,
   ACTIONS,
+  SHIP_STATE,
+  SHIP_LEVEL,
 };

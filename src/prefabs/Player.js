@@ -1,3 +1,5 @@
+import * as CONSTANTS from '../utils/constants';
+
 class Player {
   constructor({
     credits, oxygen, food, coffee, water, waste, fuel, position = {
@@ -8,6 +10,8 @@ class Player {
     bubble,
     noiseLevel,
     ballast,
+    shipState = CONSTANTS.SHIP_STATE.ANCHOR,
+    shipLevel = CONSTANTS.SHIP_LEVEL.ABOVE_WATER,
   }) {
     this.credits = credits;
     this.oxygen = oxygen;
@@ -21,6 +25,8 @@ class Player {
     this.bubble = bubble;
     this.noiseLevel = noiseLevel;
     this.ballast = ballast;
+    this.shipState = shipState;
+    this.shipLevel = shipLevel;
   }
 }
 
