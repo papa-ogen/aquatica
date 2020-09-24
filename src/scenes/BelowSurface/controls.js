@@ -8,8 +8,17 @@ export const speedControls = (ctx, player) => ([
     x: CONSTANTS.CANVAS_WIDTH - CONSTANTS.GRID_SIZE * 2,
     y: CONSTANTS.CANVAS_HEIGHT - (CONSTANTS.GRID_SIZE * 4),
     color: 'green',
-    callback: () => {
-      player.speed += 1;
+    disabled: player.speed.currentSpeed >= player.speed.maxSpeed,
+    callback() {
+      player.speed.targetSpeed += player.speed.acceleration;
+
+      // if (player.speed.currentSpeed >= player.speed.maxSpeed) {
+      //   this.disabled = true;
+      //   return;
+      // }
+
+      // player.speed.currentSpeed += player.speed.acceleration;
+      // this.disabled = false;
     },
   }),
   new Circle({
@@ -18,9 +27,16 @@ export const speedControls = (ctx, player) => ([
     x: CONSTANTS.CANVAS_WIDTH - CONSTANTS.GRID_SIZE * 2,
     y: CONSTANTS.CANVAS_HEIGHT - (CONSTANTS.GRID_SIZE * 2),
     color: 'red',
-    callback: () => {
-      if (player.speed <= 0) return;
-      player.speed -= 1;
+    disabled: player.speed.currentSpeed <= 0,
+    callback() {
+      player.speed.targetSpeed -= player.speed.deceleration;
+      // if (player.speed.currentSpeed <= 0) {
+      //   this.disabled = false;
+      //   return;
+      // }
+
+      // player.speed.currentSpeed -= player.speed.deceleration;
+      // this.disabled = false;
     },
   }),
   new Circle({

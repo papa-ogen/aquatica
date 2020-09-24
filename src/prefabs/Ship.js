@@ -6,8 +6,7 @@ import GameObject from './GameObject';
 class Ship extends GameObject {
   constructor({
     ctx, game,
-    name, layout, type, cost, minCrew, cargoCapacity, fuelCapacity, oxygenCapacity, foodCapacity,
-    waterCapacity, wasteCapacity, maxSpeed, effectiveSpeed, dryWeight, ordinance, maxDepth,
+    name, layout, type, cost, minCrew, capacity, speed, dryWeight, ordinance, maxDepth,
     periscopeDepth, width, height,
   }) {
     super({ game, ctx });
@@ -17,14 +16,8 @@ class Ship extends GameObject {
     this.type = type;
     this.cost = cost;
     this.minCrew = minCrew;
-    this.cargoCapacity = cargoCapacity;
-    this.fuelCapacity = fuelCapacity;
-    this.oxygenCapacity = oxygenCapacity;
-    this.foodCapacity = foodCapacity;
-    this.waterCapacity = waterCapacity;
-    this.wasteCapacity = wasteCapacity;
-    this.maxSpeed = maxSpeed;
-    this.effectiveSpeed = effectiveSpeed;
+    this.capacityLimit = capacity;
+    this.speed = speed;
     this.dryWeight = dryWeight;
     this.ordinance = ordinance;
     this.maxDepth = maxDepth;

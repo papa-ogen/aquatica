@@ -28,6 +28,7 @@ class BelowSurface extends Scene {
 
     this.positionText = this.createHudItem(`lat ${this.game.player.position.lat}, lon ${this.game.player.position.lon}`, CONSTANTS.GRID_SIZE, CONSTANTS.CANVAS_HEIGHT - (CONSTANTS.GRID_SIZE / 2), CONSTANTS.TEXT_ALIGN_LEFT);
     this.gameAssets = [this.ship, this.sonar, this.positionText];
+    this.prevTime = Date.getTime();
   }
 
   createHudItem(text, x, y, align = CONSTANTS.TEXT_ALIGN_RIGHT) {
@@ -42,22 +43,30 @@ class BelowSurface extends Scene {
 
   hud() {
     const {
-      credits, oxygen, food, coffee, water, fuel, waste,
-      engineHeat, crew, speed, position: { depth },
+      capacity: {
+        oxygen, food, coffee, water, fuel, waste,
+      },
+      credits,
+      engineHeat, crew, speed: { currentSpeed }, position: { depth },
     } = this.game.player;
+    const {
+      capacityLimit: {
+        oxygen: oxygenLimit, food: foodLimit, water: waterLimit, fuel: fuelLimit, waste: wasteLimit,
+      },
+    } = this.game.ship;
     let hudItems = [
       `Credits: ${credits}`,
-      `Oxygen: ${oxygen} bar`,
-      `Food: ${food}kg`,
+      `Oxygen: ${oxygen}/${oxygenLimit} bar`,
+      `Food: ${food}/${foodLimit}kg`,
       `Coffee: ${coffee}L`,
-      `Water: ${water}L`,
-      `Fuel: ${fuel}L`,
-      `Food: ${food}kg`,
-      `Waste: ${waste}kg`,
+      `Water: ${water}/${waterLimit}L`,
+      `Fuel: ${fuel}/${fuelLimit}L`,
+      `Food: ${food}/${foodLimit}kg`,
+      `Waste: ${waste}/${wasteLimit}kg`,
       `Engine Heat: ${engineHeat}°`,
       `Crew: ${crew}`,
       `Current depth: ${depth}m`,
-      `Speed: ${speed} km/h`,
+      `Speed: ${currentSpeed} km/h`,
     ];
 
     hudItems = hudItems.map((item, i) => (
@@ -73,6 +82,21 @@ class BelowSurface extends Scene {
 
   init() {
     this.bg.draw();
+  }
+
+  update() {
+    const currentTime = Date.getTime();
+    const delta = currentTime - this.prevTime;
+    const v1 = this.game.player.speed.currentSpeed;
+    const v2 = this.game.player.speed.targetSpeed;
+    const time = v2 - v1 / this.game.player.speed.acceleration;
+    const timePerFrame = time / 60;
+    // https://stackoverflow.com/questions/27854973/how-to-calculate-velocity-for-a-set-distance-and-target-velocity
+    console.log('target speed ', c);
+
+    this.game.player.speed.currentSpeed += timePerFrame;
+
+    this.prevTime = currentTime;
   }
 
   draw() {

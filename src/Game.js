@@ -21,12 +21,11 @@ class Game {
 
     this.player = new Player({
       credits: 10000,
-      oxygen: userShip.oxygenCapacity,
-      food: userShip.foodCapacity,
-      coffee: 100,
-      water: userShip.wasteCapacity,
-      fuel: userShip.fuelCapacity,
-      waste: userShip.wasteCapacity,
+      capacity: {
+        ...userShip.capacity, 
+        coffee: 100
+      },
+      speed: userShip.speed,
       crew: 10,
     });
 
@@ -108,6 +107,8 @@ class Game {
   }
 
   update(time) {
+    this.currentScene.update();
+
     this.currentScene.gameAssets.forEach((asset) => {
       asset.update(time);
     });
