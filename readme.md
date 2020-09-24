@@ -4,9 +4,7 @@ Optimization
 - https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
 - https://www.html5rocks.com/en/tutorials/canvas/performance/#toc-ref
 - https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/
-
-Testing:
-If needed, preload babel: https://www.npmjs.com/package/tape
+- put background in div element instead of drawing on canvas
 
 // Level
 - [x] Switch between levels
@@ -25,6 +23,9 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 
 // Player
 - [x] Money, resources etc
+- [ ] Dive
+- [ ] Acceleration on speed
+- [ ] Acceleration on turn (based on speed, type of sub etc)
 
 // Trading
 - [ ] Visit city (atoll, oil rig)
@@ -38,3 +39,6 @@ If needed, preload babel: https://www.npmjs.com/package/tape
 - [ ] Load sprites
 - [ ] Animate sprites - https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations
 - [ ] Transitions
+
+// General
+- [ ] Day and night cycle

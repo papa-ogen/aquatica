@@ -16,6 +16,7 @@ class Circle extends Component {
     this.radius = radius;
     this.isHovered = false;
     this.body = new Path2D();
+    this.hasText = !!text;
   }
 
   draw() {
@@ -29,14 +30,16 @@ class Circle extends Component {
 
     this.ctx.fill(this.body);
 
-    this.ctx.font = '15px "Exo 2"';
-    if (this.isHovered) {
-      this.ctx.fillStyle = CONSTANTS.COLORS.WHITE.HEX;
-    } else {
-      this.ctx.fillStyle = CONSTANTS.COLORS.INDIGO_DYE.HEX;
+    if (this.hasText) {
+      this.ctx.font = '15px "Exo 2"';
+      if (this.isHovered) {
+        this.ctx.fillStyle = CONSTANTS.COLORS.WHITE.HEX;
+      } else {
+        this.ctx.fillStyle = CONSTANTS.COLORS.INDIGO_DYE.HEX;
+      }
+      this.ctx.textAlign = CONSTANTS.TEXT_ALIGN_CENTER;
+      this.ctx.fillText(this.text, this.x, this.y + 5);
     }
-    this.ctx.textAlign = CONSTANTS.TEXT_ALIGN_CENTER;
-    this.ctx.fillText(this.text, this.x, this.y + 5);
   }
 }
 

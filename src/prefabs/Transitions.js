@@ -5,6 +5,14 @@ class Transitions {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  toDegrees(angle) {
+    return angle * (180 / Math.PI);
+  }
+  
+  toRadians(angle) {
+    return angle * (Math.PI / 180);
+  }
+  
   static easingFunctions() {
     return {
       // no easing, no acceleration

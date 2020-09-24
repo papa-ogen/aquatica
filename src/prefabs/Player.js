@@ -5,8 +5,9 @@ class Player {
     credits, oxygen, food, coffee, water, waste, fuel, position = {
       lon: "39°09'24.6''S",
       lat: "175°37'55.8''E",
+      direction: 0,
+      depth: 0,
     },
-    depth = 0,
     bubble,
     noiseLevel,
     ballast,
@@ -14,6 +15,7 @@ class Player {
     shipLevel = CONSTANTS.SHIP_LEVEL.ABOVE_WATER,
     engineHeat = 0,
     crew,
+    speed = 0,
   }) {
     this.credits = credits;
     this.oxygen = oxygen;
@@ -23,7 +25,6 @@ class Player {
     this.waste = waste;
     this.fuel = fuel;
     this.position = position;
-    this.depth = depth;
     this.bubble = bubble;
     this.noiseLevel = noiseLevel;
     this.ballast = ballast;
@@ -31,6 +32,7 @@ class Player {
     this.shipLevel = shipLevel;
     this.engineHeat = engineHeat;
     this.crew = crew;
+    this.speed = speed;
   }
 }
 
