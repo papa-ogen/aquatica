@@ -46,14 +46,8 @@ const game = new Game({
 // prep game
 game.init();
 
-let secondsPassed = 0;
-let oldTimeStamp = 0;
-
-function draw(timeStamp) {
-  secondsPassed = (timeStamp - oldTimeStamp) / 1000;
-  oldTimeStamp = timeStamp;
-
-  game.update(secondsPassed);
+function draw(time) {
+  game.update(time);
   game.draw();
 
   window.requestAnimationFrame(draw);
