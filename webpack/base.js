@@ -6,11 +6,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   devtool: 'eval-source-map',
-  resolve: {
-    alias: {
-      assets: path.join(__dirname, '../src/assets'),
-    },
-  },
   module: {
     rules: [
       {
@@ -27,14 +22,6 @@ module.exports = {
       {
         test: /\.(gif|png|jpe?g|svg|xml)$/i,
         use: 'file-loader',
-      },
-      {
-        test: /\.js$/,
-        loader: 'buble-loader',
-        exclude: /node_modules\/(?!phaser-webpack-loader)/,
-        options: {
-          objectAssign: 'Object.assign',
-        },
       },
     ],
   },

@@ -13,8 +13,9 @@ export default class Main extends Phaser.Scene {
     window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
 
     this.levelText = this.add.text(0, 0, 'Welcome to hell...', {
-      fontFamily: 'Exo 2', fontSize: '40px', fill: '#fff',
+      fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
     });
+    // this.levelText.setFontSize(20);
 
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;

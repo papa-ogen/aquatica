@@ -12,7 +12,7 @@ export default class Boot extends Phaser.Scene {
     this.fontsLoaded = this.fontsLoaded.bind(this);
 
     WebFont.load({
-      google: { families: ['Exo 2'] },
+      google: { families: ['Exo 2', 'sans-serif', 'roboto'] },
       active: this.fontsLoaded,
     });
 
