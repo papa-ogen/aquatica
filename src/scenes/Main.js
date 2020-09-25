@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import throttle from 'lodash.throttle';
 // import Player from '../objects/Player';
 
@@ -12,17 +13,18 @@ export default class Main extends Phaser.Scene {
     // Setup listener for window resize.
     window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
 
-    this.levelText = this.add.text(0, 0, 'Welcome to hell...', {
-      fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
-    });
-    // this.levelText.setFontSize(20);
+    this.add.image(0, 0, 'background-under-surface').setOrigin(0);
 
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
 
+    this.levelText = this.add.text(0, 0, 'Below Surface', {
+      fontFamily: 'roboto', fontSize: '26px', fill: '#fff',
+    });
+
     Phaser.Display.Align.In.Center(
       this.levelText,
-      this.add.zone(width / 2, height / 2, width, height),
+      this.add.zone(width / 2, 30, width, height),
     );
   }
 

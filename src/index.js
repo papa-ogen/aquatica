@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
 import Stats from 'stats.js';
-import Boot from './states/Boot';
-import Preload from './states/Loading';
-import Main from './states/Main';
+import Boot from './scenes/Boot';
+import Preload from './scenes/Loading';
+import Main from './scenes/Main';
 
 /**
  * Setup the root class for the whole game.
@@ -12,9 +12,6 @@ class Game extends Phaser.Game {
    * Initialize the game before preloading assets.
    */
   constructor() {
-    // Round the pixel ratio to the nearest whole number so everything scales correctly.
-    const dpr = Math.round(window.devicePixelRatio);
-
     // Setup the game's stage.
     super({
       type: Phaser.AUTO,

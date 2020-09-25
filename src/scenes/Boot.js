@@ -16,7 +16,7 @@ export default class Boot extends Phaser.Scene {
       active: this.fontsLoaded,
     });
 
-    this.load.image('logo', '../src/assets/images/cockpit.png');
+    this.load.image('logo', '../src/assets/images/logo.png');
   }
 
   fontsLoaded() {

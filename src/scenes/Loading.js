@@ -1,7 +1,9 @@
+import Phaser from 'phaser';
+
 class LoadingScene extends Phaser.Scene {
   preload() {
     this.createPreloader();
-  //  this.loadAssets();
+    this.loadAssets();
   }
 
   createPreloader() {
@@ -78,8 +80,8 @@ class LoadingScene extends Phaser.Scene {
   }
 
   create() {
-    const gameConfig = this.cache.json.get('game_data');
-    const playerData = this.cache.json.get('player_data');
+    // const gameConfig = this.cache.json.get('game_data');
+    // const playerData = this.cache.json.get('player_data');
 
     // this.scene.start('Main', {
     //   gameConfig, playerData,
@@ -87,31 +89,34 @@ class LoadingScene extends Phaser.Scene {
     this.scene.start('Main');
   }
 
-  // loadAssets() {
+  loadAssets() {
   //   this.load.json('game_data', require('../assets/data/game_data.json'));
   //   this.load.json('player_data', require('../assets/data/player_data.json'));
   //   this.load.tilemapTiledJSON('level1', require('../assets/map.json'));
 
-  //   this.load.image('bullet', require('../assets/images/bullet.png'));
-  //   this.load.image('laser', require('../assets/images/laser.png'));
-  //   this.load.image('cursor', require('../assets/images/cursor.png'));
-  //   this.load.image('sniper', require('../assets/images/sniper.png'));
-  //   this.load.image('map', require('../assets/images/dungeon-tileset.png'));
+    this.load.image('cockpit', '../src/assets/images/cockpit.png');
+    this.load.image('cockpit-hover', '../src/assets/images/cockpit-hover.png');
+    this.load.image('layout-square', '../src/assets/images/layout-square.png');
+    this.load.image('layout-square-hover', '../src/assets/images/layout-square-hover.png');
+    this.load.image('main', '../src/assets/images/main.png');
+    this.load.image('main-hover', '../src/assets/images/main-hover.png');
+    this.load.image('background', '../src/assets/images/shark-bg.jpg');
+    this.load.image('background-under-surface', '../src/assets/images/bg-under-surface.png');
 
-  //   this.load.spritesheet('alien',
-  //     require('../assets/images/alien-sprite.png'),
-  //     {
-  //       frameWidth: 16, frameHeight: 16,
-  //     });
+    //   this.load.spritesheet('alien',
+    //     require('../assets/images/alien-sprite.png'),
+    //     {
+    //       frameWidth: 16, frameHeight: 16,
+    //     });
 
-  //   this.load.spritesheet('soldier',
-  //     require('../assets/images/soldier-sprite.png'),
-  //     {
-  //       frameWidth: 16, frameHeight: 16,
-  //     });
+    //   this.load.spritesheet('soldier',
+    //     require('../assets/images/soldier-sprite.png'),
+    //     {
+    //       frameWidth: 16, frameHeight: 16,
+    //     });
 
   //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
-  // }
+  }
 }
 
 export default LoadingScene;
