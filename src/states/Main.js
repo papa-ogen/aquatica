@@ -9,25 +9,20 @@ export default class Main extends Phaser.Scene {
    * Setup all objects, etc needed for the main game state.
    */
   create() {
-    // Enable arcade physics.
-    this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
-    // Add background tile.
-    this.game.add.tileSprite(-5000, -5000, 10000, 10000, 'bg');
-
-    // Add a player to the game.
-    // this.player = new Player({
-    //   game: this.game,
-    //   x: this.game.world.centerX,
-    //   y: this.game.world.centerY,
-    //   key: 'textures',
-    //   frame: 'ship',
-    // });
-
-    // ...
-
     // Setup listener for window resize.
     window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
+
+    this.levelText = this.add.text(0, 0, 'Welcome to hell...', {
+      fontFamily: 'Exo 2', fontSize: '40px', fill: '#fff',
+    });
+
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
+
+    Phaser.Display.Align.In.Center(
+      this.levelText,
+      this.add.zone(width / 2, height / 2, width, height),
+    );
   }
 
   /**

@@ -1,9 +1,8 @@
 import Phaser from 'phaser';
 import Stats from 'stats.js';
 import Boot from './states/Boot';
-import Preload from './states/Preload';
+import Preload from './states/Loading';
 import Main from './states/Main';
-// import logoImg from './assets/main.png';
 
 /**
  * Setup the root class for the whole game.
@@ -18,17 +17,22 @@ class Game extends Phaser.Game {
 
     // Setup the game's stage.
     super({
+      type: Phaser.AUTO,
       width: window.innerWidth * dpr,
       height: window.innerHeight * dpr,
       renderer: Phaser.WEBGL_MULTI,
       antialias: true,
       multiTexture: true,
       enableDebug: process.env.NODE_ENV === 'development',
+      physics: {
+        default: 'arcade',
+        arcade: { debug: true },
+      },
     });
 
     // Setup the different game states.
     this.scene.add('Boot', Boot, false);
-    this.scene.add('Preload', Preload, false);
+    this.scene.add('Loading', Preload, false);
     this.scene.add('Main', Main, false);
 
     // Kick things off with the boot state.

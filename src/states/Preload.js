@@ -1,5 +1,4 @@
 import WebpackLoader from 'phaser-webpack-loader';
-import AssetManifest from '../AssetManifest';
 
 /**
  * Preload the game and display the loading screen.

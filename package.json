@@ -30,12 +30,13 @@
     "lodash.throttle": "^4.1.1",
     "phaser": "^3.24.1",
     "phaser-webpack-loader": "^2.0.0",
+    "stats.js": "^0.17.0",
     "tape": "^5.0.1",
     "terser-webpack-plugin": "^4.2.2",
+    "webfontloader": "^1.6.28",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.1.4",
-    "stats.js": "^0.17.0"
+    "webpack-merge": "^5.1.4"
   }
 }
