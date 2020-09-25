@@ -5,6 +5,8 @@ import { Text } from '../../ui-kit';
 import Sonar from '../../prefabs/Sonar';
 import { speedControls, changeScene } from './controls';
 
+const formatNumber = (num) => Math.round(num * 2) / 2;
+
 class BelowSurface extends Scene {
   constructor({
     name, game, uiElements = [],
@@ -28,7 +30,6 @@ class BelowSurface extends Scene {
 
     this.positionText = this.createHudItem(`lat ${this.game.player.position.lat}, lon ${this.game.player.position.lon}`, CONSTANTS.GRID_SIZE, CONSTANTS.CANVAS_HEIGHT - (CONSTANTS.GRID_SIZE / 2), CONSTANTS.TEXT_ALIGN_LEFT);
     this.gameAssets = [this.ship, this.sonar, this.positionText];
-    this.prevTime = Date.getTime();
   }
 
   createHudItem(text, x, y, align = CONSTANTS.TEXT_ALIGN_RIGHT) {
@@ -47,7 +48,7 @@ class BelowSurface extends Scene {
         oxygen, food, coffee, water, fuel, waste,
       },
       credits,
-      engineHeat, crew, speed: { currentSpeed }, position: { depth },
+      engineHeat, crew, speed: { currentSpeed, targetSpeed }, position: { depth },
     } = this.game.player;
     const {
       capacityLimit: {
@@ -66,7 +67,7 @@ class BelowSurface extends Scene {
       `Engine Heat: ${engineHeat}°`,
       `Crew: ${crew}`,
       `Current depth: ${depth}m`,
-      `Speed: ${currentSpeed} km/h`,
+      `Speed: ${formatNumber(currentSpeed)} ${targetSpeed} km/h`,
     ];
 
     hudItems = hudItems.map((item, i) => (
@@ -85,18 +86,18 @@ class BelowSurface extends Scene {
   }
 
   update() {
-    const currentTime = Date.getTime();
-    const delta = currentTime - this.prevTime;
-    const v1 = this.game.player.speed.currentSpeed;
-    const v2 = this.game.player.speed.targetSpeed;
-    const time = v2 - v1 / this.game.player.speed.acceleration;
-    const timePerFrame = time / 60;
-    // https://stackoverflow.com/questions/27854973/how-to-calculate-velocity-for-a-set-distance-and-target-velocity
-    console.log('target speed ', c);
-
-    this.game.player.speed.currentSpeed += timePerFrame;
-
-    this.prevTime = currentTime;
+    const {
+      currentSpeed, targetSpeed, acceleration, deceleration,
+    } = this.game.player.speed;
+    // accelerate
+    if (currentSpeed < targetSpeed) {
+      this.game.player.speed.currentSpeed += acceleration;
+    } else if (currentSpeed > targetSpeed) {
+      // decelerate
+      this.game.player.speed.currentSpeed -= deceleration;
+    } else {
+      // do nothin
+    }
   }
 
   draw() {

@@ -18,9 +18,9 @@ export default [
       waste: 10,
     },
     speed: {
-      acceleration: 0.5,
-      deceleration: 0.5,
-      maxSpeed: 10,
+      acceleration: 0.02,
+      deceleration: 0.02,
+      maxSpeed: 5,
       effectiveSpeed: 3,
     },
     width: CONSTANTS.GRID_SIZE * 4,

@@ -10,8 +10,11 @@ export const speedControls = (ctx, player) => ([
     color: 'green',
     disabled: player.speed.currentSpeed >= player.speed.maxSpeed,
     callback() {
-      player.speed.targetSpeed += player.speed.acceleration;
+      player.speed.targetSpeed += 0.5;
 
+      if (player.speed.targetSpeed >= player.speed.maxSpeed) {
+        player.speed.targetSpeed = player.speed.maxSpeed;
+      }
       // if (player.speed.currentSpeed >= player.speed.maxSpeed) {
       //   this.disabled = true;
       //   return;
@@ -29,11 +32,10 @@ export const speedControls = (ctx, player) => ([
     color: 'red',
     disabled: player.speed.currentSpeed <= 0,
     callback() {
-      player.speed.targetSpeed -= player.speed.deceleration;
-      // if (player.speed.currentSpeed <= 0) {
-      //   this.disabled = false;
-      //   return;
-      // }
+      player.speed.targetSpeed -= 0.5;
+      if (player.speed.targetSpeed <= 0) {
+        player.speed.targetSpeed = 0;
+      }
 
       // player.speed.currentSpeed -= player.speed.deceleration;
       // this.disabled = false;
