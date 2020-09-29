@@ -23,7 +23,7 @@ class Game extends Phaser.Game {
       enableDebug: process.env.NODE_ENV === 'development',
       physics: {
         default: 'arcade',
-        arcade: { debug: true },
+        arcade: { debug: false },
       },
     });
 

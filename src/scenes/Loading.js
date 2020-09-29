@@ -92,7 +92,7 @@ class LoadingScene extends Phaser.Scene {
   loadAssets() {
   //   this.load.json('game_data', require('../assets/data/game_data.json'));
   //   this.load.json('player_data', require('../assets/data/player_data.json'));
-  //   this.load.tilemapTiledJSON('level1', require('../assets/map.json'));
+    this.load.tilemapTiledJSON('level1', '../src/assets/data/1.json');
 
     this.load.image('cockpit', '../src/assets/images/cockpit.png');
     this.load.image('cockpit-hover', '../src/assets/images/cockpit-hover.png');
@@ -102,6 +102,9 @@ class LoadingScene extends Phaser.Scene {
     this.load.image('main-hover', '../src/assets/images/main-hover.png');
     this.load.image('background', '../src/assets/images/shark-bg.jpg');
     this.load.image('background-under-surface', '../src/assets/images/bg-under-surface.png');
+    this.load.spritesheet('sub',
+      '../src/assets/images/sub-sprite.png',
+      { frameWidth: 132, frameHeight: 210 });
 
     //   this.load.spritesheet('alien',
     //     require('../assets/images/alien-sprite.png'),
