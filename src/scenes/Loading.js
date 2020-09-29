@@ -80,18 +80,16 @@ class LoadingScene extends Phaser.Scene {
   }
 
   create() {
-    // const gameConfig = this.cache.json.get('game_data');
-    // const playerData = this.cache.json.get('player_data');
+    const shipData = this.cache.json.get('shipData');
 
-    // this.scene.start('Main', {
-    //   gameConfig, playerData,
-    // });
-    this.scene.start('Main');
+    this.scene.start('Main', {
+      shipData,
+    });
   }
 
   loadAssets() {
-  //   this.load.json('game_data', require('../assets/data/game_data.json'));
-  //   this.load.json('player_data', require('../assets/data/player_data.json'));
+    this.load.json('shipData', '../src/data/ships.json');
+
     this.load.tilemapTiledJSON('level1', '../src/data/1.json');
 
     this.load.image('cockpit', '../src/assets/images/cockpit.png');
