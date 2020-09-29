@@ -101,12 +101,13 @@ class LoadingScene extends Phaser.Scene {
     this.load.image('main', '../src/assets/images/main.png');
     this.load.image('main-hover', '../src/assets/images/main-hover.png');
     this.load.image('background', '../src/assets/images/shark-bg.jpg');
-    this.load.image('desert-tiles', '../src/assets/images/desert-tiles.png');
+    this.load.image('desert-tiles', '../src/assets/sprites/desert-tiles.png');
     this.load.image('red', '../src/assets/images/red.png');
     this.load.image('bubble', '../src/assets/images/bubble.png');
+    this.load.image('sub-shadow', '../src/assets/images/sub-shadow.png');
     this.load.spritesheet('sub',
-      '../src/assets/images/sub-sprite.png',
-      { frameWidth: 132, frameHeight: 210 });
+      '../src/assets/sprites/sub-sprite.png',
+      { frameWidth: 210, frameHeight: 132 });
 
   //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
   }

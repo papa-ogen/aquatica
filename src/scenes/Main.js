@@ -9,16 +9,18 @@ export default class Main extends Phaser.Scene {
   constructor() {
     super();
     this.player = null;
+    this.shadow = null;
+    this.offset = new Phaser.Geom.Point(10, 8);
+    this.playerSpeed = 0;
+    this.playerMaxSpeed = 50;
     this.cursors = null;
   }
 
-  /**
-   * Setup all objects, etc needed for the main game state.
-   */
   create() {
     this.cameras.main.setBackgroundColor(0xeedf6a);
 
     this.createMap();
+
     // Setup listener for window resize.
     window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
 
@@ -42,8 +44,12 @@ export default class Main extends Phaser.Scene {
       blendMode: 'ADD',
     });
 
+    this.shadow = this.physics.add.sprite(90, 440, 'sub-shadow')
+      .setOrigin(0.5);
+    this.shadow.alpha = 0.3;
+
     this.player = this.physics.add.sprite(100, 450, 'sub')
-      .setScale(0.5)
+      // .setScale(0.5)
       .setOrigin(0.5, 0.5);
 
     this.anims.create({
@@ -60,11 +66,11 @@ export default class Main extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    // this.cameras.main.startFollow(this.player);
-
     this.setCollisions();
 
     emitter.startFollow(this.player);
+
+    this.createCameraControls();
   }
 
   /**
@@ -93,27 +99,57 @@ export default class Main extends Phaser.Scene {
     this.physics.add.collider(this.player, this.obstaclesLayer);
   }
 
-  /**
-   * Handle actions in the main game loop.
-   */
-  update() {
-    if (this.cursors.left.isDown) {
-      this.player.angle -= 1;
-    }
+  createCameraControls() {
+    this.cursors = this.input.keyboard.createCursorKeys();
 
-    if (this.cursors.right.isDown) {
-      this.player.angle += 1;
+    this.camera = this.cameras.main;
+    this.camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
+    this.cameras.main.startFollow(this.player);
+
+    this.controls = new Phaser.Cameras.Controls.FixedKeyControl({
+      camera: this.camera,
+      left: this.cursors.left,
+      right: this.cursors.right,
+      up: this.cursors.up,
+      down: this.cursors.down,
+      speed: 0.5,
+    });
+  }
+
+  update() {
+    if (this.playerSpeed > 0) {
+      this.player.anims.play('move');
     }
 
     if (this.cursors.up.isDown) {
-      this.physics.velocityFromAngle(this.player.angle, 300, this.player.body.velocity);
-      this.player.anims.play('move');
-    } else if (this.cursors.down.isDown) {
-      this.physics.velocityFromAngle(this.player.angle, 300, this.player.body.velocity);
-      this.player.anims.play('move');
-    } else {
-      this.player.anims.play('stop');
-      this.player.setVelocity(-1);
+      if (this.playerMaxSpeed >= this.playerSpeed) {
+        this.playerSpeed += 1;
+      } else {
+        this.playerSpeed = this.playerMaxSpeed;
+      }
     }
+
+    if (this.cursors.down.isDown) {
+      if (this.playerSpeed <= 0) {
+        this.playerSpeed = 0;
+        this.player.anims.play('stop');
+      } else {
+        this.playerSpeed -= 1;
+      }
+    }
+
+    if (this.cursors.left.isDown && this.playerSpeed > 0) {
+      this.player.angle -= 1;
+      this.shadow.angle -= 1;
+    }
+
+    if (this.cursors.right.isDown && this.playerSpeed > 0) {
+      this.player.angle += 1;
+      this.shadow.angle += 1;
+    }
+
+    this.physics.velocityFromAngle(this.player.angle, this.playerSpeed, this.player.body.velocity);
+    this.physics.velocityFromAngle(this.shadow.angle, this.playerSpeed, this.shadow.body.velocity);
   }
 }
