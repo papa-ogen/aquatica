@@ -92,7 +92,7 @@ class LoadingScene extends Phaser.Scene {
   loadAssets() {
   //   this.load.json('game_data', require('../assets/data/game_data.json'));
   //   this.load.json('player_data', require('../assets/data/player_data.json'));
-    this.load.tilemapTiledJSON('level1', '../src/assets/data/1.json');
+    this.load.tilemapTiledJSON('level1', '../src/data/1.json');
 
     this.load.image('cockpit', '../src/assets/images/cockpit.png');
     this.load.image('cockpit-hover', '../src/assets/images/cockpit-hover.png');
@@ -101,22 +101,12 @@ class LoadingScene extends Phaser.Scene {
     this.load.image('main', '../src/assets/images/main.png');
     this.load.image('main-hover', '../src/assets/images/main-hover.png');
     this.load.image('background', '../src/assets/images/shark-bg.jpg');
-    this.load.image('background-under-surface', '../src/assets/images/bg-under-surface.png');
+    this.load.image('desert-tiles', '../src/assets/images/desert-tiles.png');
+    this.load.image('red', '../src/assets/images/red.png');
+    this.load.image('bubble', '../src/assets/images/bubble.png');
     this.load.spritesheet('sub',
       '../src/assets/images/sub-sprite.png',
       { frameWidth: 132, frameHeight: 210 });
-
-    //   this.load.spritesheet('alien',
-    //     require('../assets/images/alien-sprite.png'),
-    //     {
-    //       frameWidth: 16, frameHeight: 16,
-    //     });
-
-    //   this.load.spritesheet('soldier',
-    //     require('../assets/images/soldier-sprite.png'),
-    //     {
-    //       frameWidth: 16, frameHeight: 16,
-    //     });
 
   //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
   }

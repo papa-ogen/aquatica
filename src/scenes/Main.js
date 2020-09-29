@@ -16,10 +16,11 @@ export default class Main extends Phaser.Scene {
    * Setup all objects, etc needed for the main game state.
    */
   create() {
+    this.cameras.main.setBackgroundColor(0xeedf6a);
+
+    this.createMap();
     // Setup listener for window resize.
     window.addEventListener('resize', throttle(this.resize.bind(this), 50), false);
-
-    this.add.image(0, 0, 'background-under-surface').setOrigin(0);
 
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
@@ -32,6 +33,14 @@ export default class Main extends Phaser.Scene {
       this.levelText,
       this.add.zone(width / 2, 30, width, height),
     );
+
+    const particles = this.add.particles('bubble');
+
+    const emitter = particles.createEmitter({
+      speed: 100,
+      scale: { start: 0.5, end: 0 },
+      blendMode: 'ADD',
+    });
 
     this.player = this.physics.add.sprite(100, 450, 'sub')
       .setScale(0.5)
@@ -51,9 +60,11 @@ export default class Main extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    this.cameras.main.startFollow(this.player);
+    // this.cameras.main.startFollow(this.player);
 
-    console.log(this.player.angle);
+    this.setCollisions();
+
+    emitter.startFollow(this.player);
   }
 
   /**
@@ -64,6 +75,22 @@ export default class Main extends Phaser.Scene {
     const height = window.innerHeight * window.devicePixelRatio;
 
     this.scale.setGameSize(width, height);
+  }
+
+  createMap() {
+    this.map = this.make.tilemap({ key: 'level1' });
+    this.tiles = this.map.addTilesetImage('desert-tiles');
+    // this.backgroundLayer = this.map.createDynamicLayer('background', this.tiles, 0, 0);
+    this.obstaclesLayer = this.map.createStaticLayer('obstacles', this.tiles, 0, 0);
+    this.detailsLayer = this.map.createStaticLayer('details', this.tiles, 0, 0);
+    // this.obstaclesLayer.setCollisionBetween(50, 200);
+
+    // this.startArea1 = this.map.findObject('objects', (obj) => obj.name === 'Start Area 1');
+    // this.startArea2 = this.map.findObject('objects', (obj) => obj.name === 'Start Area 2');
+  }
+
+  setCollisions() {
+    this.physics.add.collider(this.player, this.obstaclesLayer);
   }
 
   /**

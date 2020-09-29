@@ -42,3 +42,6 @@ Optimization
 
 // General
 - [ ] Day and night cycle
+
+// Add filter to below surface scene
+- [ ] https://rexrainbow.github.io/phaser3-rex-notes/docs/site/shader-hsladjust/
