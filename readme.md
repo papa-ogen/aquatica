@@ -45,3 +45,11 @@ Optimization
 
 // Add filter to below surface scene
 - [ ] https://rexrainbow.github.io/phaser3-rex-notes/docs/site/shader-hsladjust/
+
+// How to fix body rotation. Change to matter?
+- https://phaser.io/examples/v3/view/game-objects/container/matter-physics-body-test
+- without matter: https://github.com/ourcade/phaser3-homing-missile-arcade-physics/blob/master/src/main.js
+
+
+notes
+https://rexrainbow.github.io/phaser3-rex-notes/docs

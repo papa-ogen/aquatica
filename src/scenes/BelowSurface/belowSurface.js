@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Submarine from './Submarine';
 
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
@@ -21,61 +22,22 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   create() {
+    this.player = new Submarine(this, 50, 50);
+
     this.cameras.main.setBackgroundColor(0xeedf6a);
     this.createMap();
     this.createCursor();
-
-    const { width } = this.cameras.main;
-    const { height } = this.cameras.main;
-
-    this.levelText = this.add.text(0, 0, 'Below Surface', {
-      fontFamily: 'roboto', fontSize: '26px', fill: '#fff',
-    });
-
-    Phaser.Display.Align.In.Center(
-      this.levelText,
-      this.add.zone(width / 2, 30, width, height),
-    );
-
-    const particles = this.add.particles('bubble');
-
-    const emitter = particles.createEmitter({
-      speed: 25,
-      scale: { start: 0.5, end: 0 },
-      blendMode: 'ADD',
-    });
-
-    // this.shadow = this.physics.add.sprite(90, 440, 'sub-shadow')
-    //   .setOrigin(0.5);
-    // this.shadow.alpha = 0.3;
-
-    this.player = this.physics.add.sprite(150, 150, 'sub')
-      .setScale(0.5)
-      .setOrigin(0.5)
-      .setBounce(1, 1)
-      .setCollideWorldBounds(true);
-
-    this.anims.create({
-      key: 'move',
-      frames: this.anims.generateFrameNumbers('sub', { start: 0, end: 7 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: 'stop',
-      frames: [{ key: 'sub', frame: 0 }],
-      frameRate: 20,
-    });
+    this.createKeyboardEvents();
+    this.createAnimations();
+    this.createCameraControls();
 
     this.setCollisions();
 
-    emitter.startFollow(this.player);
-
-    this.createCameraControls();
-
-    this.hudScene.display();
+    this.add.existing(this.player);
 
     this.addMask();
+
+    this.cameras.main.startFollow(this.player);
   }
 
   createMap() {
@@ -106,8 +68,6 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.camera = this.cameras.main;
     // this.camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
-    this.cameras.main.startFollow(this.player);
 
     this.controls = new Phaser.Cameras.Controls.FixedKeyControl({
       camera: this.camera,
@@ -140,9 +100,40 @@ export default class BelowSurface extends Phaser.Scene {
     rt.setMask(mask);
   }
 
+  createKeyboardEvents() {
+    const EscKey = this.input.keyboard.addKey('Esc');
+    EscKey.on('down', () => {
+      // stop boat
+    });
+
+    const SpaceKey = this.input.keyboard.addKey('Space');
+    SpaceKey.on('down', () => {
+      this.scene.pause();
+      // this.scene.launch(SCENES.GAME_OPTIONS)
+      // this.gameState = GAME_STATE.PAUSED
+    });
+  }
+
+  createAnimations() {
+    this.anims.create({
+      key: 'move',
+      frames: this.anims.generateFrameNumbers('sub', { start: 0, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'stop',
+      frames: [{ key: 'sub', frame: 0 }],
+      frameRate: 20,
+    });
+  }
+
   update() {
     if (this.cursors.up.isDown) {
       this.player.anims.play('move');
+      this.events.emit('updateSpeed', this.playerSpeed);
+
       if (this.ship.speed.maxSpeed >= this.playerSpeed) {
         this.playerSpeed += this.ship.speed.acceleration;
       } else {
@@ -151,6 +142,7 @@ export default class BelowSurface extends Phaser.Scene {
     }
 
     if (this.cursors.down.isDown) {
+      this.events.emit('updateSpeed', this.playerSpeed);
       if (this.playerSpeed <= 0) {
         this.playerSpeed = 0;
         this.player.anims.play('stop');

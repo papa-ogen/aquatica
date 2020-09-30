@@ -20,12 +20,11 @@ class Game extends Phaser.Game {
       width: window.innerWidth,
       height: window.innerHeight,
       renderer: Phaser.WEBGL_MULTI,
-      antialias: true,
-      multiTexture: true,
       enableDebug: process.env.NODE_ENV === 'development',
+      pixelArt: true,
       physics: {
         default: 'arcade',
-        arcade: { debug: false },
+        arcade: { debug: true },
       },
     });
 
