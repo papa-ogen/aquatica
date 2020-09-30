@@ -40,7 +40,7 @@ export default class BelowSurface extends Phaser.Scene {
     const particles = this.add.particles('bubble');
 
     const emitter = particles.createEmitter({
-      speed: 100,
+      speed: 25,
       scale: { start: 0.5, end: 0 },
       blendMode: 'ADD',
     });
@@ -49,11 +49,9 @@ export default class BelowSurface extends Phaser.Scene {
     //   .setOrigin(0.5);
     // this.shadow.alpha = 0.3;
 
-    const pic = this.add.image(this.cameras.main.width, this.cameras.main.height, 'shark-bg');
-
-    this.player = this.physics.add.sprite(100, 450, 'sub')
+    this.player = this.physics.add.sprite(150, 150, 'sub')
       .setScale(0.5)
-      .setOrigin(0.5, 0.5)
+      .setOrigin(0.5)
       .setBounce(1, 1)
       .setCollideWorldBounds(true);
 
@@ -77,14 +75,7 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.hudScene.display();
 
-    this.spotlight = this.make.sprite({
-      x: 400,
-      y: 300,
-      key: 'mask',
-      add: false,
-    });
-
-    pic.mask = new Phaser.Display.Masks.BitmapMask(this, this.spotlight);
+    this.addMask();
   }
 
   createMap() {
@@ -114,7 +105,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.camera = this.cameras.main;
-    this.camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    // this.camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     this.cameras.main.startFollow(this.player);
 
@@ -126,6 +117,27 @@ export default class BelowSurface extends Phaser.Scene {
       down: this.cursors.down,
       speed: 0.5,
     });
+  }
+
+  addMask() {
+    this.spotlight = this.make.sprite({
+      x: 400,
+      y: 300,
+      key: 'mask',
+      add: false,
+    });
+
+    const rt = this.add.renderTexture(0, 0, 2000, 2000); // TODO: Fix size to reflect camera or game
+    rt.fill(0x023c4f, 0.9);
+
+    const scaleX = this.cameras.main.width / rt.width;
+    const scaleY = this.cameras.main.height / rt.height;
+    const scale = Math.max(scaleX, scaleY);
+    rt.setScale(scale).setScrollFactor(0);
+
+    const mask = rt.createBitmapMask(this.spotlight);
+    mask.invertAlpha = true;
+    rt.setMask(mask);
   }
 
   update() {
