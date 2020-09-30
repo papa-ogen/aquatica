@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import throttle from 'lodash.throttle';
 
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
@@ -11,6 +10,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.playerSpeed = 0;
     this.playerMaxSpeed = 50;
     this.cursors = null;
+    this.spotlight = null;
   }
 
   init(config) {
@@ -22,8 +22,8 @@ export default class BelowSurface extends Phaser.Scene {
 
   create() {
     this.cameras.main.setBackgroundColor(0xeedf6a);
-
     this.createMap();
+    this.createCursor();
 
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
@@ -49,8 +49,10 @@ export default class BelowSurface extends Phaser.Scene {
     //   .setOrigin(0.5);
     // this.shadow.alpha = 0.3;
 
+    const pic = this.add.image(this.cameras.main.width, this.cameras.main.height, 'shark-bg');
+
     this.player = this.physics.add.sprite(100, 450, 'sub')
-      // .setScale(0.5)
+      .setScale(0.5)
       .setOrigin(0.5, 0.5)
       .setBounce(1, 1)
       .setCollideWorldBounds(true);
@@ -67,8 +69,6 @@ export default class BelowSurface extends Phaser.Scene {
       frameRate: 20,
     });
 
-    this.cursors = this.input.keyboard.createCursorKeys();
-
     this.setCollisions();
 
     emitter.startFollow(this.player);
@@ -76,6 +76,15 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCameraControls();
 
     this.hudScene.display();
+
+    this.spotlight = this.make.sprite({
+      x: 400,
+      y: 300,
+      key: 'mask',
+      add: false,
+    });
+
+    pic.mask = new Phaser.Display.Masks.BitmapMask(this, this.spotlight);
   }
 
   createMap() {
@@ -88,6 +97,13 @@ export default class BelowSurface extends Phaser.Scene {
 
     // this.startArea1 = this.map.findObject('objects', (obj) => obj.name === 'Start Area 1');
     // this.startArea2 = this.map.findObject('objects', (obj) => obj.name === 'Start Area 2');
+  }
+
+  createCursor() {
+    this.cursor = this.add.image(32, 32, 'cursor');
+    this.cursor.setScale(0.5);
+    this.cursor.setOrigin(0);
+    this.cursor.alpha = 0;
   }
 
   setCollisions() {
@@ -143,5 +159,8 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.physics.velocityFromAngle(this.player.angle, this.playerSpeed, this.player.body.velocity);
     // this.physics.velocityFromAngle(this.shadow.angle, this.playerSpeed, this.shadow.body.velocity);
+
+    this.spotlight.x = this.player.x;
+    this.spotlight.y = this.player.y;
   }
 }

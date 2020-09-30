@@ -1,13 +1,8 @@
 import Phaser from 'phaser';
-import throttle from 'lodash.throttle';
-// import Player from '../objects/Player';
 
-/**
- * Setup and display the main game state.
- */
 export default class Main extends Phaser.Scene {
   constructor() {
-    super();
+    super('Main');
   }
 
   init(config) {
@@ -16,8 +11,10 @@ export default class Main extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('BelowSurface', {
-      ship: this.ship,
-    }).start('BelowSurfaceHUD').stop();
+    this.scene
+      .start('BelowSurface', {
+        ship: this.ship,
+      })
+      .start('BelowSurfaceHUD').stop();
   }
 }

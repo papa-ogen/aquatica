@@ -88,23 +88,26 @@ class LoadingScene extends Phaser.Scene {
   }
 
   loadAssets() {
-    this.load.json('shipData', '../src/data/ships.json');
+    this.load.json('shipData', 'src/data/ships.json');
 
-    this.load.tilemapTiledJSON('level1', '../src/data/1.json');
+    this.load.tilemapTiledJSON('level1', 'src/data/1.json');
 
-    this.load.image('cockpit', '../src/assets/images/cockpit.png');
-    this.load.image('cockpit-hover', '../src/assets/images/cockpit-hover.png');
-    this.load.image('layout-square', '../src/assets/images/layout-square.png');
-    this.load.image('layout-square-hover', '../src/assets/images/layout-square-hover.png');
-    this.load.image('main', '../src/assets/images/main.png');
-    this.load.image('main-hover', '../src/assets/images/main-hover.png');
-    this.load.image('background', '../src/assets/images/shark-bg.jpg');
-    this.load.image('desert-tiles', '../src/assets/sprites/desert-tiles.png');
-    this.load.image('red', '../src/assets/images/red.png');
-    this.load.image('bubble', '../src/assets/images/bubble.png');
-    this.load.image('sub-shadow', '../src/assets/images/sub-shadow.png');
+    this.load.image('shark-bg', 'src/assets/images/shark-bg.jpg');
+    this.load.image('cockpit', 'src/assets/images/cockpit.png');
+    this.load.image('cockpit-hover', 'src/assets/images/cockpit-hover.png');
+    this.load.image('layout-square', 'src/assets/images/layout-square.png');
+    this.load.image('layout-square-hover', 'src/assets/images/layout-square-hover.png');
+    this.load.image('main', 'src/assets/images/main.png');
+    this.load.image('main-hover', 'src/assets/images/main-hover.png');
+    this.load.image('background', 'src/assets/images/shark-bg.jpg');
+    this.load.image('desert-tiles', 'src/assets/sprites/desert-tiles.png');
+    this.load.image('red', 'src/assets/images/red.png');
+    this.load.image('bubble', 'src/assets/images/bubble.png');
+    this.load.image('sub-shadow', 'src/assets/images/sub-shadow.png');
+    this.load.image('mask', 'src/assets/images/mask.png');
+    this.load.image('cursor', 'src/assets/images/cursor.png');
     this.load.spritesheet('sub',
-      '../src/assets/sprites/sub-sprite.png',
+      'src/assets/sprites/sub-sprite.png',
       { frameWidth: 210, frameHeight: 132 });
 
   //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
