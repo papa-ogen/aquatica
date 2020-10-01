@@ -1,10 +1,13 @@
+import Phaser from 'phaser';
+
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, cursors, ship, cameras) {
     super(scene, x, y, 'sub');
 
     this.cursors = cursors;
     this.ship = ship;
-    this.currentSpeed = 10;
+    this.currentSpeed = 0;
+    this.targetSpeed = 0;
     this.maxSpeed = this.ship.speed.maxSpeed;
     this.cameras = cameras;
     this.offset = new Phaser.Geom.Point(10, 8);
@@ -33,6 +36,23 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     // this.shadow.alpha = 0.3;
 
     this.addMask();
+
+    this.createAnimations();
+  }
+
+  createAnimations() {
+    this.scene.anims.create({
+      key: 'move',
+      frames: this.scene.anims.generateFrameNumbers('sub', { start: 0, end: 7 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+
+    this.scene.anims.create({
+      key: 'stop',
+      frames: [{ key: 'sub', frame: 0 }],
+      frameRate: 20,
+    });
   }
 
   addMask() {
@@ -41,41 +61,59 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       y: 300,
       key: 'mask',
       add: false,
-    });
+    })
+      .setScale(2);
 
-    const rt = this.scene.add.renderTexture(0, 0, 2000, 2000); // TODO: Fix size to reflect camera or game
+    // TODO: Fix size to reflect camera or game
+    const rt = this.scene.add.renderTexture(0, 0, 2000, 2000);
     rt.fill(0x023c4f, 0.9);
 
     const scaleX = this.cameras.main.width / rt.width;
     const scaleY = this.cameras.main.height / rt.height;
     const scale = Math.max(scaleX, scaleY);
+
     rt.setScale(scale).setScrollFactor(0);
 
     const mask = rt.createBitmapMask(this.spotlight);
+
     mask.invertAlpha = true;
+
     rt.setMask(mask);
   }
 
   update() {
-    if (this.cursors.up.isDown) {
+    if (this.currentSpeed > 0) {
       this.anims.play('move');
-      this.scene.events.emit('updateSpeed', this.currentSpeed);
+    } else {
+      this.anims.play('stop');
+    }
 
-      if (this.ship.speed.maxSpeed >= this.currentSpeed) {
-        this.currentSpeed += this.ship.speed.acceleration;
-      } else {
-        this.currentSpeed = this.ship.speed.maxSpeed;
+    if (this.cursors.up.isDown) {
+      this.targetSpeed += 1;
+
+      if (this.targetSpeed >= this.ship.speed.maxSpeed) {
+        this.targetSpeed = this.ship.speed.maxSpeed;
       }
+
+      this.scene.events.emit('updateTargetSpeed', this.targetSpeed);
     }
 
     if (this.cursors.down.isDown) {
-      this.scene.events.emit('updateSpeed', this.currentSpeed);
-      if (this.currentSpeed <= 0) {
-        this.currentSpeed = 0;
-        this.anims.play('stop');
-      } else {
-        this.currentSpeed -= this.ship.speed.deceleration;
+      this.targetSpeed -= 1;
+
+      if (this.targetSpeed <= 0) {
+        this.targetSpeed = 0;
       }
+
+      this.scene.events.emit('updateTargetSpeed', this.targetSpeed);
+    }
+
+    if (this.currentSpeed < this.targetSpeed) {
+      this.currentSpeed += this.ship.speed.acceleration;
+      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+    } else if (this.currentSpeed > this.targetSpeed) {
+      this.currentSpeed -= this.ship.speed.deceleration;
+      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
     }
 
     if (this.cursors.left.isDown && this.currentSpeed > 0) {
@@ -89,7 +127,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     }
 
     this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
-    // this.physics.velocityFromAngle(this.shadow.angle, this.playerSpeed, this.shadow.body.velocity);
+    // this.physics.velocityFromAngle(this.shadow.angle,
+    // this.playerSpeed, this.shadow.body.velocity);
 
     this.spotlight.x = this.x;
     this.spotlight.y = this.y;

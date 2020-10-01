@@ -21,7 +21,6 @@ export default class BelowSurface extends Phaser.Scene {
     this.createMap();
     this.createCursor();
     this.createKeyboardEvents();
-    this.createAnimations();
     this.createCameraControls();
 
     this.player = new Submarine(this, 50, 50, this.cursors, this.ship, this.cameras);
@@ -79,23 +78,6 @@ export default class BelowSurface extends Phaser.Scene {
     const SpaceKey = this.input.keyboard.addKey('Space');
     SpaceKey.on('down', () => {
       this.scene.pause();
-      // this.scene.launch(SCENES.GAME_OPTIONS)
-      // this.gameState = GAME_STATE.PAUSED
-    });
-  }
-
-  createAnimations() {
-    this.anims.create({
-      key: 'move',
-      frames: this.anims.generateFrameNumbers('sub', { start: 0, end: 7 }),
-      frameRate: 10,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: 'stop',
-      frames: [{ key: 'sub', frame: 0 }],
-      frameRate: 20,
     });
   }
 

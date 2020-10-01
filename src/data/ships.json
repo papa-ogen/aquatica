@@ -15,8 +15,8 @@
       "waste": 10
     },
     "speed": {
-      "acceleration": 0.15,
-      "deceleration": 0.1,
+      "acceleration": 0.08,
+      "deceleration": 0.05,
       "maxSpeed": 30,
       "effectiveSpeed": 20
     },

@@ -4,7 +4,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   constructor() {
     super('BelowSurfaceHUD');
 
-    this.playerText = null;
+    this.currentSpeed = null;
+    this.targetSpeed = null;
   }
 
   init() {
@@ -14,7 +15,11 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   create() {
     // this.setupEvents();
 
-    this.playerText = this.add.text(10, 150, 'Speed: 0', {
+    this.currentSpeed = this.add.text(10, 120, 'Current Speed: 0', {
+      fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
+    });
+
+    this.targetSpeed = this.add.text(10, 150, 'Target Speed: 0', {
       fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
     });
 
@@ -32,14 +37,22 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   setupEvents() {
-    this.gameScene.events.on('updateSpeed', (speed) => {
-      this.playerText = speed;
+    this.gameScene.events.on('updateCurrentSpeed', (currentSpeed) => {
+      this.currentSpeed = currentSpeed;
+    });
+
+    this.gameScene.events.on('updateTargetSpeed', (targetSpeed) => {
+      this.targetSpeed = targetSpeed;
     });
   }
 
   update() {
-    this.gameScene.events.once('updateSpeed', (speed) => {
-      this.playerText.setText(`Speed: ${speed}`);
+    this.gameScene.events.once('updateCurrentSpeed', (currentSpeed) => {
+      this.currentSpeed.setText(`Current Speed: ${parseInt(currentSpeed, 10)}`);
+    });
+
+    this.gameScene.events.on('updateTargetSpeed', (targetSpeed) => {
+      this.targetSpeed.setText(`Target Speed: ${targetSpeed}`);
     });
   }
 }

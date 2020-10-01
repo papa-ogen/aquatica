@@ -1,10 +1,4 @@
-http://localhost:1234
-
-Optimization
-- https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas
-- https://www.html5rocks.com/en/tutorials/canvas/performance/#toc-ref
-- https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/
-- put background in div element instead of drawing on canvas
+http://localhost:8080
 
 // Level
 - [x] Switch between levels
@@ -36,7 +30,7 @@ Optimization
 // Canvas
 - [x] Implement ui canvas
 - [x] Bg canvas should not update on every frame
-- [ ] Load sprites
+- [x] Load sprites
 - [ ] Animate sprites - https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations
 - [ ] Transitions
 
@@ -44,7 +38,7 @@ Optimization
 - [ ] Day and night cycle
 
 // Add filter to below surface scene
-- [ ] https://rexrainbow.github.io/phaser3-rex-notes/docs/site/shader-hsladjust/
+- [x] https://rexrainbow.github.io/phaser3-rex-notes/docs/site/shader-hsladjust/
 
 // How to fix body rotation. Change to matter?
 - https://phaser.io/examples/v3/view/game-objects/container/matter-physics-body-test
