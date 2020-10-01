@@ -22,14 +22,14 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   create() {
-    this.player = new Submarine(this, 50, 50);
-
     this.cameras.main.setBackgroundColor(0xeedf6a);
     this.createMap();
     this.createCursor();
     this.createKeyboardEvents();
     this.createAnimations();
     this.createCameraControls();
+
+    this.player = new Submarine(this, 50, 50, this.cursors, this.ship);
 
     this.setCollisions();
 
@@ -130,16 +130,7 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   update() {
-    if (this.cursors.up.isDown) {
-      this.player.anims.play('move');
-      this.events.emit('updateSpeed', this.playerSpeed);
-
-      if (this.ship.speed.maxSpeed >= this.playerSpeed) {
-        this.playerSpeed += this.ship.speed.acceleration;
-      } else {
-        this.playerSpeed = this.playerMaxSpeed;
-      }
-    }
+    this.player.update();
 
     if (this.cursors.down.isDown) {
       this.events.emit('updateSpeed', this.playerSpeed);

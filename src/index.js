@@ -24,7 +24,7 @@ class Game extends Phaser.Game {
       pixelArt: true,
       physics: {
         default: 'arcade',
-        arcade: { debug: true },
+        arcade: { debug: false },
       },
     });
 
