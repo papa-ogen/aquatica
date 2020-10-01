@@ -17,8 +17,8 @@
     "speed": {
       "acceleration": 0.15,
       "deceleration": 0.1,
-      "maxSpeed": 10,
-      "effectiveSpeed": 3
+      "maxSpeed": 30,
+      "effectiveSpeed": 20
     },
     "width": 4,
     "height": 7,

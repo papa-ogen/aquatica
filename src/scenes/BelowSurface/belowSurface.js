@@ -6,12 +6,7 @@ export default class BelowSurface extends Phaser.Scene {
     super('BelowSurface');
     this.player = null;
     this.ship = null;
-    this.shadow = null;
-    this.offset = new Phaser.Geom.Point(10, 8);
-    this.playerSpeed = 0;
-    this.playerMaxSpeed = 50;
     this.cursors = null;
-    this.spotlight = null;
   }
 
   init(config) {
@@ -29,15 +24,11 @@ export default class BelowSurface extends Phaser.Scene {
     this.createAnimations();
     this.createCameraControls();
 
-    this.player = new Submarine(this, 50, 50, this.cursors, this.ship);
+    this.player = new Submarine(this, 50, 50, this.cursors, this.ship, this.cameras);
 
     this.setCollisions();
 
     this.add.existing(this.player);
-
-    this.addMask();
-
-    this.cameras.main.startFollow(this.player);
   }
 
   createMap() {
@@ -79,27 +70,6 @@ export default class BelowSurface extends Phaser.Scene {
     });
   }
 
-  addMask() {
-    this.spotlight = this.make.sprite({
-      x: 400,
-      y: 300,
-      key: 'mask',
-      add: false,
-    });
-
-    const rt = this.add.renderTexture(0, 0, 2000, 2000); // TODO: Fix size to reflect camera or game
-    rt.fill(0x023c4f, 0.9);
-
-    const scaleX = this.cameras.main.width / rt.width;
-    const scaleY = this.cameras.main.height / rt.height;
-    const scale = Math.max(scaleX, scaleY);
-    rt.setScale(scale).setScrollFactor(0);
-
-    const mask = rt.createBitmapMask(this.spotlight);
-    mask.invertAlpha = true;
-    rt.setMask(mask);
-  }
-
   createKeyboardEvents() {
     const EscKey = this.input.keyboard.addKey('Esc');
     EscKey.on('down', () => {
@@ -131,31 +101,5 @@ export default class BelowSurface extends Phaser.Scene {
 
   update() {
     this.player.update();
-
-    if (this.cursors.down.isDown) {
-      this.events.emit('updateSpeed', this.playerSpeed);
-      if (this.playerSpeed <= 0) {
-        this.playerSpeed = 0;
-        this.player.anims.play('stop');
-      } else {
-        this.playerSpeed -= this.ship.speed.deceleration;
-      }
-    }
-
-    if (this.cursors.left.isDown && this.playerSpeed > 0) {
-      this.player.angle -= 0.5;
-      // this.shadow.angle -= 0.5;
-    }
-
-    if (this.cursors.right.isDown && this.playerSpeed > 0) {
-      this.player.angle += 0.5;
-      // this.shadow.angle += 0.5;
-    }
-
-    this.physics.velocityFromAngle(this.player.angle, this.playerSpeed, this.player.body.velocity);
-    // this.physics.velocityFromAngle(this.shadow.angle, this.playerSpeed, this.shadow.body.velocity);
-
-    this.spotlight.x = this.player.x;
-    this.spotlight.y = this.player.y;
   }
 }
