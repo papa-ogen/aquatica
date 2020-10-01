@@ -18,7 +18,7 @@ http://localhost:8080
 // Player
 - [x] Money, resources etc
 - [ ] Dive
-- [ ] Acceleration on speed
+- [x] Acceleration on speed
 - [ ] Acceleration on turn (based on speed, type of sub etc)
 
 // Trading
@@ -26,6 +26,9 @@ http://localhost:8080
 
 // Hunt/gather
 - [ ] Send diving bell, divers, sub to get resources
+- [ ] Shoot Torpedo
+- [ ] Lay mines
+- [ ] Plasma gun?
 
 // Canvas
 - [x] Implement ui canvas
@@ -36,6 +39,7 @@ http://localhost:8080
 
 // General
 - [ ] Day and night cycle
+- [ ] Font
 
 // Add filter to below surface scene
 - [x] https://rexrainbow.github.io/phaser3-rex-notes/docs/site/shader-hsladjust/

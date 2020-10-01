@@ -14,8 +14,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     scene.physics.world.enable(this);
 
-    this.setCollideWorldBounds(true);
-
     this.setScale(0.5);
     this.setBounce(1, 1);
 
@@ -38,6 +36,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.addMask();
 
     this.createAnimations();
+    // this.setCollideWorldBounds(true); // TODO: fix
   }
 
   createAnimations() {
