@@ -111,7 +111,7 @@ class LoadingScene extends Phaser.Scene {
       { frameWidth: 210, frameHeight: 132 });
     this.load.spritesheet('fish',
       'src/assets/sprites/fish-sprite.png',
-      { frameWidth: 32, frameHeight: 32 });
+      { frameWidth: 32, frameHeight: 32, endFrame: 18 });
 
   //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
   }

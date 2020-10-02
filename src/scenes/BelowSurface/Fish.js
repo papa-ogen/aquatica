@@ -4,24 +4,39 @@ class Fish extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'fish');
 
-    this.currentSpeed = 0;
+    this.currentSpeed = Phaser.Math.Between(20, 50);
     this.targetSpeed = 0;
     this.maxSpeed = 10;
+    this.distance = 0;
 
     scene.physics.world.enable(this);
 
-    this.createAnimations();
+    const count = Phaser.Math.Between(0, 6);
+    const angle = Phaser.Math.Angle.RandomDegrees();
 
-    this.play('move-fish');
+    this.angle = angle;
+
+    this.play(`move-fish-${count}`);
   }
 
-  createAnimations() {
-    this.scene.anims.create({
-      key: 'move-fish',
-      frames: this.scene.anims.generateFrameNumbers('fish', { start: 0, end: 2 }),
-      frameRate: 10,
-      repeat: -1,
-    });
+  update() {
+    this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
+    this.distance += 1;
+
+    if (this.distance === 100) {
+      this.currentSpeed = Phaser.Math.Between(this.currentSpeed - 10, this.currentSpeed + 10);
+
+      const angle = Phaser.Math.Angle.RandomDegrees();
+
+      this.scene.tweens.add({
+        targets: this,
+        angle,
+        duration: 1000,
+        ease: 'Sine.easeInOut',
+      });
+
+      this.distance = 0;
+    }
   }
 }
 

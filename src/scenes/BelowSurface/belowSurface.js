@@ -1,13 +1,12 @@
 import Phaser from 'phaser';
 import Submarine from './Submarine';
 import Fish from './Fish';
-import Fish2 from './Fish2';
 
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
     super('BelowSurface');
     this.player = null;
-    this.fish = null;
+    this.fishes = null;
     this.ship = null;
     this.cursors = null;
   }
@@ -25,16 +24,46 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCursor();
     this.createKeyboardEvents();
     this.createCameraControls();
+    this.createAnimations();
+    this.createFishes();
 
-    this.fish = new Fish(this, 250, 250);
-    this.fish2 = new Fish2(this, 0, 0);
+    this.fishes.getChildren().forEach((fish) => {
+      this.add.existing(fish);
+    });
+
     this.player = new Submarine(this, 50, 50, this.cursors, this.ship, this.cameras);
+    this.add.existing(this.player);
 
     this.setCollisions();
+  }
 
-    this.add.existing(this.fish);
-    this.add.existing(this.fish2);
-    this.add.existing(this.player);
+  createFishes() {
+    this.fishes = this.add.group();
+
+    for (let i = 0; i < 100; i += 1) {
+      const fish = new Fish(this, this.game.config.width / 2, this.game.config.height / 2, 'fish');
+      this.fishes.add(fish);
+    }
+  }
+
+  createAnimations() {
+    const fishes = [
+      [0, 2],
+      [3, 5],
+      [6, 7],
+      [8, 10],
+      [11, 13],
+      [14, 15],
+    ];
+
+    fishes.forEach((fish, i) => {
+      this.anims.create({
+        key: `move-fish-${i}`,
+        frames: this.anims.generateFrameNumbers('fish', { start: fish[0], end: fish[1] }),
+        frameRate: 10,
+        repeat: -1,
+      });
+    });
   }
 
   createMap() {
@@ -89,6 +118,10 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   update() {
+    this.fishes.getChildren().forEach((fish) => {
+      fish.update();
+    });
+
     this.player.update();
   }
 }
