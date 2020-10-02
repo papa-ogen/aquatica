@@ -6,6 +6,8 @@ http://localhost:8080
 // Create background Class
 - [ ] Add fish
 - [ ] Add plants
+- [ ] Currents (strömmar)
+- [ ] Cave?
 
 // Ship 
 - [x] Ship type (layout, loadout, cost, hull, weapons)
@@ -20,6 +22,8 @@ http://localhost:8080
 - [ ] Dive
 - [x] Acceleration on speed
 - [ ] Acceleration on turn (based on speed, type of sub etc)
+- [ ] Submarine shadow (blur more depending on depth etc)
+- [ ] Submarine set depth
 
 // Trading
 - [ ] Visit city (atoll, oil rig)
