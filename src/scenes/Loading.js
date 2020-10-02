@@ -58,7 +58,7 @@ class LoadingScene extends Phaser.Scene {
 
     // update progress bar
     this.load.on('progress', (value) => {
-      percenText.setText(`${parseInt(value * 100)}%`);
+      percenText.setText(`${parseInt(value * 100, 10)}%`);
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(width / 2 - 150, height / 2 + 40, 300 * value, 30);
@@ -109,6 +109,9 @@ class LoadingScene extends Phaser.Scene {
     this.load.spritesheet('sub',
       'src/assets/sprites/sub-sprite.png',
       { frameWidth: 210, frameHeight: 132 });
+    this.load.spritesheet('fish',
+      'src/assets/sprites/fish-sprite.png',
+      { frameWidth: 32, frameHeight: 32 });
 
   //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
   }

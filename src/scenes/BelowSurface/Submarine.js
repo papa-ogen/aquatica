@@ -25,6 +25,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       blendMode: 'ADD',
     });
 
+    // TODO: offset by Submarine (this) angle (this, x, y)
     emitter.startFollow(this);
 
     this.cameras.main.startFollow(this);
@@ -37,6 +38,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.createAnimations();
     // this.setCollideWorldBounds(true); // TODO: fix
+
+    this.play('move');
   }
 
   createAnimations() {
@@ -50,7 +53,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.scene.anims.create({
       key: 'stop',
       frames: [{ key: 'sub', frame: 0 }],
-      frameRate: 20,
+      frameRate: 10,
     });
   }
 
@@ -81,11 +84,11 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    if (this.currentSpeed > 0) {
-      this.anims.play('move');
-    } else {
-      this.anims.play('stop');
-    }
+    // if (this.currentSpeed > 0) {
+    //   this.anims.play('move');
+    // } else {
+    //   this.anims.play('stop');
+    // }
 
     if (this.cursors.up.isDown) {
       this.targetSpeed += 1;
@@ -107,21 +110,25 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       this.scene.events.emit('updateTargetSpeed', this.targetSpeed);
     }
 
-    if (this.currentSpeed < this.targetSpeed) {
-      this.currentSpeed += this.ship.speed.acceleration;
-      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+    if (this.currentSpeed < 0) {
+      this.currentSpeed = 0;
     } else if (this.currentSpeed > this.targetSpeed) {
       this.currentSpeed -= this.ship.speed.deceleration;
+      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+    } else if (this.currentSpeed < this.targetSpeed) {
+      this.currentSpeed += this.ship.speed.acceleration;
       this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
     }
 
     if (this.cursors.left.isDown && this.currentSpeed > 0) {
-      this.angle -= 0.5;
+      const angle = this.currentSpeed / 100;
+      this.angle -= angle;
       // this.shadow.angle -= 0.5;
     }
 
     if (this.cursors.right.isDown && this.currentSpeed > 0) {
-      this.angle += 0.5;
+      const angle = this.currentSpeed / 100;
+      this.angle += angle;
       // this.shadow.angle += 0.5;
     }
 

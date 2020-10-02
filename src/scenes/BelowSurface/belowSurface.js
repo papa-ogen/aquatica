@@ -1,10 +1,13 @@
 import Phaser from 'phaser';
 import Submarine from './Submarine';
+import Fish from './Fish';
+import Fish2 from './Fish2';
 
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
     super('BelowSurface');
     this.player = null;
+    this.fish = null;
     this.ship = null;
     this.cursors = null;
   }
@@ -23,10 +26,14 @@ export default class BelowSurface extends Phaser.Scene {
     this.createKeyboardEvents();
     this.createCameraControls();
 
+    this.fish = new Fish(this, 250, 250);
+    this.fish2 = new Fish2(this, 0, 0);
     this.player = new Submarine(this, 50, 50, this.cursors, this.ship, this.cameras);
 
     this.setCollisions();
 
+    this.add.existing(this.fish);
+    this.add.existing(this.fish2);
     this.add.existing(this.player);
   }
 
