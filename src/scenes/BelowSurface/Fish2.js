@@ -12,12 +12,12 @@ class Fish extends Phaser.Physics.Arcade.Sprite {
 
     this.createAnimations();
 
-    this.play('move-fish');
+    this.play('move-fish2');
   }
 
   createAnimations() {
     this.scene.anims.create({
-      key: 'move-fish',
+      key: 'move-fish2',
       frames: this.scene.anims.generateFrameNumbers('fish', { start: 3, end: 5 }),
       frameRate: 10,
       repeat: -1,
