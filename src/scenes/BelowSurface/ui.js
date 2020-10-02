@@ -48,7 +48,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
   update() {
     this.gameScene.events.once('updateCurrentSpeed', (currentSpeed) => {
-      this.currentSpeed.setText(`Current Speed: ${parseInt(currentSpeed, 10)}`);
+      this.currentSpeed.setText(`Current Speed: ${Math.round(currentSpeed)}`);
     });
 
     this.gameScene.events.on('updateTargetSpeed', (targetSpeed) => {
