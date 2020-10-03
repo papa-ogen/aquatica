@@ -16,6 +16,9 @@ class Fish extends Phaser.Physics.Arcade.Sprite {
 
     this.angle = angle;
 
+    const scale = Phaser.Math.Between(0.1, 1);
+    this.setScale(scale);
+
     this.play(`move-fish-${count}`);
   }
 

@@ -13,6 +13,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.acceleration = acceleration;
     this.deceleration = deceleration;
 
+    this.targetCourse = this.angle;
+
     this.currentDepth = scene.sceneSettings.startingPlayerDepth;
 
     this.offset = new Phaser.Geom.Point(10, 8);

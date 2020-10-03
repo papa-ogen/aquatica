@@ -12,7 +12,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       },
       {
         name: 'throttle',
-        text: 'Throttle',
+        text: 'RPM',
         value: 0,
       },
       {
@@ -71,7 +71,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     this.gameScene.events.once('updateThrottle', (throttle) => {
       const obj = this.subData.find((data) => data.name === 'throttle');
-      obj.t.setText(`${obj.text}: ${Math.round(throttle)}`);
+      obj.t.setText(`${obj.text}: ${Math.round(throttle) * 100 / 2}`);
     });
 
     this.gameScene.events.once('updateMaxDepth', (maxDepth) => {
