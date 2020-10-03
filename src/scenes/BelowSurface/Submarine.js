@@ -1,15 +1,20 @@
 import Phaser from 'phaser';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, cursors, ship, cameras) {
+  constructor(scene, x, y) {
     super(scene, x, y, 'sub');
 
-    this.cursors = cursors;
-    this.ship = ship;
-    this.currentSpeed = 0;
-    this.targetSpeed = 0;
-    this.maxSpeed = this.ship.speed.maxSpeed;
-    this.cameras = cameras;
+    const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
+    this.cursors = scene.cursors;
+    this.cameras = scene.cameras;
+    this.currentSpeed = 30;
+    this.throttle = 30;
+    this.maxSpeed = maxSpeed;
+    this.acceleration = acceleration;
+    this.deceleration = deceleration;
+
+    this.currentDepth = scene.sceneSettings.startingPlayerDepth;
+
     this.offset = new Phaser.Geom.Point(10, 8);
 
     scene.physics.world.enable(this);
@@ -34,12 +39,42 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     //   .setOrigin(0.5);
     // this.shadow.alpha = 0.3;
 
+    this.createRt();
     this.addMask();
 
     this.createAnimations();
     // this.setCollideWorldBounds(true); // TODO: fix
 
     this.play('move');
+
+    this.verre = 0;
+
+    this.depthKeys();
+  }
+
+  depthKeys() {
+    // Accend
+    this.scene.input.keyboard.addKey('w')
+      .on('down', () => {
+        this.currentDepth -= 1;
+        this.scene.events.emit('updateCurrentDepth', this.currentDepth);
+
+        const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
+        this.setScale(this.scale - scale);
+      });
+
+    // Dive
+    this.scene.input.keyboard.addKey('s')
+      .on('down', () => {
+        this.currentDepth += 1;
+
+        if (this.currentDepth <= this.scene.sceneSettings.maxDepth) {
+          this.scene.events.emit('updateCurrentDepth', this.currentDepth);
+
+          const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
+          this.setScale(this.scale + scale);
+        }
+      });
   }
 
   createAnimations() {
@@ -57,6 +92,12 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
+  createRt(opacity = 0.9) {
+    // TODO: Fix size to reflect camera or game
+    this.rt = this.scene.add.renderTexture(0, 0, 2000, 2000)
+      .fill(0x023c4f, opacity);
+  }
+
   addMask() {
     this.spotlight = this.scene.make.sprite({
       x: 400,
@@ -66,21 +107,30 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     })
       .setScale(2);
 
-    // TODO: Fix size to reflect camera or game
-    const rt = this.scene.add.renderTexture(0, 0, 2000, 2000);
-    rt.fill(0x023c4f, 0.9);
-
-    const scaleX = this.cameras.main.width / rt.width;
-    const scaleY = this.cameras.main.height / rt.height;
+    const scaleX = this.cameras.main.width / this.rt.width;
+    const scaleY = this.cameras.main.height / this.rt.height;
     const scale = Math.max(scaleX, scaleY);
 
-    rt.setScale(scale).setScrollFactor(0);
+    this.rt.setScale(scale).setScrollFactor(0);
 
-    const mask = rt.createBitmapMask(this.spotlight);
+    const mask = this.rt.createBitmapMask(this.spotlight);
 
     mask.invertAlpha = true;
 
-    rt.setMask(mask);
+    this.rt.setMask(mask);
+  }
+
+  duskTillDawn(time) {
+    if (this.verre === 12) {
+      const opacity = (Math.sin(time / 100000) + 1) / 2;
+      this.rt.destroy();
+
+      this.createRt(opacity);
+      this.addMask();
+
+      this.verre = 0;
+    }
+    this.verre += 1;
   }
 
   update() {
@@ -91,33 +141,23 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     // }
 
     if (this.cursors.up.isDown) {
-      this.targetSpeed += 1;
+      this.throttle += 1;
 
-      if (this.targetSpeed >= this.ship.speed.maxSpeed) {
-        this.targetSpeed = this.ship.speed.maxSpeed;
+      if (this.throttle >= this.maxSpeed) {
+        this.throttle = this.maxSpeed;
       }
 
-      this.scene.events.emit('updateTargetSpeed', this.targetSpeed);
+      this.scene.events.emit('updateThrottle', this.throttle);
     }
 
     if (this.cursors.down.isDown) {
-      this.targetSpeed -= 1;
+      this.throttle -= 1;
 
-      if (this.targetSpeed <= 0) {
-        this.targetSpeed = 0;
+      if (this.throttle <= 0) {
+        this.throttle = 0;
       }
 
-      this.scene.events.emit('updateTargetSpeed', this.targetSpeed);
-    }
-
-    if (this.currentSpeed < 0) {
-      this.currentSpeed = 0;
-    } else if (this.currentSpeed > this.targetSpeed) {
-      this.currentSpeed -= this.ship.speed.deceleration;
-      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
-    } else if (this.currentSpeed < this.targetSpeed) {
-      this.currentSpeed += this.ship.speed.acceleration;
-      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+      this.scene.events.emit('updateThrottle', this.throttle);
     }
 
     if (this.cursors.left.isDown && this.currentSpeed > 0) {
@@ -132,12 +172,27 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       // this.shadow.angle += 0.5;
     }
 
+    if (this.currentSpeed < 0) {
+      this.currentSpeed = 0;
+    } else if (this.currentSpeed > this.throttle) {
+      this.currentSpeed -= this.deceleration;
+      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+    } else if (this.currentSpeed < this.throttle) {
+      this.currentSpeed += this.acceleration;
+      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+    }
+
     this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
     // this.physics.velocityFromAngle(this.shadow.angle,
     // this.playerSpeed, this.shadow.body.velocity);
 
     this.spotlight.x = this.x;
     this.spotlight.y = this.y;
+
+    if (this.currentDepth >= this.scene.sceneSettings.maxDepth) {
+      console.error('Boom you dead!');
+      this.currentSpeed = 0;
+    }
   }
 }
 

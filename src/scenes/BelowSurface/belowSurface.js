@@ -5,21 +5,27 @@ import Fish from './Fish';
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
     super('BelowSurface');
-    this.player = null;
     this.fishes = null;
-    this.ship = null;
     this.cursors = null;
+    this.sceneSettings = {
+      player: null,
+      ship: null,
+      maxDepth: 100, // TODO: Should come from map meta data
+      defaultDepthSet: false,
+      startingPlayerDepth: 80,
+    };
   }
 
   init(config) {
     const { ship } = config;
-    this.ship = ship;
+    this.sceneSettings.ship = ship;
 
     this.hudScene = this.scene.get('BelowSurfaceHUD');
   }
 
   create() {
     this.cameras.main.setBackgroundColor(0xeedf6a);
+
     this.createMap();
     this.createCursor();
     this.createKeyboardEvents();
@@ -31,8 +37,8 @@ export default class BelowSurface extends Phaser.Scene {
       this.add.existing(fish);
     });
 
-    this.player = new Submarine(this, 50, 50, this.cursors, this.ship, this.cameras);
-    this.add.existing(this.player);
+    this.sceneSettings.player = new Submarine(this, 150, 150);
+    this.add.existing(this.sceneSettings.player);
 
     this.setCollisions();
   }
@@ -86,7 +92,7 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   setCollisions() {
-    this.physics.add.collider(this.player, this.obstaclesLayer);
+    this.physics.add.collider(this.sceneSettings.player, this.obstaclesLayer);
   }
 
   createCameraControls() {
@@ -117,11 +123,21 @@ export default class BelowSurface extends Phaser.Scene {
     });
   }
 
-  update() {
+  update(time) {
+    const {
+      maxDepth, defaultDepthSet, player, startingPlayerDepth,
+    } = this.sceneSettings;
+
+    if (maxDepth && !defaultDepthSet) {
+      this.events.emit('updateMaxDepth', maxDepth);
+      this.events.emit('updateCurrentDepth', startingPlayerDepth);
+      this.sceneSettings.defaultDepthSet = true;
+    }
+
     this.fishes.getChildren().forEach((fish) => {
       fish.update();
     });
 
-    this.player.update();
+    player.update(time);
   }
 }

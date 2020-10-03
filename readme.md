@@ -4,7 +4,7 @@ http://localhost:8080
 - [x] Switch between levels
 
 // Create background Class
-- [ ] Add fish
+- [x] Add fish
 - [ ] Add plants
 - [ ] Currents (strömmar)
 - [ ] Cave?
@@ -52,6 +52,7 @@ http://localhost:8080
 - https://phaser.io/examples/v3/view/game-objects/container/matter-physics-body-test
 - without matter: https://github.com/ourcade/phaser3-homing-missile-arcade-physics/blob/master/src/main.js
 
+- [ ] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
 
 notes
 https://rexrainbow.github.io/phaser3-rex-notes/docs

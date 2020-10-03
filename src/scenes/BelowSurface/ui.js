@@ -4,8 +4,33 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   constructor() {
     super('BelowSurfaceHUD');
 
-    this.currentSpeed = null;
-    this.targetSpeed = null;
+    this.subData = [
+      {
+        name: 'currentSpeed',
+        text: 'Current Speed',
+        value: 0,
+      },
+      {
+        name: 'throttle',
+        text: 'Throttle',
+        value: 0,
+      },
+      {
+        name: 'maxDepth',
+        text: 'Max Depth',
+        value: 0,
+      },
+      {
+        name: 'currentDepth',
+        text: 'Current Depth',
+        value: 0,
+      },
+      {
+        name: 'targetDepth',
+        text: 'Target Depth',
+        value: 0,
+      },
+    ];
   }
 
   init() {
@@ -13,15 +38,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   create() {
-    // this.setupEvents();
-
-    this.currentSpeed = this.add.text(10, 120, 'Current Speed: 0', {
-      fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
-    });
-
-    this.targetSpeed = this.add.text(10, 150, 'Target Speed: 0', {
-      fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
-    });
+    this.setupEvents();
 
     this.levelText = this.add.text(0, 0, 'Below Surface', {
       fontFamily: 'roboto', fontSize: '26px', fill: '#fff',
@@ -37,22 +54,33 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   setupEvents() {
-    this.gameScene.events.on('updateCurrentSpeed', (currentSpeed) => {
-      this.currentSpeed = currentSpeed;
-    });
-
-    this.gameScene.events.on('updateTargetSpeed', (targetSpeed) => {
-      this.targetSpeed = targetSpeed;
-    });
+    const margin = 20;
+    this.subData = this.subData.map((data, i) => ({
+      ...data,
+      t: this.add.text(10, 120 + (i * margin), `${data.text}: ${data.value}`, {
+        fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
+      }),
+    }));
   }
 
   update() {
     this.gameScene.events.once('updateCurrentSpeed', (currentSpeed) => {
-      this.currentSpeed.setText(`Current Speed: ${Math.round(currentSpeed)}`);
+      const obj = this.subData.find((data) => data.name === 'currentSpeed');
+      obj.t.setText(`${obj.text}: ${Math.round(currentSpeed)}`);
     });
 
-    this.gameScene.events.on('updateTargetSpeed', (targetSpeed) => {
-      this.targetSpeed.setText(`Target Speed: ${targetSpeed}`);
+    this.gameScene.events.once('updateThrottle', (throttle) => {
+      const obj = this.subData.find((data) => data.name === 'throttle');
+      obj.t.setText(`${obj.text}: ${Math.round(throttle)}`);
+    });
+
+    this.gameScene.events.once('updateMaxDepth', (maxDepth) => {
+      const obj = this.subData.find((data) => data.name === 'maxDepth');
+      obj.t.setText(`${obj.text}: -${Math.round(maxDepth)}`);
+    });
+    this.gameScene.events.once('updateCurrentDepth', (currentDepth) => {
+      const obj = this.subData.find((data) => data.name === 'currentDepth');
+      obj.t.setText(`${obj.text}: -${Math.round(currentDepth)}`);
     });
   }
 }
