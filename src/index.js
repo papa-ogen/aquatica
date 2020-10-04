@@ -6,6 +6,7 @@ import Main from './scenes/Main';
 import GameOptions from './scenes/GameOptions';
 import BelowSurface from './scenes/BelowSurface/belowSurface';
 import BelowSurfaceHUD from './scenes/BelowSurface/ui';
+import Test from './scenes/Test';
 
 /**
  * Setup the root class for the whole game.
@@ -36,6 +37,7 @@ class Game extends Phaser.Game {
     this.scene.add('BelowSurface', BelowSurface, false);
     this.scene.add('BelowSurfaceHUD', BelowSurfaceHUD, false);
     this.scene.add('GameOptions', GameOptions, false);
+    this.scene.add('Test', Test, false);
 
     // Kick things off with the boot state.
     this.scene.start('Boot');

@@ -16,5 +16,9 @@ export default class Main extends Phaser.Scene {
         ship: this.ship,
       })
       .start('BelowSurfaceHUD').stop();
+
+    // this.scene.start('Test', {
+    //   ship: this.ship,
+    // });
   }
 }

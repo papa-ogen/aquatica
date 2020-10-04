@@ -105,11 +105,8 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.controls = new Phaser.Cameras.Controls.FixedKeyControl({
       camera: this.camera,
-      left: this.cursors.left,
-      right: this.cursors.right,
-      up: this.cursors.up,
-      down: this.cursors.down,
-      speed: 0.5,
+      zoomIn: this.input.keyboard.addKey('q'),
+      zoomOut: this.input.keyboard.addKey('e'),
     });
   }
 
@@ -133,7 +130,7 @@ export default class BelowSurface extends Phaser.Scene {
     });
   }
 
-  update(time) {
+  update(time, delta) {
     const {
       maxDepth, defaultDepthSet, player, startingPlayerDepth,
     } = this.sceneSettings;
@@ -149,5 +146,7 @@ export default class BelowSurface extends Phaser.Scene {
     });
 
     player.update(time);
+
+    this.controls.update(delta);
   }
 }
