@@ -15,6 +15,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.depth = 1;
 
     this.targetCourse = this.angle;
+    this.currentCourse = this.angle;
 
     this.currentDepth = scene.sceneSettings.startingPlayerDepth;
 
@@ -166,17 +167,20 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (this.cursors.left.isDown && this.currentSpeed > 0) {
-      const angle = this.currentSpeed / 100;
-      this.angle -= angle;
+      // const angle = this.currentSpeed / 100;
+      this.targetCourse -= 1;
+      this.scene.events.emit('updateTargetCourse', this.targetCourse);
       // this.shadow.angle -= 0.5;
     }
 
     if (this.cursors.right.isDown && this.currentSpeed > 0) {
-      const angle = this.currentSpeed / 100;
-      this.angle += angle;
+      // const angle = this.currentSpeed / 100;
+      this.targetCourse += 1;
+      this.scene.events.emit('updateTargetCourse', this.targetCourse);
       // this.shadow.angle += 0.5;
     }
 
+    // Set speed
     if (this.currentSpeed < 0) {
       this.currentSpeed = 0;
     } else if (this.currentSpeed > this.throttle) {
@@ -185,6 +189,19 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     } else if (this.currentSpeed < this.throttle) {
       this.currentSpeed += this.acceleration;
       this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
+    }
+
+    // Set Course
+    if (this.currentCourse !== this.targetCourse) {
+      if (this.currentCourse <= this.targetCourse) {
+        this.angle += 0.1;
+        this.currentCourse = this.angle;
+        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
+      } else if (this.currentCourse >= this.targetCourse) {
+        this.angle -= 0.1;
+        this.currentCourse = this.angle;
+        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
+      }
     }
 
     this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
@@ -197,6 +214,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     if (this.currentDepth >= this.scene.sceneSettings.maxDepth) {
       console.error('Boom you dead!');
       this.currentSpeed = 0;
+      this.scene.pause();
     }
   }
 }

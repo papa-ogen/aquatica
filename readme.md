@@ -19,11 +19,10 @@ http://localhost:8080
 // Player
 - [x] Money, resources etc
 - [ ] Dive
-- [x] Acceleration on speed
-- [ ] Acceleration on turn (based on speed, type of sub etc)
-- [ ] Submarine shadow (blur more depending on depth etc)
 - [ ] Submarine set depth
-- [ ] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
+- [x] Acceleration on speed
+- [ ] Submarine shadow (blur more depending on depth etc)
+- [x] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
 
 // Trading
 - [ ] Visit city (atoll, oil rig)
