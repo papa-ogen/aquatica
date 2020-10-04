@@ -10,7 +10,7 @@ http://localhost:8080
 - [ ] Cave?
 - [x] pause/play
 - [ ] slow/speed up animation based on throttle
-- [ ] generate fish on button click
+- [x] generate fish on button click
 - [ ] add lights on sub
 
 // Ship 

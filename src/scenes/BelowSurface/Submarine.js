@@ -7,11 +7,12 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     this.cursors = scene.cursors;
     this.cameras = scene.cameras;
-    this.currentSpeed = 30;
+    this.currentSpeed = 0;
     this.throttle = 30;
     this.maxSpeed = maxSpeed;
     this.acceleration = acceleration;
     this.deceleration = deceleration;
+    this.depth = 1;
 
     this.targetCourse = this.angle;
 
@@ -97,7 +98,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
   createRt(opacity = 0.9) {
     // TODO: Fix size to reflect camera or game
     this.rt = this.scene.add.renderTexture(0, 0, 2000, 2000)
-      .fill(0x023c4f, opacity);
+      .fill(0x023c4f, opacity)
+      .setDepth(1);
   }
 
   addMask() {
@@ -107,7 +109,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       key: 'mask',
       add: false,
     })
-      .setScale(2);
+      .setScale(2)
+      .setDepth(1);
 
     const scaleX = this.cameras.main.width / this.rt.width;
     const scaleY = this.cameras.main.height / this.rt.height;
