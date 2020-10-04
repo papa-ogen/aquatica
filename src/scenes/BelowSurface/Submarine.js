@@ -96,8 +96,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
   }
 
   createRt(opacity = 0.9) {
-    // TODO: Fix size to reflect camera or game
-    this.rt = this.scene.add.renderTexture(0, 0, 2000, 2000)
+    const { width, height } = this.cameras.main;
+    this.rt = this.scene.add.renderTexture(0, 0, width, height)
       .fill(0x023c4f, opacity)
       .setDepth(1);
   }
