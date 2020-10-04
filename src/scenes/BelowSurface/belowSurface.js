@@ -40,7 +40,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.sceneSettings.player = new Submarine(this, 150, 150);
     this.add.existing(this.sceneSettings.player);
 
-    this.setCollisions();
+    // this.setCollisions();
   }
 
   createFishes() {
@@ -120,6 +120,7 @@ export default class BelowSurface extends Phaser.Scene {
     const SpaceKey = this.input.keyboard.addKey('Space');
     SpaceKey.on('down', () => {
       this.scene.pause();
+      this.scene.launch('GameOptions');
     });
   }
 

@@ -5,17 +5,16 @@ http://localhost:8080
 
 // Create background Class
 - [x] Add fish
-- [ ] Add plants
+- [x] Add plants
 - [ ] Currents (strömmar)
 - [ ] Cave?
+- [x] pause/play
+- [ ] slow/speed up animation based on throttle
+- [ ] generate fish on button click
+- [ ] add lights on sub
 
 // Ship 
 - [x] Ship type (layout, loadout, cost, hull, weapons)
-- [ ] click to add layout
-- [ ] Add room
-- [ ] Remove room
-- [ ] Edit room
-- [ ] Upgrade ship
 
 // Player
 - [x] Money, resources etc
@@ -24,6 +23,7 @@ http://localhost:8080
 - [ ] Acceleration on turn (based on speed, type of sub etc)
 - [ ] Submarine shadow (blur more depending on depth etc)
 - [ ] Submarine set depth
+- [ ] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
 
 // Trading
 - [ ] Visit city (atoll, oil rig)
@@ -52,7 +52,6 @@ http://localhost:8080
 - https://phaser.io/examples/v3/view/game-objects/container/matter-physics-body-test
 - without matter: https://github.com/ourcade/phaser3-homing-missile-arcade-physics/blob/master/src/main.js
 
-- [ ] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
-
 notes
 https://rexrainbow.github.io/phaser3-rex-notes/docs
+
