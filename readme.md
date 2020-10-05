@@ -1,19 +1,14 @@
 http://localhost:8080
 
-// Level
 - [x] Switch between levels
-
-// Create background Class
 - [x] Add fish
 - [x] Add plants
-- [ ] Currents (strömmar)
+- [ ] Currents (strömmar) (angle, velocity)
 - [ ] Cave?
 - [x] pause/play
 - [ ] slow/speed up animation based on throttle
 - [x] generate fish on button click
 - [ ] add lights on sub
-
-// Ship 
 - [x] Ship type (layout, loadout, cost, hull, weapons)
 
 // Player
@@ -23,6 +18,7 @@ http://localhost:8080
 - [x] Acceleration on speed
 - [ ] Submarine shadow (blur more depending on depth etc)
 - [x] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
+- [ ] lay anchor
 
 // Trading
 - [ ] Visit city (atoll, oil rig)
