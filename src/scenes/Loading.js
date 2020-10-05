@@ -92,6 +92,7 @@ class LoadingScene extends Phaser.Scene {
 
     this.load.tilemapTiledJSON('level1', 'src/data/1.json');
 
+    this.load.image('brick', ['src/assets/images/brick.jpg', 'src/assets/images/brick_n.png']);
     this.load.image('shark-bg', 'src/assets/images/shark-bg.jpg');
     this.load.image('cockpit', 'src/assets/images/cockpit.png');
     this.load.image('cockpit-hover', 'src/assets/images/cockpit-hover.png');
@@ -100,14 +101,14 @@ class LoadingScene extends Phaser.Scene {
     this.load.image('main', 'src/assets/images/main.png');
     this.load.image('main-hover', 'src/assets/images/main-hover.png');
     this.load.image('background', 'src/assets/images/shark-bg.jpg');
-    this.load.image('desert-tiles', 'src/assets/sprites/desert-tiles.png');
+    this.load.image('desert-tiles', ['src/assets/sprites/desert-tiles.png', 'src/assets/sprites/desert-tiles_n.png']);
     this.load.image('red', 'src/assets/images/red.png');
     this.load.image('bubble', 'src/assets/images/bubble.png');
     this.load.image('sub-shadow', 'src/assets/images/sub-shadow.png');
     this.load.image('mask', 'src/assets/images/mask.png');
     this.load.image('cursor', 'src/assets/images/cursor.png');
     this.load.spritesheet('sub',
-      'src/assets/sprites/sub-sprite.png',
+      ['src/assets/sprites/sub-sprite.png', 'src/assets/sprites/sub-sprite_n.png'],
       { frameWidth: 210, frameHeight: 132 });
     this.load.spritesheet('fish',
       'src/assets/sprites/fish-sprite.png',
