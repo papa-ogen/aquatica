@@ -39,8 +39,6 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.sceneSettings.player = new Submarine(this, 150, 150);
 
-    this.add.existing(this.sceneSettings.player);
-
     // this.setCollisions();
   }
 

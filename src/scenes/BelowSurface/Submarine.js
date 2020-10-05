@@ -22,6 +22,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.offset = new Phaser.Geom.Point(10, 8);
 
     scene.physics.world.enable(this);
+    scene.add.existing(this);
 
     this.setScale(0.5);
     this.setBounce(1, 1);
@@ -111,6 +112,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       add: false,
     })
       .setScale(2)
+      .setAlpha(0.6)
       .setDepth(1);
 
     const scaleX = this.cameras.main.width / this.rt.width;

@@ -20,6 +20,12 @@ export default class Test extends Phaser.Scene {
     };
   }
 
+  preload() {
+    this.load.setPath('src/assets/');
+    // this.load.image('character', ['src/assets/sprites/character/01.png', 'src/assets/sprites/character/01_n.png']);
+    this.load.multiatlas('character_sheet', 'sprites/character.json');
+  }
+
   init(config) {
     const { ship } = config;
     this.sceneSettings.ship = ship;
@@ -40,23 +46,39 @@ export default class Test extends Phaser.Scene {
     const y = this.cameras.main.centerY;
 
     // this.player = new Submarine(this, x - 300, y);
-    this.player = this.add
-      .sprite(360, 300, 'sub', 1)
-      .setOrigin(0.5);
-
+    // this.player = this.add
+    //   .sprite(360, 300, 'sub')
+    //   .setOrigin(0.5);
+    this.player = this.add.sprite(550, 300, 'character_sheet', '03')
+      .setPipeline('Light2D');
     // this.fish = new Fish(this, this.game.config.width / 2, this.game.config.height / 2, 'fish');
     // this.add.existing(this.fish);
 
-    this.lights.enable();
-    this.lights.setAmbientColor(0x808080);
+    this.lights.enable()
+      .setAmbientColor(0x555555);
 
     // this.light = this.lights.addLight(400, 300, 200).setColor(0x023c4f);
-    this.light = this.lights.addLight(x, y, 360).setColor(0x023c4f).setIntensity(5);
+    this.light = this.lights.addLight(x, y, 100);
+    // .setColor(0x023c4f)
+    // .setIntensity(5);
 
-    // this.input.on('pointermove', (pointer) => {
-    //   light.x = pointer.x;
-    //   light.y = pointer.y;
-    // });
+    this.light.angle = 40;
+
+    const frameNames = this.anims.generateFrameNames('character_sheet', { start: 1, end: 8, zeroPad: 2 });
+    this.anims.create({
+      key: 'walk', frames: frameNames, frameRate: 20, repeat: -1,
+    });
+    this.player.anims.play('walk');
+
+    this.input.on('pointermove', (pointer) => {
+      this.light.x = pointer.x;
+      this.light.y = pointer.y;
+    });
+
+    this.input.keyboard.addKey('w')
+      .on('down', () => {
+        console.log('zup');
+      });
   }
 
   createAnimations() {
