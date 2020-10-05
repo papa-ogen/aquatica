@@ -178,6 +178,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     if (this.cursors.right.isDown && this.currentSpeed > 0) {
       // const angle = this.currentSpeed / 100;
       this.targetCourse += 1;
+
       this.scene.events.emit('updateTargetCourse', this.targetCourse);
       // this.shadow.angle += 0.5;
     }

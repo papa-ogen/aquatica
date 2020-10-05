@@ -12,7 +12,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       },
       {
         name: 'throttle',
-        text: 'RPM',
+        text: 'Throttle',
         value: 0,
       },
       {
@@ -38,6 +38,16 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       {
         name: 'currentCourse',
         text: 'Current Course',
+        value: 0,
+      },
+      {
+        name: 'waterCurrentAngle',
+        text: 'Water Current Angle',
+        value: 0,
+      },
+      {
+        name: 'waterCurrentVelocity',
+        text: 'Water Current Velocity',
         value: 0,
       },
     ];
@@ -76,29 +86,37 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   update() {
     this.gameScene.events.once('updateCurrentSpeed', (currentSpeed) => {
       const obj = this.subData.find((data) => data.name === 'currentSpeed');
-      obj.t.setText(`${obj.text}: ${Math.round(currentSpeed)}`);
+      obj.t.setText(`${obj.text}: ${Math.round(currentSpeed)}knot`);
     });
 
     this.gameScene.events.once('updateThrottle', (throttle) => {
       const obj = this.subData.find((data) => data.name === 'throttle');
-      obj.t.setText(`${obj.text}: ${Math.round(throttle) * 100 / 2}`);
+      obj.t.setText(`${obj.text}: ${Math.round(throttle) * 100 / 2}RPM`);
     });
 
     this.gameScene.events.once('updateMaxDepth', (maxDepth) => {
       const obj = this.subData.find((data) => data.name === 'maxDepth');
-      obj.t.setText(`${obj.text}: -${Math.round(maxDepth)}`);
+      obj.t.setText(`${obj.text}: -${Math.round(maxDepth)}m`);
     });
     this.gameScene.events.once('updateCurrentDepth', (currentDepth) => {
       const obj = this.subData.find((data) => data.name === 'currentDepth');
-      obj.t.setText(`${obj.text}: -${Math.round(currentDepth)}`);
+      obj.t.setText(`${obj.text}: -${Math.round(currentDepth)}m`);
     });
     this.gameScene.events.once('updateCurrentCourse', (currentCourse) => {
       const obj = this.subData.find((data) => data.name === 'currentCourse');
-      obj.t.setText(`${obj.text}: ${Math.round(currentCourse)}`);
+      obj.t.setText(`${obj.text}: ${Math.round(currentCourse)}°`);
     });
     this.gameScene.events.once('updateTargetCourse', (targetCourse) => {
       const obj = this.subData.find((data) => data.name === 'targetCourse');
-      obj.t.setText(`${obj.text}: ${Math.round(targetCourse)}`);
+      obj.t.setText(`${obj.text}: ${Math.round(targetCourse)}°`);
+    });
+    this.gameScene.events.once('updateWaterCurrentAngle', (waterCurrentAngle) => {
+      const obj = this.subData.find((data) => data.name === 'waterCurrentAngle');
+      obj.t.setText(`${obj.text}: ${waterCurrentAngle}°`);
+    });
+    this.gameScene.events.once('updateWaterCurrentVelocity', (waaterCurrentVelocity) => {
+      const obj = this.subData.find((data) => data.name === 'waterCurrentVelocity');
+      obj.t.setText(`${obj.text}: ${waaterCurrentVelocity}m/s`);
     });
   }
 }

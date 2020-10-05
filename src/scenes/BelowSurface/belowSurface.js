@@ -10,9 +10,12 @@ export default class BelowSurface extends Phaser.Scene {
     this.sceneSettings = {
       player: null,
       ship: null,
-      maxDepth: 100, // TODO: Should come from map meta data
       defaultDepthSet: false,
       startingPlayerDepth: 80,
+      maxDepth: 100, // TODO: Should come from map meta data
+      waterTemp: 4,
+      waterCurrentAngle: 90,
+      waterCurrentVelocity: 1,
     };
   }
 
@@ -130,12 +133,14 @@ export default class BelowSurface extends Phaser.Scene {
 
   update(time, delta) {
     const {
-      maxDepth, defaultDepthSet, player, startingPlayerDepth,
+      maxDepth, defaultDepthSet, player, startingPlayerDepth, waterCurrentAngle, waterCurrentVelocity,
     } = this.sceneSettings;
 
     if (maxDepth && !defaultDepthSet) {
       this.events.emit('updateMaxDepth', maxDepth);
       this.events.emit('updateCurrentDepth', startingPlayerDepth);
+      this.events.emit('updateWaterCurrentAngle', waterCurrentAngle);
+      this.events.emit('updateWaterCurrentVelocity', waterCurrentVelocity);
       this.sceneSettings.defaultDepthSet = true;
     }
 
