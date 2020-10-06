@@ -5,6 +5,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, 'sub');
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
+    this.scene = scene;
     this.cursors = scene.cursors;
     this.cameras = scene.cameras;
     this.sceneSettings = scene.sceneSettings;
@@ -19,8 +20,9 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.currentCourse = this.angle;
 
     this.currentDepth = scene.sceneSettings.startingPlayerDepth;
+    this.targetDepth = scene.sceneSettings.startingPlayerDepth;
 
-    this.offset = new Phaser.Geom.Point(10, 8);
+    this.offset = new Phaser.Geom.Point(this.x + 10, this.y + 8);
 
     scene.physics.world.enable(this);
     scene.add.existing(this);
@@ -41,9 +43,10 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.cameras.main.startFollow(this);
 
-    // this.shadow = this.physics.add.sprite(90, 440, 'sub-shadow')
-    //   .setOrigin(0.5);
-    // this.shadow.alpha = 0.3;
+    this.shadow = this.scene.physics.add.sprite(this.offset.x, this.offset.y, 'sub-shadow')
+      .setOrigin(0.5)
+      .setScale(0.5);
+    this.shadow.alpha = 0.3;
 
     this.createRt();
     this.addMask();
@@ -66,24 +69,29 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     // Accend
     this.scene.input.keyboard.addKey('w')
       .on('down', () => {
-        this.currentDepth -= 1;
-        this.scene.events.emit('updateCurrentDepth', this.currentDepth);
+        this.targetDepth -= 1;
 
-        const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
-        this.setScale(this.scale - scale);
+        if (this.targetDepth <= (this.sceneSettings.startingPlayerDepth - 20)) {
+          this.targetDepth = this.sceneSettings.startingPlayerDepth - 20;
+        }
+
+        this.scene.events.emit('updateTargetDepth', this.targetDepth);
+
+        // const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
+        // this.setScale(this.scale - scale);
       });
 
     // Dive
     this.scene.input.keyboard.addKey('s')
       .on('down', () => {
-        this.currentDepth += 1;
+        this.targetDepth += 1;
+        if (this.targetDepth >= this.scene.sceneSettings.maxDepth) {
+          this.targetDepth = this.scene.sceneSettings.maxDepth;
 
-        if (this.currentDepth <= this.scene.sceneSettings.maxDepth) {
-          this.scene.events.emit('updateCurrentDepth', this.currentDepth);
-
-          const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
-          this.setScale(this.scale + scale);
+          // const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
+          // this.setScale(this.scale + scale);
         }
+        this.scene.events.emit('updateTargetDepth', this.targetDepth);
       });
   }
 
@@ -177,7 +185,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       // const angle = this.currentSpeed / 100;
       this.targetCourse -= 1;
       this.scene.events.emit('updateTargetCourse', this.targetCourse);
-      // this.shadow.angle -= 0.5;
     }
 
     if (this.cursors.right.isDown && this.currentSpeed > 0) {
@@ -205,16 +212,31 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
         this.angle += 0.1;
         this.currentCourse = this.angle;
         this.scene.events.emit('updateCurrentCourse', this.currentCourse);
+        this.shadow.angle += 0.1;
       } else if (this.currentCourse >= this.targetCourse) {
         this.angle -= 0.1;
         this.currentCourse = this.angle;
+        this.shadow.angle -= 0.1;
         this.scene.events.emit('updateCurrentCourse', this.currentCourse);
       }
     }
 
+    // Set Depth
+    if (this.targetDepth < this.currentDepth) {
+      this.currentDepth -= 0.01;
+      this.scene.events.emit('updateCurrentDepth', this.currentDepth);
+      const scale = this.shadow.scale - 0.01 / 100;
+      this.shadow.setScale(scale);
+    } else if (this.targetDepth > this.currentDepth) {
+      this.currentDepth += 0.01;
+      this.scene.events.emit('updateCurrentDepth', this.currentDepth);
+      const scale = this.shadow.scale + 0.01 / 100;
+      this.shadow.setScale(scale);
+    }
+
     this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
-    // this.physics.velocityFromAngle(this.shadow.angle,
-    // this.playerSpeed, this.shadow.body.velocity);
+    this.scene.physics.velocityFromAngle(this.angle,
+      this.currentSpeed, this.shadow.body.velocity);
 
     this.spotlight.x = this.x;
     this.spotlight.y = this.y;

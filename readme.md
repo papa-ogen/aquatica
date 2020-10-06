@@ -10,7 +10,8 @@ http://localhost:8080
 - [x] generate fish on button click
 - [ ] add lights on sub
 - [x] Ship type (layout, loadout, cost, hull, weapons)
-
+- [ ] State machine - https://glitch.com/edit/#!/phaser-fsm-example?path=public%2Fclient.js%3A76%3A32 or xstate?
+- [ ] Put sub, shadow etc in a container
 // Player
 - [x] Money, resources etc
 - [ ] Dive

@@ -102,6 +102,10 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       const obj = this.subData.find((data) => data.name === 'currentDepth');
       obj.t.setText(`${obj.text}: -${Math.round(currentDepth)}m`);
     });
+    this.gameScene.events.once('updateTargetDepth', (targetDepth) => {
+      const obj = this.subData.find((data) => data.name === 'targetDepth');
+      obj.t.setText(`${obj.text}: -${Math.round(targetDepth)}m`);
+    });
     this.gameScene.events.once('updateCurrentCourse', (currentCourse) => {
       const obj = this.subData.find((data) => data.name === 'currentCourse');
       obj.t.setText(`${obj.text}: ${Math.round(currentCourse)}°`);
