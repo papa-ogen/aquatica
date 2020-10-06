@@ -7,8 +7,9 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     this.cursors = scene.cursors;
     this.cameras = scene.cameras;
+    this.sceneSettings = scene.sceneSettings;
     this.currentSpeed = 0;
-    this.throttle = 30;
+    this.throttle = 0;
     this.maxSpeed = maxSpeed;
     this.acceleration = acceleration;
     this.deceleration = deceleration;
@@ -55,6 +56,10 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.verre = 0;
 
     this.depthKeys();
+
+    // set velocity on current
+    console.log(scene.sceneSettings.waterCurrentAngle,
+      scene.sceneSettings.waterCurrentVelocity, this.angle);
   }
 
   depthKeys() {
