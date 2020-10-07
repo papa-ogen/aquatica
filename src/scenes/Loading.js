@@ -93,6 +93,8 @@ class LoadingScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('level1', 'src/data/1.json');
 
     // this.load.setPath('assets/');
+    this.load.image('sub-2', 'src/assets/images/sub-2.png');
+    this.load.image('sub-2-shadow', 'src/assets/images/sub-2-shadow.png');
     this.load.image('brick', ['src/assets/images/brick.jpg', 'src/assets/images/brick_n.png']);
     this.load.image('shark-bg', 'src/assets/images/shark-bg.jpg');
     this.load.image('cockpit', 'src/assets/images/cockpit.png');

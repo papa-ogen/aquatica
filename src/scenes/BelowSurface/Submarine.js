@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'sub');
+    super(scene, x, y, 'sub-2');
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     this.scene = scene;
@@ -27,7 +27,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     scene.physics.world.enable(this);
     scene.add.existing(this);
 
-    this.setScale(0.5);
+    // this.setScale(0.5);
     this.setBounce(1, 1);
 
     const particles = this.scene.add.particles('bubble');
@@ -43,9 +43,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.cameras.main.startFollow(this);
 
-    this.shadow = this.scene.physics.add.sprite(this.offset.x, this.offset.y, 'sub-shadow')
-      .setOrigin(0.5)
-      .setScale(0.5);
+    this.shadow = this.scene.physics.add.sprite(this.offset.x, this.offset.y, 'sub-2-shadow')
+      .setOrigin(0.5);
     this.shadow.alpha = 0.3;
 
     this.createRt();
@@ -54,7 +53,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.createAnimations();
     // this.setCollideWorldBounds(true); // TODO: fix
 
-    this.play('move');
+    // this.play('move');
 
     this.verre = 0;
 
