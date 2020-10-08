@@ -36,8 +36,6 @@ export default class BelowSurface extends Phaser.Scene {
     this.createAnimations();
     this.createFishes();
 
-    this.sub = this.add.image(32, 32, 'sub-2');
-
     this.fishes.getChildren().forEach((fish) => {
       this.add.existing(fish);
     });
