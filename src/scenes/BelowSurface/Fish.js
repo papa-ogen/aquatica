@@ -11,7 +11,7 @@ class Fish extends Phaser.Physics.Arcade.Sprite {
 
     scene.physics.world.enable(this);
 
-    const count = Phaser.Math.Between(0, 6);
+    const count = Phaser.Math.Between(0, 5);
     const angle = Phaser.Math.Angle.RandomDegrees();
 
     this.angle = angle;

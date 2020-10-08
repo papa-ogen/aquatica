@@ -40,7 +40,9 @@ export default class BelowSurface extends Phaser.Scene {
       this.add.existing(fish);
     });
 
-    this.sceneSettings.player = new Submarine(this, 150, 150);
+    this.sceneSettings.player = new Submarine(this, 250, 250);
+
+    this.add.image(150, 150, 'manta');
 
     // this.setCollisions();
   }
