@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -154,12 +155,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    // if (this.currentSpeed > 0) {
-    //   this.anims.play('move');
-    // } else {
-    //   this.anims.play('stop');
-    // }
-
     if (this.cursors.up.isDown) {
       this.throttle += 1;
 
@@ -180,18 +175,42 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       this.scene.events.emit('updateThrottle', this.throttle);
     }
 
+    // Set Course
     if (this.cursors.left.isDown && this.currentSpeed > 0) {
-      // const angle = this.currentSpeed / 100;
       this.targetCourse -= 1;
+      if (this.targetCourse < 0) {
+        this.targetCourse += 360;
+      }
       this.scene.events.emit('updateTargetCourse', this.targetCourse);
     }
 
     if (this.cursors.right.isDown && this.currentSpeed > 0) {
-      // const angle = this.currentSpeed / 100;
       this.targetCourse += 1;
 
+      if (this.targetCourse > 360) {
+        this.targetCourse -= 360;
+      }
+
       this.scene.events.emit('updateTargetCourse', this.targetCourse);
-      // this.shadow.angle += 0.5;
+    }
+
+    if (this.currentCourse !== this.targetCourse) {
+      console.log('current course', this.angle, this.currentCourse);
+      if (isClosestDirectionLeft(this.targetCourse, this.currentCourse)) {
+        console.log('go left', this.targetCourse, this.currentCourse);
+        this.angle -= 0.1;
+        this.currentCourse = convertSpriteAngle(this.angle);
+        this.shadow.angle = this.angle;
+        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
+      } else {
+        console.log('go right', this.targetCourse, this.currentCourse);
+        this.angle += 0.1;
+        this.currentCourse = convertSpriteAngle(this.angle);
+        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
+        this.shadow.angle = this.angle;
+      }
+
+      console.log('converteds angle ', this.angle, convertSpriteAngle(this.angle));
     }
 
     // Set speed
@@ -203,21 +222,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     } else if (this.currentSpeed < this.throttle) {
       this.currentSpeed += this.acceleration;
       this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
-    }
-
-    // Set Course
-    if (this.currentCourse !== this.targetCourse) {
-      if (this.currentCourse <= this.targetCourse) {
-        this.angle += 0.1;
-        this.currentCourse = this.angle;
-        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
-        this.shadow.angle += 0.1;
-      } else if (this.currentCourse >= this.targetCourse) {
-        this.angle -= 0.1;
-        this.currentCourse = this.angle;
-        this.shadow.angle -= 0.1;
-        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
-      }
     }
 
     // Set Depth

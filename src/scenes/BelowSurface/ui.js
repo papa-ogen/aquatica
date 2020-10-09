@@ -72,7 +72,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       this.add.zone(width / 2, 30, width, height),
     );
 
-    this.waterCurrentGauge = this.add.container(width - 100, 10);
+    this.waterCurrentGauge = this.add.container(width - 50, 10);
     let graphics = this.add.graphics();
     graphics.lineStyle(2, 0x00ff00, 1);
     graphics.lineBetween(0, 0, 0, 50);
