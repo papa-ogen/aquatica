@@ -8,6 +8,9 @@ import BelowSurface from './scenes/BelowSurface/belowSurface';
 import BelowSurfaceHUD from './scenes/BelowSurface/ui';
 import Test from './scenes/Test';
 
+// Plugins
+import CompassPlugin from './plugins/CompassPlugin';
+
 /**
  * Setup the root class for the whole game.
  */
@@ -27,6 +30,11 @@ class Game extends Phaser.Game {
       physics: {
         default: 'arcade',
         arcade: { debug: false },
+      },
+      plugins: {
+        scene: [
+          { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
+        ],
       },
     });
 

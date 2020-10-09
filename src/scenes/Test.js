@@ -79,6 +79,8 @@ export default class Test extends Phaser.Scene {
       .on('down', () => {
         console.log('zup');
       });
+
+    this.compass.displayText();
   }
 
   createAnimations() {
