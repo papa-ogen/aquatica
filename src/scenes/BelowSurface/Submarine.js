@@ -2,8 +2,8 @@ import Phaser from 'phaser';
 import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y) {
-    super(scene, x, y, 'sub-2');
+  constructor(scene, x, y, course) {
+    super(scene, x, y, 'sub');
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     this.scene = scene;
@@ -16,9 +16,10 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.acceleration = acceleration;
     this.deceleration = deceleration;
     this.depth = 1;
+    this.angle = course - 90;
 
-    this.targetCourse = this.angle;
-    this.currentCourse = this.angle;
+    this.targetCourse = course;
+    this.currentCourse = course;
 
     this.currentDepth = scene.sceneSettings.startingPlayerDepth;
     this.targetDepth = scene.sceneSettings.startingPlayerDepth;
@@ -181,7 +182,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       if (this.targetCourse < 0) {
         this.targetCourse += 360;
       }
-      this.scene.events.emit('updateTargetCourse', this.targetCourse);
     }
 
     if (this.cursors.right.isDown && this.currentSpeed > 0) {
@@ -190,8 +190,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       if (this.targetCourse > 360) {
         this.targetCourse -= 360;
       }
-
-      this.scene.events.emit('updateTargetCourse', this.targetCourse);
     }
 
     if (this.currentCourse !== this.targetCourse) {
@@ -199,11 +197,9 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
         this.angle -= 0.1;
         this.currentCourse = convertSpriteAngle(this.angle);
         this.shadow.angle = this.angle;
-        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
       } else {
         this.angle += 0.1;
         this.currentCourse = convertSpriteAngle(this.angle);
-        this.scene.events.emit('updateCurrentCourse', this.currentCourse);
         this.shadow.angle = this.angle;
       }
     }

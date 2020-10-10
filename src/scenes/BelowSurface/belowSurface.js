@@ -12,6 +12,7 @@ export default class BelowSurface extends Phaser.Scene {
       ship: null,
       defaultDepthSet: false,
       startingPlayerDepth: 80,
+      startingPlayerCourse: 33,
       maxDepth: 100, // TODO: Should come from map meta data
       waterTemp: 4,
       waterCurrentAngle: 90,
@@ -27,6 +28,10 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   create() {
+    const {
+      width, height, centerX, centerY,
+    } = this.cameras.main;
+
     this.cameras.main.setBackgroundColor(0xeedf6a);
 
     this.createMap();
@@ -40,7 +45,7 @@ export default class BelowSurface extends Phaser.Scene {
       this.add.existing(fish);
     });
 
-    this.sceneSettings.player = new Submarine(this, 250, 250);
+    this.sceneSettings.player = new Submarine(this, 250, 250, this.sceneSettings.startingPlayerCourse);
 
     this.add.image(150, 150, 'manta');
 
@@ -143,6 +148,8 @@ export default class BelowSurface extends Phaser.Scene {
       this.events.emit('updateCurrentDepth', startingPlayerDepth);
       this.events.emit('updateWaterCurrentAngle', waterCurrentAngle);
       this.events.emit('updateWaterCurrentVelocity', waterCurrentVelocity);
+      this.events.emit('updateCurrentCourse', player.currentCourse);
+      this.events.emit('updateTargetCourse', player.targetCourse);
       this.sceneSettings.defaultDepthSet = true;
     }
 

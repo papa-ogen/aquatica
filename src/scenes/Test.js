@@ -42,8 +42,9 @@ export default class Test extends Phaser.Scene {
     map.createDynamicLayer('obstacles', tileset, 0, 0).setPipeline('Light2D');
     map.createDynamicLayer('details', tileset, 0, 0).setPipeline('Light2D');
 
-    const x = this.cameras.main.centerX;
-    const y = this.cameras.main.centerY;
+    const {
+      width, height, centerX, centerY,
+    } = this.cameras.main;
 
     // this.player = new Submarine(this, x - 300, y);
     // this.player = this.add
@@ -54,15 +55,15 @@ export default class Test extends Phaser.Scene {
     // this.fish = new Fish(this, this.game.config.width / 2, this.game.config.height / 2, 'fish');
     // this.add.existing(this.fish);
 
+    this.player.angle = 45;
+
     this.lights.enable()
       .setAmbientColor(0x555555);
 
     // this.light = this.lights.addLight(400, 300, 200).setColor(0x023c4f);
-    this.light = this.lights.addLight(x, y, 100);
+    this.light = this.lights.addLight(centerX, centerY, 100);
     // .setColor(0x023c4f)
     // .setIntensity(5);
-
-    this.light.angle = 40;
 
     const frameNames = this.anims.generateFrameNames('character_sheet', { start: 1, end: 8, zeroPad: 2 });
     this.anims.create({
@@ -80,7 +81,8 @@ export default class Test extends Phaser.Scene {
         console.log('zup');
       });
 
-    this.compass.displayText();
+    // Loading plugin
+    this.compass.display(100, height - 100);
   }
 
   createAnimations() {
@@ -123,5 +125,6 @@ export default class Test extends Phaser.Scene {
     // this.light.y = this.player.y;
     // this.spotlight.x = this.player.x + 50;
     // this.spotlight.y = this.player.y;
+    this.compass.update(this.player.angle);
   }
 }

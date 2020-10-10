@@ -31,16 +31,6 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
         value: 0,
       },
       {
-        name: 'targetCourse',
-        text: 'Target Course',
-        value: 0,
-      },
-      {
-        name: 'currentCourse',
-        text: 'Current Course',
-        value: 0,
-      },
-      {
         name: 'waterCurrentAngle',
         text: 'Water Current Angle',
         value: 0,
@@ -71,18 +61,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       this.levelText,
       this.add.zone(width / 2, 30, width, height),
     );
-
-    this.waterCurrentGauge = this.add.container(width - 50, 10);
-    let graphics = this.add.graphics();
-    graphics.lineStyle(2, 0x00ff00, 1);
-    graphics.lineBetween(0, 0, 0, 50);
-
-    this.waterCurrentGauge.add(graphics);
-
-    graphics = this.add.graphics();
-    graphics.fillTriangle(-10, 50, 0, 60, 10, 50);
-    graphics.fillStyle(0x00ff00, 1.0);
-    this.waterCurrentGauge.add(graphics);
+    // Loading plugin
+    this.compass.display(100, height - 100);
   }
 
   setupEvents() {
@@ -118,14 +98,6 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       const obj = this.subData.find((data) => data.name === 'targetDepth');
       obj.t.setText(`${obj.text}: -${Math.round(targetDepth)}m`);
     });
-    this.gameScene.events.once('updateCurrentCourse', (currentCourse) => {
-      const obj = this.subData.find((data) => data.name === 'currentCourse');
-      obj.t.setText(`${obj.text}: ${Math.round(currentCourse)}°`);
-    });
-    this.gameScene.events.once('updateTargetCourse', (targetCourse) => {
-      const obj = this.subData.find((data) => data.name === 'targetCourse');
-      obj.t.setText(`${obj.text}: ${Math.round(targetCourse)}°`);
-    });
     this.gameScene.events.once('updateWaterCurrentAngle', (waterCurrentAngle) => {
       const obj = this.subData.find((data) => data.name === 'waterCurrentAngle');
       obj.t.setText(`${obj.text}: ${waterCurrentAngle}°`);
@@ -134,5 +106,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       const obj = this.subData.find((data) => data.name === 'waterCurrentVelocity');
       obj.t.setText(`${obj.text}: ${waaterCurrentVelocity}m/s`);
     });
+
+    const { angle, targetCourse } = this.gameScene.sceneSettings.player;
+    this.compass.update(angle, targetCourse);
   }
 }

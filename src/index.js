@@ -34,6 +34,7 @@ class Game extends Phaser.Game {
       plugins: {
         scene: [
           { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
+          { key: 'BelowSurfaceHUD', plugin: CompassPlugin, mapping: 'compass' },
         ],
       },
     });
