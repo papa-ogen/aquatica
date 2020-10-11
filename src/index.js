@@ -10,6 +10,7 @@ import Test from './scenes/Test';
 
 // Plugins
 import CompassPlugin from './plugins/CompassPlugin';
+import GaugePlugin from './plugins/GaugePlugin';
 
 /**
  * Setup the root class for the whole game.
@@ -32,6 +33,10 @@ class Game extends Phaser.Game {
         arcade: { debug: false },
       },
       plugins: {
+        global:
+          [
+            { key: 'GaugePlugin', plugin: GaugePlugin },
+          ],
         scene: [
           { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
           { key: 'BelowSurfaceHUD', plugin: CompassPlugin, mapping: 'compass' },

@@ -20,6 +20,8 @@ http://localhost:8080
 - [ ] Submarine shadow (blur more depending on depth etc)
 - [x] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
 - [ ] lay anchor
+- [ ] create a mask plugin
+- [ ] Greate a global gauge plugin - https://phaser.io/examples/v3/view/plugins/multiple-global-plugin-instances
 
 // Trading
 - [ ] Visit city (atoll, oil rig)

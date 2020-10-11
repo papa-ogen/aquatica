@@ -3,7 +3,7 @@ import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, course) {
-    super(scene, x, y, 'sub');
+    super(scene, x, y, 'sub-2');
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     this.scene = scene;
@@ -48,6 +48,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.shadow = this.scene.physics.add.sprite(this.offset.x, this.offset.y, 'sub-2-shadow')
       .setOrigin(0.5);
     this.shadow.alpha = 0.3;
+    this.shadow.angle = course - 90;
 
     this.createRt();
     this.addMask();
