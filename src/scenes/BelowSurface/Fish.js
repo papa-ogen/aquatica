@@ -8,6 +8,7 @@ class Fish extends Phaser.Physics.Arcade.Sprite {
     this.targetSpeed = 0;
     this.maxSpeed = 10;
     this.distance = 0;
+    this.moveInterval = Phaser.Math.Between(50, 200);
 
     scene.physics.world.enable(this);
 
@@ -26,7 +27,7 @@ class Fish extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
     this.distance += 1;
 
-    if (this.distance === 100) {
+    if (this.distance === this.moveInterval) {
       this.currentSpeed = Phaser.Math.Between(this.currentSpeed - 10, this.currentSpeed + 10);
 
       const angle = Phaser.Math.Angle.RandomDegrees();

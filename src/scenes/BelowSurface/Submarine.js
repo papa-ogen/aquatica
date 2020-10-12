@@ -2,10 +2,11 @@ import Phaser from 'phaser';
 import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
-  constructor(scene, x, y, course) {
+  constructor(scene, x, y) {
     super(scene, x, y, 'sub-2');
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
+    const course = scene.sceneSettings.startingPlayerCourse;
     this.scene = scene;
     this.cursors = scene.cursors;
     this.cameras = scene.cameras;
@@ -193,15 +194,17 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    if (this.currentCourse !== this.targetCourse) {
-      if (isClosestDirectionLeft(this.targetCourse, this.currentCourse)) {
-        this.angle -= 0.1;
-        this.currentCourse = convertSpriteAngle(this.angle);
-        this.shadow.angle = this.angle;
-      } else {
-        this.angle += 0.1;
-        this.currentCourse = convertSpriteAngle(this.angle);
-        this.shadow.angle = this.angle;
+    if (this.currentSpeed > 0) {
+      if (this.currentCourse !== this.targetCourse) {
+        if (isClosestDirectionLeft(this.targetCourse, this.currentCourse)) {
+          this.angle -= 0.1;
+          this.currentCourse = convertSpriteAngle(this.angle);
+          this.shadow.angle = this.angle;
+        } else {
+          this.angle += 0.1;
+          this.currentCourse = convertSpriteAngle(this.angle);
+          this.shadow.angle = this.angle;
+        }
       }
     }
 

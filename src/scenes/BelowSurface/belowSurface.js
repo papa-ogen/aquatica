@@ -45,7 +45,8 @@ export default class BelowSurface extends Phaser.Scene {
       this.add.existing(fish);
     });
 
-    this.sceneSettings.player = new Submarine(this, 250, 250, this.sceneSettings.startingPlayerCourse);
+    this.sceneSettings.player = new Submarine(this,
+      250, 250);
 
     this.add.image(150, 150, 'manta');
 
@@ -55,7 +56,7 @@ export default class BelowSurface extends Phaser.Scene {
   createFishes() {
     this.fishes = this.add.group();
 
-    for (let i = 0; i < 100; i += 1) {
+    for (let i = 0; i < 200; i += 1) {
       const fish = new Fish(this, this.game.config.width / 2, this.game.config.height / 2, 'fish');
       this.fishes.add(fish);
     }
@@ -140,7 +141,8 @@ export default class BelowSurface extends Phaser.Scene {
 
   update(time, delta) {
     const {
-      maxDepth, defaultDepthSet, player, startingPlayerDepth, waterCurrentAngle, waterCurrentVelocity,
+      maxDepth,
+      defaultDepthSet, player, startingPlayerDepth, waterCurrentAngle, waterCurrentVelocity,
     } = this.sceneSettings;
 
     if (maxDepth && !defaultDepthSet) {
