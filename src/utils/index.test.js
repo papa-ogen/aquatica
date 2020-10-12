@@ -1,8 +1,10 @@
 import test from 'tape';
 import {
-  getGridCenter, calculateWaterCurrentVelocity,
+  getGridCenter,
+  calculateWaterCurrentVelocity,
   isClosestDirectionLeft,
   convertSpriteAngle,
+  normalizeGauge,
 } from './index';
 
 test('Get center of grid', (t) => {
@@ -60,6 +62,64 @@ test('Return false if closest direction is right', (t) => {
   t.equal(convertSpriteAngle(-180), 270);
   t.equal(convertSpriteAngle(110), 200);
   t.equal(convertSpriteAngle(-92), 358);
+
+  t.end();
+});
+
+test('Return a mapping object for gauge', (t) => {
+  t.plan(1);
+
+  const givenPanelDegrees = 320;
+  const givenPanelInterval = 2;
+  const givenMinValue = 0;
+  const givenMaxValue = 6000;
+
+  const expectedGaugeObject = [
+    {
+      degree: 0,
+      value: 0,
+    },
+    {
+      degree: 160,
+      value: 3000,
+    },
+    {
+      degree: 320,
+      value: 6000,
+    },
+  ];
+
+  t.deepEqual(normalizeGauge(givenPanelDegrees,
+    givenPanelInterval, givenMinValue, givenMaxValue), expectedGaugeObject);
+
+  t.end();
+});
+
+test('Return a mapping object for gauge', (t) => {
+  t.plan(1);
+
+  const givenPanelDegrees = 320;
+  const givenPanelInterval = 12;
+  const givenMinValue = 0;
+  const givenMaxValue = 600;
+
+  const expectedGaugeObject = [
+    { degree: 0, value: 0 },
+    { degree: 26.666666666666668, value: 50 },
+    { degree: 53.333333333333336, value: 100 },
+    { degree: 80, value: 150 },
+    { degree: 106.66666666666667, value: 200 },
+    { degree: 133.33333333333334, value: 250 },
+    { degree: 160, value: 300 },
+    { degree: 186.66666666666669, value: 350 },
+    { degree: 213.33333333333334, value: 400 },
+    { degree: 240, value: 450 },
+    { degree: 266.6666666666667, value: 500 },
+    { degree: 293.33333333333337, value: 550 },
+    { degree: 320, value: 600 }];
+
+  t.deepEqual(normalizeGauge(givenPanelDegrees,
+    givenPanelInterval, givenMinValue, givenMaxValue), expectedGaugeObject);
 
   t.end();
 });

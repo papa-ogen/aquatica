@@ -29,3 +29,21 @@ export const convertSpriteAngle = (angle) => {
   if (angle < 0) return angle + offset;
   return angle;
 };
+
+export const normalizeGauge = (panelDegrees, panelRange = 2, min, max) => {
+  const arr = [{
+    degree: 0,
+    value: 0,
+  }];
+  const panelIntervals = panelDegrees / panelRange;
+  const valueRange = (max - min) / panelRange;
+
+  for (let i = 0; i < panelRange; i += 1) {
+    arr.push({
+      degree: panelIntervals * (i + 1),
+      value: valueRange * (i + 1), // normalize
+    });
+  }
+
+  return arr;
+};
