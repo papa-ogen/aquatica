@@ -10,12 +10,15 @@ export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
     this.current = this.syllables1;
   }
 
-  display(scene, x, y) {
+  display(scene, x, y, text = 'Gauge') {
     this.container = scene.add.container(x, y);
 
-    this.text = scene.add.text(0, 25, 'Speed', { font: '16px roboto', fill: '#ffffff' })
+    this.text = scene.add.text(0, 25, text, { font: '16px roboto', fill: '#ffffff' })
       .setOrigin(0.5);
 
+    const body = scene.add.image(0, 0, 'compass-body');
+
+    this.container.add(body);
     this.container.add(this.text);
   }
 }

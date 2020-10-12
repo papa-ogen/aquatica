@@ -62,9 +62,13 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       this.add.zone(width / 2, 30, width, height),
     );
     // Loading plugin
-    this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
-    this.speedGauge.display(this, 300, height - 100);
     this.compass.display(100, height - 100);
+
+    this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
+    this.speedGauge.display(this, 270, height - 100, 'Speed');
+
+    this.rpmGauge = this.plugins.start('GaugePlugin', 'rpmGauge');
+    this.rpmGauge.display(this, 530, height - 100, 'RPM');
   }
 
   setupEvents() {
