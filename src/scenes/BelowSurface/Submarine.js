@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
+import { SHIP_STATE } from './constants';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -24,6 +25,10 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.currentDepth = scene.sceneSettings.startingPlayerDepth;
     this.targetDepth = scene.sceneSettings.startingPlayerDepth;
+
+    this.props = {
+      state: SHIP_STATE.MOVING,
+    };
 
     this.offset = new Phaser.Geom.Point(this.x + 10, this.y + 8);
 
@@ -64,8 +69,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.depthKeys();
 
     // set velocity on current
-    console.log(scene.sceneSettings.waterCurrentAngle,
-      scene.sceneSettings.waterCurrentVelocity, this.angle);
+    // console.log(scene.sceneSettings.waterCurrentAngle,
+    //   scene.sceneSettings.waterCurrentVelocity, this.angle);
   }
 
   depthKeys() {
@@ -164,8 +169,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       if (this.throttle >= this.maxSpeed) {
         this.throttle = this.maxSpeed;
       }
-
-      this.scene.events.emit('updateThrottle', this.throttle);
     }
 
     if (this.cursors.down.isDown) {
@@ -174,8 +177,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       if (this.throttle <= 0) {
         this.throttle = 0;
       }
-
-      this.scene.events.emit('updateThrottle', this.throttle);
     }
 
     // Set Course
@@ -213,10 +214,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       this.currentSpeed = 0;
     } else if (this.currentSpeed > this.throttle) {
       this.currentSpeed -= this.deceleration;
-      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
     } else if (this.currentSpeed < this.throttle) {
       this.currentSpeed += this.acceleration;
-      this.scene.events.emit('updateCurrentSpeed', this.currentSpeed);
     }
 
     // Set Depth

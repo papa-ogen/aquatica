@@ -134,15 +134,15 @@ test('Return a mapping object for gauge with offset', (t) => {
 
   const expectedGaugeObject = [
     {
-      degree: 220,
+      angle: 220,
       value: 0,
     },
     {
-      degree: 0,
+      angle: 0,
       value: 50,
     },
     {
-      degree: 140,
+      angle: 140,
       value: 100,
     },
   ];
@@ -154,7 +154,8 @@ test('Return a mapping object for gauge with offset', (t) => {
 });
 
 test('Shpuld return degree interval', (t) => {
-  t.plan(1);
+  t.plan(2);
 
   t.equal(getGaugeInterval(0, 100, 100), 1);
+  t.equal(getGaugeInterval(0, 6000, 300), 0.05);
 });

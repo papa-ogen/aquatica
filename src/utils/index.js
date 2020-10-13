@@ -40,14 +40,14 @@ export const normalizeGauge = (panelDegrees, panelRange = 2, min, max, offset = 
   const valueRange = (max - min) / panelRange;
 
   for (let i = 0; i < panelRange; i += 1) {
-    let degree = panelIntervals * (i + 1) + offset;
+    let angle = panelIntervals * (i + 1) + offset;
 
-    if (degree >= 360) {
-      degree -= 360;
+    if (angle >= 360) {
+      angle -= 360;
     }
 
     arr.push({
-      degree,
+      angle,
       value: valueRange * (i + 1), // normalize
     });
   }
@@ -56,4 +56,4 @@ export const normalizeGauge = (panelDegrees, panelRange = 2, min, max, offset = 
 };
 
 // TODO: get interval value
-export const getGaugeInterval = (min, max, panelDegrees) => (max - min) / panelDegrees;
+export const getGaugeInterval = (min, max, panelDegrees) => panelDegrees / (max - min);

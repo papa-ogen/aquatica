@@ -11,6 +11,7 @@ import Test from './scenes/Test';
 // Plugins
 import CompassPlugin from './plugins/CompassPlugin';
 import GaugePlugin from './plugins/GaugePlugin';
+import ButtonPlugin from './plugins/ButtonPlugin';
 
 /**
  * Setup the root class for the whole game.
@@ -36,6 +37,7 @@ class Game extends Phaser.Game {
         global:
           [
             { key: 'GaugePlugin', plugin: GaugePlugin },
+            { key: 'ButtonPlugin', plugin: ButtonPlugin },
           ],
         scene: [
           { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },

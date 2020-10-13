@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { SHIP_ACTIONS, SHIP_STATE } from './constants';
 
 export default class BelowSurfaceHUD extends Phaser.Scene {
   constructor() {
@@ -6,23 +7,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     this.subData = [
       {
-        name: 'currentSpeed',
-        text: 'Current Speed',
-        value: 0,
-      },
-      {
-        name: 'throttle',
-        text: 'Throttle',
-        value: 0,
-      },
-      {
         name: 'maxDepth',
         text: 'Max Depth',
-        value: 0,
-      },
-      {
-        name: 'currentDepth',
-        text: 'Current Depth',
         value: 0,
       },
       {
@@ -48,6 +34,9 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   create() {
+    const {
+      props: { state },
+    } = this.gameScene.sceneSettings.player;
     this.setupEvents();
 
     this.levelText = this.add.text(0, 0, 'Below Surface', {
@@ -64,14 +53,28 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     // Loading plugin
     this.compass.display(100, height - 100);
 
-    this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge', 0, 50);
-    this.speedGauge.display(this, 270, height - 100, 'Speed');
+    this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
+    this.speedGauge.display(this, 270, height - 100, 'Speed', 0, 100);
 
-    this.rpmGauge = this.plugins.start('GaugePlugin', 'rpmGauge', 0, 6000);
-    this.rpmGauge.display(this, 440, height - 100, 'RPM');
+    this.rpmGauge = this.plugins.start('GaugePlugin', 'rpmGauge');
+    this.rpmGauge.display(this, 440, height - 100, 'RPM', 0, 6000);
 
-    this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge', 0, 100);
-    this.depthGauge.display(this, 610, height - 100, 'Depth');
+    this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge');
+    this.depthGauge.display(this, 610, height - 100, 'Depth', 0, 100);
+
+    this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
+    this.anchorButton.create(this, 10, 500, SHIP_ACTIONS.LAY_ANCHOR, { fill: '#0f0' });
+    // .setInteractive({ useHandCursor: true })
+    // .on('pointerdown', () => {
+    //   console.log('update!!', state, SHIP_STATE.ANCHOR);
+    // })
+    // .on('pointerover', () => {
+    //   this.anchorButton.setStyle({ fill: '#ff0' });
+    //   console.log('pointerover');
+    // })
+    // .on('pointerout', () => {
+    //   this.anchorButton.setStyle({ fill: '#0f0' });
+    // });
   }
 
   setupEvents() {
@@ -85,27 +88,9 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   update() {
-    this.gameScene.events.once('updateCurrentSpeed', (currentSpeed) => {
-      const obj = this.subData.find((data) => data.name === 'currentSpeed');
-      obj.t.setText(`${obj.text}: ${Math.round(currentSpeed)}knot`);
-    });
-
-    this.gameScene.events.once('updateThrottle', (throttle) => {
-      const obj = this.subData.find((data) => data.name === 'throttle');
-      obj.t.setText(`${obj.text}: ${Math.round(throttle) * 100 / 2}RPM`);
-    });
-
     this.gameScene.events.once('updateMaxDepth', (maxDepth) => {
       const obj = this.subData.find((data) => data.name === 'maxDepth');
       obj.t.setText(`${obj.text}: -${Math.round(maxDepth)}m`);
-    });
-    this.gameScene.events.once('updateCurrentDepth', (currentDepth) => {
-      const obj = this.subData.find((data) => data.name === 'currentDepth');
-      obj.t.setText(`${obj.text}: -${Math.round(currentDepth)}m`);
-    });
-    this.gameScene.events.once('updateTargetDepth', (targetDepth) => {
-      const obj = this.subData.find((data) => data.name === 'targetDepth');
-      obj.t.setText(`${obj.text}: -${Math.round(targetDepth)}m`);
     });
     this.gameScene.events.once('updateWaterCurrentAngle', (waterCurrentAngle) => {
       const obj = this.subData.find((data) => data.name === 'waterCurrentAngle');
@@ -117,11 +102,19 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     });
 
     const {
-      angle, targetCourse, currentSpeed, thottle, currentDepth,
+      angle, targetCourse, currentSpeed, throttle, currentDepth,
     } = this.gameScene.sceneSettings.player;
     this.compass.update(angle, targetCourse);
     this.speedGauge.update(currentSpeed);
-    this.rpmGauge.update(thottle);
     this.depthGauge.update(currentDepth);
+
+    const convertedThrottle = (Math.round(throttle) * 100) / 2;
+    this.rpmGauge.update(convertedThrottle);
+
+    // if (currentSpeed === 0) {
+    //   this.anchorButton.setStyle({ fill: '#0f0' });
+    // } else if (currentSpeed > 0) {
+    //   this.anchorButton.setStyle({ fill: '#FF0000' });
+    // }
   }
 }
