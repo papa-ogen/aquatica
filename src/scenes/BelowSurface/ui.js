@@ -64,13 +64,13 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     // Loading plugin
     this.compass.display(100, height - 100);
 
-    this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
+    this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge', 0, 50);
     this.speedGauge.display(this, 270, height - 100, 'Speed');
 
-    this.rpmGauge = this.plugins.start('GaugePlugin', 'rpmGauge');
+    this.rpmGauge = this.plugins.start('GaugePlugin', 'rpmGauge', 0, 6000);
     this.rpmGauge.display(this, 440, height - 100, 'RPM');
 
-    this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge');
+    this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge', 0, 100);
     this.depthGauge.display(this, 610, height - 100, 'Depth');
   }
 
@@ -116,7 +116,12 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       obj.t.setText(`${obj.text}: ${waaterCurrentVelocity}m/s`);
     });
 
-    const { angle, targetCourse } = this.gameScene.sceneSettings.player;
+    const {
+      angle, targetCourse, currentSpeed, thottle, currentDepth,
+    } = this.gameScene.sceneSettings.player;
     this.compass.update(angle, targetCourse);
+    this.speedGauge.update(currentSpeed);
+    this.rpmGauge.update(thottle);
+    this.depthGauge.update(currentDepth);
   }
 }

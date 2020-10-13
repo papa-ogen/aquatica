@@ -5,6 +5,7 @@ import {
   isClosestDirectionLeft,
   convertSpriteAngle,
   normalizeGauge,
+  getGaugeInterval,
 } from './index';
 
 test('Get center of grid', (t) => {
@@ -70,7 +71,6 @@ test('Return a mapping object for gauge', (t) => {
   t.plan(1);
 
   const givenPanelDegrees = 320;
-  const givenPanelInterval = 2;
   const givenMinValue = 0;
   const givenMaxValue = 6000;
 
@@ -89,13 +89,13 @@ test('Return a mapping object for gauge', (t) => {
     },
   ];
 
-  t.deepEqual(normalizeGauge(givenPanelDegrees,
-    givenPanelInterval, givenMinValue, givenMaxValue), expectedGaugeObject);
+  t.deepEqual(normalizeGauge(givenPanelDegrees, undefined,
+    givenMinValue, givenMaxValue), expectedGaugeObject);
 
   t.end();
 });
 
-test('Return a mapping object for gauge', (t) => {
+test('Return a mapping object for gauge with 12 interval', (t) => {
   t.plan(1);
 
   const givenPanelDegrees = 320;
@@ -122,4 +122,39 @@ test('Return a mapping object for gauge', (t) => {
     givenPanelInterval, givenMinValue, givenMaxValue), expectedGaugeObject);
 
   t.end();
+});
+
+test('Return a mapping object for gauge with offset', (t) => {
+  t.plan(1);
+
+  const givenPanelDegrees = 280;
+  const givenMinValue = 0;
+  const givenMaxValue = 100;
+  const givenOffset = 220;
+
+  const expectedGaugeObject = [
+    {
+      degree: 220,
+      value: 0,
+    },
+    {
+      degree: 0,
+      value: 50,
+    },
+    {
+      degree: 140,
+      value: 100,
+    },
+  ];
+
+  t.deepEqual(normalizeGauge(givenPanelDegrees,
+    undefined, givenMinValue, givenMaxValue, givenOffset), expectedGaugeObject);
+
+  t.end();
+});
+
+test('Shpuld return degree interval', (t) => {
+  t.plan(1);
+
+  t.equal(getGaugeInterval(0, 100, 100), 1);
 });

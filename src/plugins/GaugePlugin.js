@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { normalizeGauge, getGaugeInterval } from '../utils';
 
 export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
   constructor(pluginManager) {
@@ -10,7 +11,19 @@ export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
     this.current = this.syllables1;
   }
 
-  display(scene, x, y, text = 'Gauge', min, max) {
+  display(scene, x, y, text = 'Gauge', min, max, interval, offset) {
+    this.offset = 120;
+    const gauge = normalizeGauge(300, interval, min, max, 210);
+    this.gaugeInterval = getGaugeInterval(min, max, 300);
+    // switch (gaugeType) {
+    //   case 'speed':
+    //     break;
+    //   case 'depth':
+    //     break;
+    //   case 'rpm':
+    //     break;
+    //   default:
+    // }
     this.defaultAngle = 110; // offset to graphic
     // TODO: normalize values
     this.container = scene.add.container(x, y);
@@ -29,7 +42,7 @@ export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
     this.container.add(this.pointer);
   }
 
-  update() {
-    this.angle += 1;
+  update(angle) {
+    this.pointer.angle = this.offset + (angle / this.gaugeInterval);
   }
 }

@@ -30,20 +30,30 @@ export const convertSpriteAngle = (angle) => {
   return angle;
 };
 
-export const normalizeGauge = (panelDegrees, panelRange = 2, min, max) => {
+export const normalizeGauge = (panelDegrees, panelRange = 2, min, max, offset = 0) => {
   const arr = [{
-    degree: 0,
+    degree: 0 + offset,
     value: 0,
   }];
+
   const panelIntervals = panelDegrees / panelRange;
   const valueRange = (max - min) / panelRange;
 
   for (let i = 0; i < panelRange; i += 1) {
+    let degree = panelIntervals * (i + 1) + offset;
+
+    if (degree >= 360) {
+      degree -= 360;
+    }
+
     arr.push({
-      degree: panelIntervals * (i + 1),
+      degree,
       value: valueRange * (i + 1), // normalize
     });
   }
 
   return arr;
 };
+
+// TODO: get interval value
+export const getGaugeInterval = (min, max, panelDegrees) => (max - min) / panelDegrees;
