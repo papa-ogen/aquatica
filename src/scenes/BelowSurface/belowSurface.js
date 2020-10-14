@@ -1,11 +1,9 @@
 import Phaser from 'phaser';
 import Submarine from './Submarine';
-import Fish from './Fish';
 
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
     super('BelowSurface');
-    this.fishes = null;
     this.cursors = null;
     this.sceneSettings = {
       player: null,
@@ -38,12 +36,8 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCursor();
     this.createKeyboardEvents();
     this.createCameraControls();
-    this.createAnimations();
-    this.createFishes();
 
-    this.fishes.getChildren().forEach((fish) => {
-      this.add.existing(fish);
-    });
+    this.fish.createFishes();
 
     this.sceneSettings.player = new Submarine(this,
       250, 250);
@@ -51,36 +45,6 @@ export default class BelowSurface extends Phaser.Scene {
     this.add.image(150, 150, 'manta');
 
     // this.setCollisions();
-  }
-
-  createFishes() {
-    this.fishes = this.add.group();
-
-    for (let i = 0; i < 200; i += 1) {
-      const fish = new Fish(this, this.game.config.width / 2, this.game.config.height / 2, 'fish');
-      this.fishes.add(fish);
-    }
-  }
-
-  createAnimations() {
-    const fishTypes = [
-      [0, 2],
-      [3, 5],
-      [6, 7],
-      [8, 10],
-      [11, 13],
-      [14, 15],
-    ];
-
-    fishTypes.forEach((fishType, i) => {
-      const [start, end] = fishType;
-      this.anims.create({
-        key: `move-fish-${i}`,
-        frames: this.anims.generateFrameNumbers('fish', { start, end }),
-        frameRate: 10,
-        repeat: -1,
-      });
-    });
   }
 
   createMap() {
@@ -131,12 +95,12 @@ export default class BelowSurface extends Phaser.Scene {
       this.scene.launch('GameOptions');
     });
 
-    const GKey = this.input.keyboard.addKey('g');
-    GKey.on('down', () => {
-      const fish = new Fish(this, this.sceneSettings.player.x, this.sceneSettings.player.y, 'fish');
-      this.add.existing(fish);
-      this.fishes.add(fish);
-    });
+    // const GKey = this.input.keyboard.addKey('g');
+    // GKey.on('down', () => {
+    //   const fish = new Fish(this, this.sceneSettings.player.x, this.sceneSettings.player.y, 'fish');
+    //   this.add.existing(fish);
+    //   this.fishes.add(fish);
+    // });
   }
 
   update(time, delta) {
@@ -155,9 +119,9 @@ export default class BelowSurface extends Phaser.Scene {
       this.sceneSettings.defaultDepthSet = true;
     }
 
-    this.fishes.getChildren().forEach((fish) => {
-      fish.update();
-    });
+    // this.fishes.getChildren().forEach((fish) => {
+    //   fish.update();
+    // });
 
     player.update(time);
 

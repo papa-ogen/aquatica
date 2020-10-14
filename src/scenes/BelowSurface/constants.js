@@ -4,7 +4,8 @@ export const SHIP_ACTIONS = {
   EMERGENCY_DEPTH: 'Emergency depth',
   TURN_OFF_ENGINE: 'Turn off Engine',
   TURN_ON_ENGINE: 'Turn on Engine',
-  LAY_ANCHOR: 'Lay Anchor',
+  DROP_ANCHOR: 'Drop Anchor',
+  PULL_ANCHOR: 'Pull Anchor',
 };
 
 export const SHIP_STATE = {

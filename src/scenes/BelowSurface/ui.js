@@ -26,6 +26,11 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
         text: 'Water Current Velocity',
         value: 0,
       },
+      {
+        name: 'shipStatus',
+        text: 'Ship status',
+        value: SHIP_STATE.MOVING,
+      },
     ];
   }
 
@@ -34,9 +39,6 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   create() {
-    const {
-      props: { state },
-    } = this.gameScene.sceneSettings.player;
     this.setupEvents();
 
     this.levelText = this.add.text(0, 0, 'Below Surface', {
@@ -63,18 +65,32 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     this.depthGauge.display(this, 610, height - 100, 'Depth', 0, 100);
 
     this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
-    this.anchorButton.create(this, 10, 500, SHIP_ACTIONS.LAY_ANCHOR, { fill: '#0f0' });
-    // .setInteractive({ useHandCursor: true })
-    // .on('pointerdown', () => {
-    //   console.log('update!!', state, SHIP_STATE.ANCHOR);
-    // })
-    // .on('pointerover', () => {
-    //   this.anchorButton.setStyle({ fill: '#ff0' });
-    //   console.log('pointerover');
-    // })
-    // .on('pointerout', () => {
-    //   this.anchorButton.setStyle({ fill: '#0f0' });
-    // });
+    this.anchorButton.create({
+      scene: this,
+      x: 10,
+      y: 500,
+      text: SHIP_ACTIONS.DROP_ANCHOR,
+      callback: () => {
+        const {
+          props: { state },
+        } = this.gameScene.sceneSettings.player;
+        if (state === SHIP_STATE.ANCHOR) {
+          // set state
+          this.gameScene.sceneSettings.player.props.state = SHIP_STATE.MOVING;
+          // set screen text
+          this.updateText(undefined, 'shipStatus', SHIP_STATE.MOVING);
+          // update button text
+          this.anchorButton.buttonText.setText(SHIP_ACTIONS.DROP_ANCHOR);
+        } else {
+          // set state
+          this.gameScene.sceneSettings.player.props.state = SHIP_STATE.ANCHOR;
+          // set screen text
+          this.updateText(undefined, 'shipStatus', SHIP_STATE.ANCHOR);
+          // update button text
+          this.anchorButton.buttonText.setText(SHIP_ACTIONS.PULL_ANCHOR);
+        }
+      },
+    });
   }
 
   setupEvents() {
@@ -87,19 +103,22 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     }));
   }
 
+  updateText(eventName, textKey, textValue) {
+    if (eventName) {
+      this.gameScene.events.once(eventName, (value) => {
+        const obj = this.subData.find((data) => data.name === textKey);
+        obj.t.setText(`${obj.text}: ${textValue(value)}`);
+      });
+    } else {
+      const obj = this.subData.find((data) => data.name === textKey);
+      obj.t.setText(`${obj.text}: ${textValue}`);
+    }
+  }
+
   update() {
-    this.gameScene.events.once('updateMaxDepth', (maxDepth) => {
-      const obj = this.subData.find((data) => data.name === 'maxDepth');
-      obj.t.setText(`${obj.text}: -${Math.round(maxDepth)}m`);
-    });
-    this.gameScene.events.once('updateWaterCurrentAngle', (waterCurrentAngle) => {
-      const obj = this.subData.find((data) => data.name === 'waterCurrentAngle');
-      obj.t.setText(`${obj.text}: ${waterCurrentAngle}°`);
-    });
-    this.gameScene.events.once('updateWaterCurrentVelocity', (waaterCurrentVelocity) => {
-      const obj = this.subData.find((data) => data.name === 'waterCurrentVelocity');
-      obj.t.setText(`${obj.text}: ${waaterCurrentVelocity}m/s`);
-    });
+    this.updateText('updateMaxDepth', 'maxDepth', (value) => `-${Math.round(value)}m`);
+    this.updateText('updateWaterCurrentAngle', 'waterCurrentAngle', (value) => `${value}°`);
+    this.updateText('updateWaterCurrentVelocity', 'waterCurrentVelocity', (value) => `${value}m/s`);
 
     const {
       angle, targetCourse, currentSpeed, throttle, currentDepth,
@@ -111,10 +130,12 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     const convertedThrottle = (Math.round(throttle) * 100) / 2;
     this.rpmGauge.update(convertedThrottle);
 
-    // if (currentSpeed === 0) {
-    //   this.anchorButton.setStyle({ fill: '#0f0' });
-    // } else if (currentSpeed > 0) {
-    //   this.anchorButton.setStyle({ fill: '#FF0000' });
-    // }
+    if (currentSpeed === 0) {
+      if (this.anchorButton.disabled) {
+        this.anchorButton.disabled = false;
+      }
+    } else if (currentSpeed > 5) {
+      this.anchorButton.disabled = true;
+    }
   }
 }

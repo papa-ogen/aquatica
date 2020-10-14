@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Submarine from './BelowSurface/Submarine';
-import Fish from './BelowSurface/Fish';
+import Fish from '../prefabs/Fish';
 
 export default class Test extends Phaser.Scene {
   constructor() {
