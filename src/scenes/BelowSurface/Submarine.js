@@ -231,7 +231,20 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       this.shadow.setScale(scale);
     }
 
-    this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
+    if (this.verre === 0) {
+      this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
+      this.verre++;
+    } else {
+      const waterCurrentAngle = 90;
+      const waterCurrentVelocity = 50;
+      console.log('verre?');
+      this.scene.physics.velocityFromAngle(waterCurrentAngle, waterCurrentVelocity, this.body.velocity);
+      this.verre = 0;
+    }
+
+    // console.log('efter', this.body.velocity === res);
+    // const { waterCurrentAngle, waterCurrentVelocity } = this.sceneSettings;
+
     this.scene.physics.velocityFromAngle(this.angle,
       this.currentSpeed, this.shadow.body.velocity);
 
