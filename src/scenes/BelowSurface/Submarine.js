@@ -49,8 +49,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     // TODO: offset by Submarine (this) angle (this, x, y)
     emitter.startFollow(this);
 
-    this.cameras.main.startFollow(this);
-
     this.shadow = this.scene.physics.add.sprite(this.offset.x, this.offset.y, 'sub-2-shadow')
       .setOrigin(0.5);
     this.shadow.alpha = 0.3;
@@ -113,50 +111,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       frames: [{ key: 'sub', frame: 0 }],
       frameRate: 10,
     });
-  }
-
-  // createRt(opacity = 0.9) {
-  //   const { width, height } = this.cameras.main;
-  //   this.rt = this.scene.add.renderTexture(0, 0, width, height)
-  //     .fill(0x023c4f, opacity)
-  //     .setDepth(1);
-  // }
-
-  // addMask() {
-  //   this.spotlight = this.scene.make.sprite({
-  //     x: 400,
-  //     y: 300,
-  //     key: 'mask',
-  //     add: false,
-  //   })
-  //     .setScale(2)
-  //     .setAlpha(0.6)
-  //     .setDepth(1);
-
-  //   const scaleX = this.cameras.main.width / this.rt.width;
-  //   const scaleY = this.cameras.main.height / this.rt.height;
-  //   const scale = Math.max(scaleX, scaleY);
-
-  //   this.rt.setScale(scale).setScrollFactor(0);
-
-  //   const mask = this.rt.createBitmapMask(this.spotlight);
-
-  //   mask.invertAlpha = true;
-
-  //   this.rt.setMask(mask);
-  // }
-
-  duskTillDawn(time) {
-    if (this.verre === 12) {
-      const opacity = (Math.sin(time / 100000) + 1) / 2;
-      this.rt.destroy();
-
-      this.createRt(opacity);
-      this.addMask();
-
-      this.verre = 0;
-    }
-    this.verre += 1;
   }
 
   update() {
@@ -243,15 +197,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.scene.physics.velocityFromAngle(this.angle,
       this.currentSpeed, this.shadow.body.velocity);
-
-    // this.spotlight.x = this.x;
-    // this.spotlight.y = this.y;
-
-    if (this.currentDepth >= this.scene.sceneSettings.maxDepth) {
-      console.error('Boom you dead!');
-      this.currentSpeed = 0;
-      this.scene.pause();
-    }
   }
 }
 

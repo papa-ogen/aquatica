@@ -45,6 +45,8 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.add.image(150, 150, 'diver');
 
+    this.cameras.main.startFollow(this.sceneSettings.player);
+
     // this.setCollisions();
   }
 
@@ -129,5 +131,11 @@ export default class BelowSurface extends Phaser.Scene {
     this.controls.update(delta);
 
     this.mask.update(player);
+
+    if (player.currentDepth >= this.sceneSettings.maxDepth) {
+      console.error('Boom you dead!');
+      player.currentSpeed = 0;
+      this.pause();
+    }
   }
 }

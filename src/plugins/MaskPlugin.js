@@ -40,6 +40,19 @@ export default class MaskPlugin extends Phaser.Plugins.ScenePlugin {
     this.rt.setMask(mask);
   }
 
+  duskTillDawn(time) {
+    if (this.verre === 12) {
+      const opacity = (Math.sin(time / 100000) + 1) / 2;
+      this.rt.destroy();
+
+      this.createRt(opacity);
+      this.addMask();
+
+      this.verre = 0;
+    }
+    this.verre += 1;
+  }
+
   update(target) {
     this.spotlight.x = target.x;
     this.spotlight.y = target.y;
