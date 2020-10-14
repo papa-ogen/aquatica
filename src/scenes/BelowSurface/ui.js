@@ -91,6 +91,19 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
         }
       },
     });
+    this.deployButton = this.plugins.start('ButtonPlugin', 'deployButton');
+    this.deployButton.create({
+      scene: this,
+      x: 10,
+      y: 520,
+      text: SHIP_ACTIONS.DEPLOY_DIVER,
+      // disabled: this.gameScene.sceneSettings.player.props.state === SHIP_STATE.MOVING,
+      callback: () => {
+        const diver = this.gameScene.add.image(150, 150, 'diver');
+        this.gameScene.add.image(150, 150, 'diver');
+        this.gameScene.cameras.main.startFollow(diver);
+      },
+    });
   }
 
   setupEvents() {

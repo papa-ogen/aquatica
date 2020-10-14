@@ -16,6 +16,7 @@ export default class BelowSurface extends Phaser.Scene {
       waterCurrentAngle: 90,
       waterCurrentVelocity: 1,
     };
+    this.cameraFollow = null;
   }
 
   init(config) {
@@ -43,9 +44,9 @@ export default class BelowSurface extends Phaser.Scene {
     this.sceneSettings.player = new Submarine(this,
       250, 250);
 
-    this.add.image(150, 150, 'diver');
+    this.cameraFollow = this.sceneSettings.player;
 
-    this.cameras.main.startFollow(this.sceneSettings.player);
+    this.cameras.main.startFollow(this.cameraFollow);
 
     // this.setCollisions();
   }

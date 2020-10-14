@@ -6,6 +6,8 @@ export const SHIP_ACTIONS = {
   TURN_ON_ENGINE: 'Turn on Engine',
   DROP_ANCHOR: 'Drop Anchor',
   PULL_ANCHOR: 'Pull Anchor',
+  DEPLOY_DIVER: 'Deploy Diver',
+  WITHDRAW_DIVER: 'Withdraw Diver',
 };
 
 export const SHIP_STATE = {
