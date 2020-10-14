@@ -12,6 +12,7 @@ import Test from './scenes/Test';
 import CompassPlugin from './plugins/CompassPlugin';
 import GaugePlugin from './plugins/GaugePlugin';
 import ButtonPlugin from './plugins/ButtonPlugin';
+import FishPlugin from './plugins/FishPlugin';
 
 /**
  * Setup the root class for the whole game.
@@ -42,6 +43,7 @@ class Game extends Phaser.Game {
         scene: [
           { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
           { key: 'BelowSurfaceHUD', plugin: CompassPlugin, mapping: 'compass' },
+          { key: 'BelowSurface', plugin: FishPlugin, mapping: 'fish' },
         ],
       },
     });

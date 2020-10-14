@@ -1,55 +1,68 @@
 import Phaser from 'phaser';
 
+const theme = {
+  disabled: {
+    hover: '#010101',
+    active: '#808080',
+    inactive: '#999999',
+  },
+  default: {
+    hover: '#ff0',
+    active: '#0ff',
+    inactive: '#0f0',
+  },
+};
+
 export default class ButtonPlugin extends Phaser.Plugins.BasePlugin {
   constructor(pluginManager) {
     super('ButtonPlugin', pluginManager);
   }
 
-  create(scene, x = 0, y = 0, text) {
-    this.buttonText = scene.add.text(x, y, text, { fill: '#0f0' })
+  create({
+    scene, x = 0, y = 0,
+    text,
+    callback,
+    disabled = false,
+  }) {
+    this._disabled = disabled;
+    this.buttonText = scene.add.text(x, y, text, { fill: this.setThemeColor('inactive') })
       .setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        console.log('update!!');
-      })
-      .on('pointerover', () => {
-        this.buttonText.setStyle({ fill: '#ff0' });
-        console.log('pointerover');
-      })
-      .on('pointerout', () => {
-        this.buttonText.setStyle({ fill: '#0f0' });
+      .on('pointerover', () => this.hoverState())
+      .on('pointerout', () => this.inactiveState())
+      .on('pointerdown', () => this.activeState())
+      .on('pointerup', () => {
+        this.hoverState();
+        if (callback && !this._disabled) callback();
       });
-
-    // this.compassContainer = this.scene.add.container(x, y);
-
-    // this.targetCourseText = this.scene.add.text(0, 25, 'TC: 0°', { font: '16px roboto', fill: '#ffffff' })
-    //   .setOrigin(0.5);
-
-    // this.currentCourseLabel = this.scene.add.text(0, -35, 'Course', { font: '16px roboto', fill: '#ffffff' })
-    //   .setOrigin(0.5);
-    // this.currentCourseText = this.scene.add.text(0, -17, '0°', { font: '16px roboto', fill: '#ffffff' })
-    //   .setOrigin(0.5);
-
-    // const body = this.scene.add.image(0, 0, 'compass-body');
-    // // this.compassArrow = this.scene.add.image(0, 0, 'compass-arrow')
-    // //   .setOrigin(0);
-    // this.compassPointer = this.scene.add.image(0, 0, 'compass-pointer')
-    //   .setOrigin(0.1, 0.5);
-    // this.compassPointerWhite = this.scene.add.image(0, 0, 'compass-pointer-white')
-    //   .setOrigin(0.1, 0.5);
-    // this.compassContainer.add(body);
-    // // this.compassContainer.add(this.compassArrow);
-    // this.compassContainer.add(this.targetCourseText);
-    // this.compassContainer.add(this.currentCourseLabel);
-    // this.compassContainer.add(this.currentCourseText);
-    // this.compassContainer.add(this.compassPointer);
-    // this.compassContainer.add(this.compassPointerWhite);
   }
 
-  pointerOver(callback) {
-    if (callback) callback();
+  hoverState() {
+    const fill = this.setThemeColor('hover');
+    this.buttonText.setStyle({ fill });
   }
 
-  update() {
-    // TODO
+  inactiveState() {
+    const fill = this.setThemeColor('inactive');
+    this.buttonText.setStyle({ fill });
+  }
+
+  activeState() {
+    const fill = this.setThemeColor('active');
+    this.buttonText.setStyle({ fill });
+  }
+
+  set disabled(isDisabled) {
+    this._disabled = isDisabled || true;
+    const fill = this.setThemeColor('inactive', isDisabled);
+    this.buttonText.setStyle({ fill });
+  }
+
+  get disabled() {
+    return this._disabled;
+  }
+
+  setThemeColor(state, isDisabled) {
+    if (arguments.length === 2) return isDisabled ? theme.disabled[state] : theme.default[state];
+    return this._disabled ? theme.disabled[state] : theme.default[state];
   }
 }
