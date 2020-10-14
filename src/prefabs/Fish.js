@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-// TODO: Fish plugin https://phaser.io/examples/v3/view/plugins/custom-game-object ?
+
 class Fish extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'fish');

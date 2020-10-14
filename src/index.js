@@ -13,16 +13,10 @@ import CompassPlugin from './plugins/CompassPlugin';
 import GaugePlugin from './plugins/GaugePlugin';
 import ButtonPlugin from './plugins/ButtonPlugin';
 import FishPlugin from './plugins/FishPlugin';
+import MaskPlugin from './plugins/MaskPlugin';
 
-/**
- * Setup the root class for the whole game.
- */
 class Game extends Phaser.Game {
-  /**
-   * Initialize the game before preloading assets.
-   */
   constructor() {
-    // Setup the game's stage.
     super({
       type: Phaser.AUTO,
       width: window.innerWidth,
@@ -41,14 +35,14 @@ class Game extends Phaser.Game {
             { key: 'ButtonPlugin', plugin: ButtonPlugin },
           ],
         scene: [
-          { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
-          { key: 'BelowSurfaceHUD', plugin: CompassPlugin, mapping: 'compass' },
-          { key: 'BelowSurface', plugin: FishPlugin, mapping: 'fish' },
+          // { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
+          { key: 'CompassPlugin', plugin: CompassPlugin, mapping: 'compass' },
+          { key: 'FishPlugin', plugin: FishPlugin, mapping: 'fish' },
+          { key: 'MaskPlugin', plugin: MaskPlugin, mapping: 'mask' },
         ],
       },
     });
 
-    // Setup the different game states.
     this.scene.add('Boot', Boot, false);
     this.scene.add('Loading', Preload, false);
     this.scene.add('Main', Main, false);
@@ -57,7 +51,6 @@ class Game extends Phaser.Game {
     this.scene.add('GameOptions', GameOptions, false);
     this.scene.add('Test', Test, false);
 
-    // Kick things off with the boot state.
     this.scene.start('Boot');
 
     // Handle debug mode.

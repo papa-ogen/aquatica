@@ -37,12 +37,13 @@ export default class BelowSurface extends Phaser.Scene {
     this.createKeyboardEvents();
     this.createCameraControls();
 
-    this.fish.createFishes();
+    this.fish.createFishes(100);
+    this.mask.addMask();
 
     this.sceneSettings.player = new Submarine(this,
       250, 250);
 
-    this.add.image(150, 150, 'manta');
+    this.add.image(150, 150, 'diver');
 
     // this.setCollisions();
   }
@@ -119,12 +120,14 @@ export default class BelowSurface extends Phaser.Scene {
       this.sceneSettings.defaultDepthSet = true;
     }
 
-    // this.fishes.getChildren().forEach((fish) => {
-    //   fish.update();
-    // });
+    this.fish.fishes.getChildren().forEach((fish) => {
+      fish.update();
+    });
 
     player.update(time);
 
     this.controls.update(delta);
+
+    this.mask.update(player);
   }
 }

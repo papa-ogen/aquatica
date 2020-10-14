@@ -56,9 +56,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.shadow.alpha = 0.3;
     this.shadow.angle = course - 90;
 
-    this.createRt();
-    this.addMask();
-
     this.createAnimations();
     // this.setCollideWorldBounds(true); // TODO: fix
 
@@ -118,36 +115,36 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  createRt(opacity = 0.9) {
-    const { width, height } = this.cameras.main;
-    this.rt = this.scene.add.renderTexture(0, 0, width, height)
-      .fill(0x023c4f, opacity)
-      .setDepth(1);
-  }
+  // createRt(opacity = 0.9) {
+  //   const { width, height } = this.cameras.main;
+  //   this.rt = this.scene.add.renderTexture(0, 0, width, height)
+  //     .fill(0x023c4f, opacity)
+  //     .setDepth(1);
+  // }
 
-  addMask() {
-    this.spotlight = this.scene.make.sprite({
-      x: 400,
-      y: 300,
-      key: 'mask',
-      add: false,
-    })
-      .setScale(2)
-      .setAlpha(0.6)
-      .setDepth(1);
+  // addMask() {
+  //   this.spotlight = this.scene.make.sprite({
+  //     x: 400,
+  //     y: 300,
+  //     key: 'mask',
+  //     add: false,
+  //   })
+  //     .setScale(2)
+  //     .setAlpha(0.6)
+  //     .setDepth(1);
 
-    const scaleX = this.cameras.main.width / this.rt.width;
-    const scaleY = this.cameras.main.height / this.rt.height;
-    const scale = Math.max(scaleX, scaleY);
+  //   const scaleX = this.cameras.main.width / this.rt.width;
+  //   const scaleY = this.cameras.main.height / this.rt.height;
+  //   const scale = Math.max(scaleX, scaleY);
 
-    this.rt.setScale(scale).setScrollFactor(0);
+  //   this.rt.setScale(scale).setScrollFactor(0);
 
-    const mask = this.rt.createBitmapMask(this.spotlight);
+  //   const mask = this.rt.createBitmapMask(this.spotlight);
 
-    mask.invertAlpha = true;
+  //   mask.invertAlpha = true;
 
-    this.rt.setMask(mask);
-  }
+  //   this.rt.setMask(mask);
+  // }
 
   duskTillDawn(time) {
     if (this.verre === 12) {
@@ -233,11 +230,10 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     if (this.verre === 0) {
       this.scene.physics.velocityFromAngle(this.angle, this.currentSpeed, this.body.velocity);
-      this.verre++;
+      // this.verre++;
     } else {
       const waterCurrentAngle = 90;
       const waterCurrentVelocity = 50;
-      console.log('verre?');
       this.scene.physics.velocityFromAngle(waterCurrentAngle, waterCurrentVelocity, this.body.velocity);
       this.verre = 0;
     }
@@ -248,8 +244,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.velocityFromAngle(this.angle,
       this.currentSpeed, this.shadow.body.velocity);
 
-    this.spotlight.x = this.x;
-    this.spotlight.y = this.y;
+    // this.spotlight.x = this.x;
+    // this.spotlight.y = this.y;
 
     if (this.currentDepth >= this.scene.sceneSettings.maxDepth) {
       console.error('Boom you dead!');
