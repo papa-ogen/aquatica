@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Diver from './Diver';
 import Submarine from './Submarine';
 
 export default class BelowSurface extends Phaser.Scene {
@@ -106,6 +107,12 @@ export default class BelowSurface extends Phaser.Scene {
     //   this.add.existing(fish);
     //   this.fishes.add(fish);
     // });
+  }
+
+  addDiver() {
+    this.sceneSettings.diver = new Diver(this, 150, 150, 'diver');
+    this.cameras.main.startFollow(this.sceneSettings.diver);
+    this.cameraFollow = this.sceneSettings.diver;
   }
 
   update(time, delta) {

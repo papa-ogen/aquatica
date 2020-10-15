@@ -100,9 +100,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       text: SHIP_ACTIONS.DEPLOY_DIVER,
       // disabled: this.gameScene.sceneSettings.player.props.state === SHIP_STATE.MOVING,
       callback: () => {
-        this.gameScene.sceneSettings.diver = new Diver(this.gameScene, 150, 150, 'diver');
-        this.gameScene.cameras.main.startFollow(this.gameScene.sceneSettings.diver);
-        this.gameScene.cameraFollow = this.gameScene.sceneSettings.diver;
+        this.gameScene.addDiver();
       },
     });
   }
