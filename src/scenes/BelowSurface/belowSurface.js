@@ -8,6 +8,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.sceneSettings = {
       player: null,
       ship: null,
+      diver: null,
       defaultDepthSet: false,
       startingPlayerDepth: 80,
       startingPlayerCourse: 33,
@@ -27,9 +28,9 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   create() {
-    const {
-      width, height, centerX, centerY,
-    } = this.cameras.main;
+    // const {
+    //   width, height, centerX, centerY,
+    // } = this.cameras.main;
 
     this.cameras.main.setBackgroundColor(0xeedf6a);
 
@@ -38,8 +39,8 @@ export default class BelowSurface extends Phaser.Scene {
     this.createKeyboardEvents();
     this.createCameraControls();
 
-    this.fish.createFishes(100);
-    this.mask.addMask();
+    this.fishPlugin.createFishes(100);
+    this.maskPlugin.addMask();
 
     this.sceneSettings.player = new Submarine(this,
       250, 250);
@@ -123,7 +124,7 @@ export default class BelowSurface extends Phaser.Scene {
       this.sceneSettings.defaultDepthSet = true;
     }
 
-    this.fish.fishes.getChildren().forEach((fish) => {
+    this.fishPlugin.fishes.getChildren().forEach((fish) => {
       fish.update();
     });
 
@@ -131,7 +132,7 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.controls.update(delta);
 
-    this.mask.update(player);
+    this.maskPlugin.update(this.cameraFollow);
 
     if (player.currentDepth >= this.sceneSettings.maxDepth) {
       console.error('Boom you dead!');

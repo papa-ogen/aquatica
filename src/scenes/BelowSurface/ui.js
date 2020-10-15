@@ -53,7 +53,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       this.add.zone(width / 2, 30, width, height),
     );
     // Loading plugin
-    this.compass.display(100, height - 100);
+    this.compassPlugin.display(100, height - 100);
 
     this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
     this.speedGauge.display(this, 270, height - 100, 'Speed', 0, 100);
@@ -99,9 +99,10 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       text: SHIP_ACTIONS.DEPLOY_DIVER,
       // disabled: this.gameScene.sceneSettings.player.props.state === SHIP_STATE.MOVING,
       callback: () => {
-        const diver = this.gameScene.add.image(150, 150, 'diver');
+        this.gameScene.sceneSettings.diver = this.gameScene.add.image(150, 150, 'diver');
         this.gameScene.add.image(150, 150, 'diver');
-        this.gameScene.cameras.main.startFollow(diver);
+        this.gameScene.cameras.main.startFollow(this.gameScene.sceneSettings.diver);
+        this.gameScene.cameraFollow = this.gameScene.sceneSettings.diver;
       },
     });
   }
@@ -136,7 +137,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     const {
       angle, targetCourse, currentSpeed, throttle, currentDepth,
     } = this.gameScene.sceneSettings.player;
-    this.compass.update(angle, targetCourse);
+    this.compassPlugin.update(angle, targetCourse);
     this.speedGauge.update(currentSpeed);
     this.depthGauge.update(currentDepth);
 
@@ -149,6 +150,12 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       }
     } else if (currentSpeed > 5) {
       this.anchorButton.disabled = true;
+    }
+
+    if (this.gameScene.sceneSettings.player.props.state === SHIP_STATE.ANCHOR) {
+      if (this.deployButton.disabled) {
+        this.deployButton.disabled = false;
+      }
     }
   }
 }

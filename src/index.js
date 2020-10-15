@@ -36,9 +36,9 @@ class Game extends Phaser.Game {
           ],
         scene: [
           // { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
-          { key: 'CompassPlugin', plugin: CompassPlugin, mapping: 'compass' },
-          { key: 'FishPlugin', plugin: FishPlugin, mapping: 'fish' },
-          { key: 'MaskPlugin', plugin: MaskPlugin, mapping: 'mask' },
+          { key: 'CompassPlugin', plugin: CompassPlugin, mapping: 'compassPlugin' },
+          { key: 'FishPlugin', plugin: FishPlugin, mapping: 'fishPlugin' },
+          { key: 'MaskPlugin', plugin: MaskPlugin, mapping: 'maskPlugin' },
         ],
       },
     });
