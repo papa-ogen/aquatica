@@ -1,5 +1,4 @@
 import * as CONSTANTS from '../utils/constants';
-import { getGridCenter } from '../utils';
 import { Text } from '../ui-kit';
 import GameObject from './GameObject';
 
@@ -88,7 +87,7 @@ class Ship extends GameObject {
 
   layoutName(layout, centerX, centerY) {
     const {
-      x, y, name, height,
+      y, name, height,
     } = layout;
     const text = new Text({
       ctx: this.ctx,

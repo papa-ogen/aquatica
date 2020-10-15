@@ -1,10 +1,13 @@
 import Phaser from 'phaser';
 import Diver from './Diver';
 import Submarine from './Submarine';
+import StateMachine from '../../prefabs/StateMachine';
+import { stateChart, STATES } from './constants';
 
 export default class BelowSurface extends Phaser.Scene {
   constructor() {
     super('BelowSurface');
+    this.stateMachine = new StateMachine(stateChart);
     this.cursors = null;
     this.sceneSettings = {
       player: null,
@@ -103,7 +106,8 @@ export default class BelowSurface extends Phaser.Scene {
 
     // const GKey = this.input.keyboard.addKey('g');
     // GKey.on('down', () => {
-    //   const fish = new Fish(this, this.sceneSettings.player.x, this.sceneSettings.player.y, 'fish');
+    //   const fish = new Fish(this, this.sceneSettings.player.x,
+    // this.sceneSettings.player.y, 'fish');
     //   this.add.existing(fish);
     //   this.fishes.add(fish);
     // });
@@ -145,6 +149,15 @@ export default class BelowSurface extends Phaser.Scene {
       console.error('Boom you dead!');
       player.currentSpeed = 0;
       this.pause();
+    }
+
+    const { stateMachine: state } = this;
+    const maxAnchorSpeed = 5;
+
+    if (player.currentSpeed > maxAnchorSpeed && state.current.name !== STATES.IS_MOVING) {
+      state.setState(STATES.IS_MOVING);
+    } else if (player.currentSpeed <= maxAnchorSpeed && state.current.name !== STATES.IS_STOPPED) {
+      state.setState(STATES.IS_STOPPED);
     }
   }
 }

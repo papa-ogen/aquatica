@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
-import Diver from './Diver';
-import { SHIP_ACTIONS, SHIP_STATE } from './constants';
+import {
+  ACTIONS, STATES,
+} from './constants';
 
 export default class BelowSurfaceHUD extends Phaser.Scene {
   constructor() {
@@ -30,7 +31,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       {
         name: 'shipStatus',
         text: 'Ship status',
-        value: SHIP_STATE.MOVING,
+        value: STATES.IS_MOVING,
       },
     ];
   }
@@ -40,20 +41,89 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   create() {
-    this.setupEvents();
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
+    this.setupEvents();
+    this.displayHeader(width, height);
+    this.addGauges(height);
+
+    const buttons = [];
+    this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
+    this.engineButton = this.plugins.start('ButtonPlugin', 'engineButton');
+    this.deployButton = this.plugins.start('ButtonPlugin', 'deployButton');
+    buttons.push(this.anchorButton);
+    buttons.push(this.engineButton);
+    buttons.push(this.deployButton);
+
+    this.anchorButton.create({
+      scene: this,
+      x: 10,
+      y: 500,
+      text: ACTIONS.DROP_ANCHOR,
+      callback: () => {
+        const { stateMachine: state } = this.gameScene;
+        const { hasAnchor } = state.context;
+
+        state.send({ hasAnchor: !hasAnchor });
+
+        const btnText = hasAnchor ? ACTIONS.DROP_ANCHOR : ACTIONS.PULL_ANCHOR;
+
+        this.anchorButton.buttonText.setText(btnText);
+      },
+    });
+
+    this.engineButton.create({
+      scene: this,
+      x: 10,
+      y: 520,
+      text: ACTIONS.ENGINGE_STOP,
+      callback: () => {
+        const { stateMachine: state } = this.gameScene;
+        const { engineRunning } = state.context;
+
+        state.send({ engineRunning: !engineRunning });
+
+        const btnText = engineRunning ? ACTIONS.ENGINGE_START : ACTIONS.ENGINGE_STOP;
+
+        this.engineButton.buttonText.setText(btnText);
+      },
+    });
+
+    this.deployButton.create({
+      scene: this,
+      x: 10,
+      y: 540,
+      text: ACTIONS.DEPLOY_DIVER,
+      callback: () => {
+        const { stateMachine: state } = this.gameScene;
+        const { diverDeployed } = state.context;
+
+        state.send({ diverDeployed: !diverDeployed });
+
+        const btnText = diverDeployed ? ACTIONS.DEPLOY_DIVER : ACTIONS.WITHDRAW_DIVER;
+
+        this.deployButton.buttonText.setText(btnText);
+
+        if (!diverDeployed) {
+          this.gameScene.addDiver();
+        }
+      },
+    });
+  }
+
+  displayHeader(width, height) {
     this.levelText = this.add.text(0, 0, 'Below Surface', {
       fontFamily: 'roboto', fontSize: '26px', fill: '#fff',
     });
-
-    const { width } = this.cameras.main;
-    const { height } = this.cameras.main;
 
     Phaser.Display.Align.In.Center(
       this.levelText,
       this.add.zone(width / 2, 30, width, height),
     );
-    // Loading plugin
+  }
+
+  addGauges(height) {
     this.compassPlugin.display(100, height - 100);
 
     this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
@@ -64,45 +134,6 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge');
     this.depthGauge.display(this, 610, height - 100, 'Depth', 0, 100);
-
-    this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
-    this.anchorButton.create({
-      scene: this,
-      x: 10,
-      y: 500,
-      text: SHIP_ACTIONS.DROP_ANCHOR,
-      callback: () => {
-        const {
-          props: { state },
-        } = this.gameScene.sceneSettings.player;
-        if (state === SHIP_STATE.ANCHOR) {
-          // set state
-          this.gameScene.sceneSettings.player.props.state = SHIP_STATE.MOVING;
-          // set screen text
-          this.updateText(undefined, 'shipStatus', SHIP_STATE.MOVING);
-          // update button text
-          this.anchorButton.buttonText.setText(SHIP_ACTIONS.DROP_ANCHOR);
-        } else {
-          // set state
-          this.gameScene.sceneSettings.player.props.state = SHIP_STATE.ANCHOR;
-          // set screen text
-          this.updateText(undefined, 'shipStatus', SHIP_STATE.ANCHOR);
-          // update button text
-          this.anchorButton.buttonText.setText(SHIP_ACTIONS.PULL_ANCHOR);
-        }
-      },
-    });
-    this.deployButton = this.plugins.start('ButtonPlugin', 'deployButton');
-    this.deployButton.create({
-      scene: this,
-      x: 10,
-      y: 520,
-      text: SHIP_ACTIONS.DEPLOY_DIVER,
-      // disabled: this.gameScene.sceneSettings.player.props.state === SHIP_STATE.MOVING,
-      callback: () => {
-        this.gameScene.addDiver();
-      },
-    });
   }
 
   setupEvents() {
@@ -128,9 +159,12 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   update() {
+    const { stateMachine: state } = this.gameScene;
+
     this.updateText('updateMaxDepth', 'maxDepth', (value) => `-${Math.round(value)}m`);
     this.updateText('updateWaterCurrentAngle', 'waterCurrentAngle', (value) => `${value}°`);
     this.updateText('updateWaterCurrentVelocity', 'waterCurrentVelocity', (value) => `${value}m/s`);
+    this.updateText(undefined, 'shipStatus', state.current.name);
 
     const {
       angle, targetCourse, currentSpeed, throttle, currentDepth,
@@ -142,18 +176,20 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     const convertedThrottle = (Math.round(throttle) * 100) / 2;
     this.rpmGauge.update(convertedThrottle);
 
-    if (currentSpeed === 0) {
-      if (this.anchorButton.disabled) {
-        this.anchorButton.disabled = false;
-      }
-    } else if (currentSpeed > 5) {
+    // STATES
+    if (state.current.name === STATES.IS_MOVING && !this.anchorButton.disabled) {
       this.anchorButton.disabled = true;
+    } else if (state.current.name === STATES.IS_STOPPED && this.anchorButton.disabled) {
+      this.anchorButton.disabled = false;
     }
 
-    if (this.gameScene.sceneSettings.player.props.state === SHIP_STATE.ANCHOR) {
-      if (this.deployButton.disabled) {
-        this.deployButton.disabled = false;
-      }
+    // CONTEXT
+    const { hasAnchor, diverDeployed } = state.context;
+
+    if (hasAnchor && !diverDeployed && this.deployButton.disabled) {
+      this.deployButton.disabled = false;
+    } else if (!hasAnchor && !this.deployButton.disabled) {
+      this.deployButton.disabled = true;
     }
   }
 }

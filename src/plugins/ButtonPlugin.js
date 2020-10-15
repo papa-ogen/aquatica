@@ -52,7 +52,7 @@ export default class ButtonPlugin extends Phaser.Plugins.BasePlugin {
   }
 
   set disabled(isDisabled) {
-    this._disabled = isDisabled || true;
+    this._disabled = isDisabled;
     const fill = this.setThemeColor('inactive', isDisabled);
     this.buttonText.setStyle({ fill });
   }
