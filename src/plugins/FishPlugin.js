@@ -9,7 +9,13 @@ export default class FishPlugin extends Phaser.Plugins.ScenePlugin {
     this.fishes = null;
   }
 
-  createFishes(amount = 10) {
+  boot() {
+    const eventEmitter = this.systems.events;
+
+    eventEmitter.on('update', this.update, this);
+  }
+
+  create(amount = 10) {
     const fishTypes = [
       [0, 2],
       [3, 5],
@@ -37,6 +43,14 @@ export default class FishPlugin extends Phaser.Plugins.ScenePlugin {
       const fish = new Fish(this.scene, centerX, centerY, 'fish');
       this.fishes.add(fish);
       this.scene.add.existing(fish);
+    }
+  }
+
+  update() {
+    if (this.fishes) {
+      this.fishes.getChildren().forEach((fish) => {
+        fish.update();
+      });
     }
   }
 }

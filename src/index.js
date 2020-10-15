@@ -4,7 +4,7 @@ import Boot from './scenes/Boot';
 import Preload from './scenes/Loading';
 import Main from './scenes/Main';
 import GameOptions from './scenes/GameOptions';
-import BelowSurface from './scenes/BelowSurface/belowSurface';
+import BelowSurface from './scenes/BelowSurface';
 import BelowSurfaceHUD from './scenes/BelowSurface/ui';
 import Test from './scenes/Test';
 

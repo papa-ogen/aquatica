@@ -26,8 +26,6 @@ export const ACTIONS = {
   SHOOT: 'shoot',
   DEPLOY_DIVER: 'deployDiver',
   WITHDRAW_DIVER: 'withdrawDiver',
-  STOP: 'stop',
-  START: 'start',
   ENGINGE_START: 'engineStart',
   ENGINGE_STOP: 'engineStop',
   DROP_ANCHOR: 'dropAnchor',

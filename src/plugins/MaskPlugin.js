@@ -5,17 +5,23 @@ export default class MaskPlugin extends Phaser.Plugins.ScenePlugin {
     super(scene, pluginManager);
 
     this.scene = scene;
+    this.target = null;
   }
 
-  createRt(opacity = 0.9) {
+  boot() {
+    const eventEmitter = this.systems.events;
+
+    eventEmitter.on('update', this.update, this);
+  }
+
+  create(target, opacity = 0.9) {
+    this.target = target;
+
     const { width, height } = this.scene.cameras.main;
+
     this.rt = this.scene.add.renderTexture(0, 0, width, height)
       .fill(0x023c4f, opacity)
       .setDepth(1);
-  }
-
-  addMask() {
-    this.createRt();
 
     this.spotlight = this.scene.make.sprite({
       x: 400,
@@ -53,8 +59,10 @@ export default class MaskPlugin extends Phaser.Plugins.ScenePlugin {
     this.verre += 1;
   }
 
-  update(target) {
-    this.spotlight.x = target.x;
-    this.spotlight.y = target.y;
+  update() {
+    if (this.target) {
+      this.spotlight.x = this.target.x;
+      this.spotlight.y = this.target.y;
+    }
   }
 }

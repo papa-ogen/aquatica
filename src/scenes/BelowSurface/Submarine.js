@@ -113,7 +113,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  update() {
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
     if (this.cursors.up.isDown) {
       this.throttle += 1;
 
@@ -188,7 +189,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     } else {
       const waterCurrentAngle = 90;
       const waterCurrentVelocity = 50;
-      this.scene.physics.velocityFromAngle(waterCurrentAngle, waterCurrentVelocity, this.body.velocity);
+      this.scene.physics.velocityFromAngle(waterCurrentAngle, waterCurrentVelocity,
+        this.body.velocity);
       this.verre = 0;
     }
 
