@@ -3,14 +3,14 @@ http://localhost:8080
 - [x] Switch between levels
 - [x] Add fish
 - [x] Add plants
-- [ ] Currents (strömmar) (angle, velocity)
+- [x] Currents (strömmar) (angle, velocity)
 - [ ] Cave?
 - [x] pause/play
 - [ ] slow/speed up animation based on throttle
 - [x] generate fish on button click
 - [ ] add lights on sub
 - [x] Ship type (layout, loadout, cost, hull, weapons)
-- [ ] State machine - https://glitch.com/edit/#!/phaser-fsm-example?path=public%2Fclient.js%3A76%3A32 or xstate?
+- [x] State machine - https://glitch.com/edit/#!/phaser-fsm-example?path=public%2Fclient.js%3A76%3A32 or xstate?
 - [ ] Put sub, shadow etc in a container
 // Player
 - [x] Money, resources etc
@@ -19,9 +19,9 @@ http://localhost:8080
 - [x] Acceleration on speed
 - [ ] Submarine shadow (blur more depending on depth etc)
 - [x] fördröjd sväng beroende på fart, så att targetAngle tar längre tid beroende på fart.
-- [ ] lay anchor
-- [ ] create a mask plugin
-- [ ] Greate a global gauge plugin - https://phaser.io/examples/v3/view/plugins/multiple-global-plugin-instances
+- [x] lay anchor
+- [x] create a mask plugin
+- [x] Greate a global gauge plugin - https://phaser.io/examples/v3/view/plugins/multiple-global-plugin-instances
 
 // Trading
 - [ ] Visit city (atoll, oil rig)
@@ -36,8 +36,8 @@ http://localhost:8080
 - [x] Implement ui canvas
 - [x] Bg canvas should not update on every frame
 - [x] Load sprites
-- [ ] Animate sprites - https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations
-- [ ] Transitions
+- [x] Animate sprites - https://spicyyoghurt.com/tutorials/html5-javascript-game-development/images-and-sprite-animations
+- [x] Transitions
 
 // General
 - [ ] Day and night cycle

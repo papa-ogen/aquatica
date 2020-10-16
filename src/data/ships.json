@@ -1,7 +1,8 @@
   {
     "type": "simple class",
     "cost": 10,
-    "minCrew": 3,
+    "minCrew": 1,
+    "maxCrew": 1,
     "dryWeight": 100,
     "ordinance": [],
     "maxDepth": 250,

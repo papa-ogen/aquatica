@@ -141,17 +141,7 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   update(time, delta) {
-    const {
-      maxDepth,
-      defaultDepthSet, player, waterCurrentAngle, waterCurrentVelocity,
-    } = this.sceneSettings;
-
-    if (maxDepth && !defaultDepthSet) {
-      this.events.emit('updateMaxDepth', maxDepth);
-      this.events.emit('updateWaterCurrentAngle', waterCurrentAngle);
-      this.events.emit('updateWaterCurrentVelocity', waterCurrentVelocity);
-      this.sceneSettings.defaultDepthSet = true;
-    }
+    const { player } = this.sceneSettings;
 
     this.controls.update(delta);
 
