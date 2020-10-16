@@ -54,7 +54,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
   displayHeader(width, height) {
     this.levelText = this.add.text(0, 0, 'Below Surface', {
-      fontFamily: 'roboto', fontSize: '26px', fill: '#fff',
+      fontFamily: 'Black Ops One', fontSize: '26px', fill: '#fff',
     });
 
     Phaser.Display.Align.In.Center(
@@ -80,8 +80,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     const margin = 20;
     this.subData = this.subData.map((data, i) => ({
       ...data,
-      t: this.add.text(10, 120 + (i * margin), `${data.text}: ${data.value}`, {
-        fontFamily: 'roboto', fontSize: '16px', fill: '#fff',
+      t: this.add.text(10, 20 + (i * margin), `${data.text}: ${data.value}`, {
+        fontFamily: 'Arvo', fontSize: '16px', fill: '#fff',
       }),
     }));
   }

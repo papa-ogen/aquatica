@@ -15,8 +15,11 @@ export default class Diver extends Phaser.Physics.Arcade.Sprite {
     const particles = this.scene.add.particles('bubble');
 
     const emitter = particles.createEmitter({
-      speed: 0.01,
-      scale: { start: 0.2, end: 0 },
+      speed: 0.1,
+      scale: { start: 0.1, end: 0 },
+      // lifespan: { min: 1000, max: 1100 },
+      // frequency: 110,
+      // maxParticles: 10,
       blendMode: 'ADD',
     });
 

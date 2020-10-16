@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { getGaugeInterval } from '../utils';
+import { FONTS } from '../utils/constants';
 
 export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
   constructor(pluginManager) {
@@ -24,7 +25,7 @@ export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
 
     this.container = scene.add.container(x, y);
 
-    this.text = scene.add.text(0, 25, text, { font: '16px roboto', fill: '#2e5959' })
+    this.text = scene.add.text(0, 22, text, { font: FONTS.NORMAL, fill: '#2e5959' })
       .setOrigin(0.5);
 
     this.pointer = scene.add.image(0, 0, 'compass-pointer')

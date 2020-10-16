@@ -55,32 +55,10 @@ class Game extends Phaser.Game {
 
     this.scene.start('Boot');
 
-    // Handle debug mode.
-    if (process.env.NODE_ENV === 'development') {
-      this.setupStats();
-    }
-
     // Expose the game on the window if in dev/test.
     if (process.env.NODE_ENV !== 'production') {
       window.game = this;
     }
-  }
-
-  /**
-   * Display the FPS and MS using Stats.js.
-   */
-  setupStats() {
-    // Setup the new stats panel.
-    const stats = new Stats();
-    document.body.appendChild(stats.dom);
-
-    // Monkey-patch the update loop so we can track the timing.
-    const updateLoop = this.update;
-    this.update = (...args) => {
-      stats.begin();
-      updateLoop.apply(this, args);
-      stats.end();
-    };
   }
 }
 

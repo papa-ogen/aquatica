@@ -18,6 +18,8 @@ export default class Diver extends Phaser.Physics.Arcade.Sprite {
     });
 
     emitter.startFollow(this);
+
+    this.setDepth(2);
   }
 
   // preUpdate(time, delta) {
