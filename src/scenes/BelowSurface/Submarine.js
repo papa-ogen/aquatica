@@ -27,7 +27,9 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.targetDepth = scene.sceneSettings.startingPlayerDepth;
 
     this.props = {
+      controlsActive: true,
       state: SHIP_STATE.MOVING,
+
     };
 
     this.offset = new Phaser.Geom.Point(this.x + 10, this.y + 8);
@@ -113,8 +115,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     });
   }
 
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
+  updateControls() {
+    // Set Throttle
     if (this.cursors.up.isDown) {
       this.throttle += 1;
 
@@ -145,6 +147,14 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       if (this.targetCourse > 360) {
         this.targetCourse -= 360;
       }
+    }
+  }
+
+  preUpdate(time, delta) {
+    super.preUpdate(time, delta);
+
+    if (this.props.controlsActive) {
+      this.updateControls();
     }
 
     if (this.currentSpeed > 0) {

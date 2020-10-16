@@ -18,7 +18,7 @@ export default class BelowSurface extends Phaser.Scene {
       startingPlayerCourse: 33,
       maxDepth: 100, // TODO: Should come from map meta data
       waterTemp: 4,
-      waterCurrentAngle: 90,
+      waterCurrentAngle: 77,
       waterCurrentVelocity: 1,
     };
     this.cameraFollow = null;
@@ -113,30 +113,45 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   addDiver() {
-    this.sceneSettings.diver = new Diver(this, 150, 150, 'diver');
+    const { x: playerX, y: playerY } = this.sceneSettings.player;
+
+    if (!this.sceneSettings.diver) {
+      this.sceneSettings.diver = new Diver(this, playerX, playerY, 'diver');
+    } else {
+      this.sceneSettings.diver.x = playerX;
+      this.sceneSettings.diver.y = playerY;
+      this.sceneSettings.diver.setActive(true).setVisible(true);
+      this.sceneSettings.diver.props.controlsActive = true;
+    }
+
+    this.sceneSettings.player.props.controlsActive = false;
     this.cameras.main.startFollow(this.sceneSettings.diver);
     this.cameraFollow = this.sceneSettings.diver;
+    this.maskPlugin.target = this.sceneSettings.diver;
+  }
+
+  hideDiver() {
+    this.sceneSettings.diver.setActive(false).setVisible(false);
+    // Todo: make sprite a container or group - group.killAndHide(sprite);
+    this.cameras.main.startFollow(this.sceneSettings.player);
+    this.cameraFollow = this.sceneSettings.player;
+    this.sceneSettings.diver.props.controlsActive = false;
+    this.sceneSettings.player.props.controlsActive = true;
+    this.maskPlugin.target = this.sceneSettings.player;
   }
 
   update(time, delta) {
     const {
       maxDepth,
-      defaultDepthSet, player, startingPlayerDepth, waterCurrentAngle, waterCurrentVelocity,
+      defaultDepthSet, player, waterCurrentAngle, waterCurrentVelocity,
     } = this.sceneSettings;
 
     if (maxDepth && !defaultDepthSet) {
       this.events.emit('updateMaxDepth', maxDepth);
-      this.events.emit('updateCurrentDepth', startingPlayerDepth);
       this.events.emit('updateWaterCurrentAngle', waterCurrentAngle);
       this.events.emit('updateWaterCurrentVelocity', waterCurrentVelocity);
-      this.events.emit('updateCurrentCourse', player.currentCourse);
-      this.events.emit('updateTargetCourse', player.targetCourse);
       this.sceneSettings.defaultDepthSet = true;
     }
-
-    // this.fishPlugin.fishes.getChildren().forEach((fish) => {
-    //   fish.update();
-    // });
 
     this.controls.update(delta);
 

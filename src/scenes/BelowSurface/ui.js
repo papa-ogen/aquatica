@@ -1,33 +1,18 @@
 import Phaser from 'phaser';
 import {
-  ACTIONS, STATES,
+  STATES,
 } from './constants';
+import {
+  anchorButtonObject,
+  engineButtonObject,
+  deployButtonObject,
+} from './createUiButtons';
 
 export default class BelowSurfaceHUD extends Phaser.Scene {
   constructor() {
     super('BelowSurfaceHUD');
 
     this.subData = [
-      {
-        name: 'maxDepth',
-        text: 'Max Depth',
-        value: 0,
-      },
-      {
-        name: 'targetDepth',
-        text: 'Target Depth',
-        value: 0,
-      },
-      {
-        name: 'waterCurrentAngle',
-        text: 'Water Current Angle',
-        value: 0,
-      },
-      {
-        name: 'waterCurrentVelocity',
-        text: 'Water Current Velocity',
-        value: 0,
-      },
       {
         name: 'shipStatus',
         text: 'Ship status',
@@ -56,60 +41,15 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     buttons.push(this.engineButton);
     buttons.push(this.deployButton);
 
-    this.anchorButton.create({
-      scene: this,
-      x: 10,
-      y: 500,
-      text: ACTIONS.DROP_ANCHOR,
-      callback: () => {
-        const { stateMachine: state } = this.gameScene;
-        const { hasAnchor } = state.context;
+    this.anchorButton.create(anchorButtonObject(this));
 
-        state.send({ hasAnchor: !hasAnchor });
+    this.engineButton.create(engineButtonObject(this));
 
-        const btnText = hasAnchor ? ACTIONS.DROP_ANCHOR : ACTIONS.PULL_ANCHOR;
+    this.deployButton.create(deployButtonObject(this));
 
-        this.anchorButton.buttonText.setText(btnText);
-      },
-    });
-
-    this.engineButton.create({
-      scene: this,
-      x: 10,
-      y: 520,
-      text: ACTIONS.ENGINGE_STOP,
-      callback: () => {
-        const { stateMachine: state } = this.gameScene;
-        const { engineRunning } = state.context;
-
-        state.send({ engineRunning: !engineRunning });
-
-        const btnText = engineRunning ? ACTIONS.ENGINGE_START : ACTIONS.ENGINGE_STOP;
-
-        this.engineButton.buttonText.setText(btnText);
-      },
-    });
-
-    this.deployButton.create({
-      scene: this,
-      x: 10,
-      y: 540,
-      text: ACTIONS.DEPLOY_DIVER,
-      callback: () => {
-        const { stateMachine: state } = this.gameScene;
-        const { diverDeployed } = state.context;
-
-        state.send({ diverDeployed: !diverDeployed });
-
-        const btnText = diverDeployed ? ACTIONS.DEPLOY_DIVER : ACTIONS.WITHDRAW_DIVER;
-
-        this.deployButton.buttonText.setText(btnText);
-
-        if (!diverDeployed) {
-          this.gameScene.addDiver();
-        }
-      },
-    });
+    this.waterCurrentPlugin.create(75, height - 200);
+    this.waterCurrentPlugin.wcAngle = this.gameScene.sceneSettings.waterCurrentAngle;
+    this.waterCurrentPlugin.wcVelocity = this.gameScene.sceneSettings.waterCurrentVelocity;
   }
 
   displayHeader(width, height) {
@@ -161,9 +101,6 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   update() {
     const { stateMachine: state } = this.gameScene;
 
-    this.updateText('updateMaxDepth', 'maxDepth', (value) => `-${Math.round(value)}m`);
-    this.updateText('updateWaterCurrentAngle', 'waterCurrentAngle', (value) => `${value}°`);
-    this.updateText('updateWaterCurrentVelocity', 'waterCurrentVelocity', (value) => `${value}m/s`);
     this.updateText(undefined, 'shipStatus', state.current.name);
 
     const {
@@ -190,6 +127,16 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
       this.deployButton.disabled = false;
     } else if (!hasAnchor && !this.deployButton.disabled) {
       this.deployButton.disabled = true;
+    } else if (hasAnchor && diverDeployed && !this.anchorButton.disabled) {
+      this.anchorButton.disabled = true;
+    }
+
+    if (this.gameScene.player) {
+      if (hasAnchor && this.gameScene.player.props.controlsActive) {
+        this.gameScene.player.props.controlsActive = false;
+      } else if (!hasAnchor && !this.gameScene.player.props.controlsActive) {
+        this.gameScene.player.props.controlsActive = true;
+      }
     }
   }
 }

@@ -14,6 +14,7 @@ import GaugePlugin from './plugins/GaugePlugin';
 import ButtonPlugin from './plugins/ButtonPlugin';
 import FishPlugin from './plugins/FishPlugin';
 import MaskPlugin from './plugins/MaskPlugin';
+import WaterCurrentPlugin from './plugins/WaterCurrentPlugin';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -39,6 +40,7 @@ class Game extends Phaser.Game {
           { key: 'CompassPlugin', plugin: CompassPlugin, mapping: 'compassPlugin' },
           { key: 'FishPlugin', plugin: FishPlugin, mapping: 'fishPlugin' },
           { key: 'MaskPlugin', plugin: MaskPlugin, mapping: 'maskPlugin' },
+          { key: 'WaterCurrentPlugin', plugin: WaterCurrentPlugin, mapping: 'waterCurrentPlugin' },
         ],
       },
     });
