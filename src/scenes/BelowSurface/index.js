@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import BigBoss from './BigBoss';
 import Diver from './Diver';
 import Submarine from './Submarine';
 import StateMachine from '../../prefabs/StateMachine';
@@ -52,6 +53,8 @@ export default class BelowSurface extends Phaser.Scene {
     this.cameraFollow = this.sceneSettings.player;
     this.cameras.main.startFollow(this.cameraFollow);
 
+    const bigBoss = new BigBoss(this, 100, 100);
+    bigBoss.setScale(2);
     // this.setCollisions();
   }
 
