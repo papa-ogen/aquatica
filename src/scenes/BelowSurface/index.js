@@ -46,7 +46,7 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.fishPlugin.create(100);
 
-    this.sceneSettings.player = new Submarine(this, 250, 250);
+    this.sceneSettings.player = new Submarine(this, 500, 250);
 
     this.maskPlugin.create(this.sceneSettings.player);
 
@@ -66,8 +66,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.detailsLayer = this.map.createStaticLayer('details', this.tiles, 0, 0);
     this.obstaclesLayer.setCollisionBetween(0, 200);
 
-    // this.startArea1 = this.map.findObject('objects', (obj) => obj.name === 'Start Area 1');
-    // this.startArea2 = this.map.findObject('objects', (obj) => obj.name === 'Start Area 2');
+    this.bossStartAreas = this.map.findObject('objects', (obj) => obj.name === 'BossSpawnPoint1');
   }
 
   createCursor() {

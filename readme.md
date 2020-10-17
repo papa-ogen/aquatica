@@ -55,12 +55,17 @@ https://rexrainbow.github.io/phaser3-rex-notes/docs
 
 
 MVP FOR GAME PLAY
-- [ ] Create Trivium sprite
-- [ ] Create a complete map
+- [ ] Radar
+- [x] Create Trivium sprite
+- [x] Create a complete map
 - [ ] Add big bosses placeholder in the map that can be random generated in scene
 - [ ] Functionality to collect limited amount of Trivium for diver
 - [ ] Limited air for diver
+- [ ] Diver Health
+- [ ] Submarine Health
 - [ ] Engine on/off
 - [ ] Engine sound
 - [ ] Engine sound will attract boss
 - [ ] Add BigBoss shadow
+- [ ] Sound effects
+- [ ] Music
