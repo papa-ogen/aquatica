@@ -23,6 +23,7 @@ export default class BelowSurface extends Phaser.Scene {
       waterCurrentVelocity: 1,
     };
     this.cameraFollow = null;
+    this.bossStartAreas = [];
   }
 
   init(config) {
@@ -53,9 +54,19 @@ export default class BelowSurface extends Phaser.Scene {
     this.cameraFollow = this.sceneSettings.player;
     this.cameras.main.startFollow(this.cameraFollow);
 
-    const bigBoss = new BigBoss(this, 100, 100);
-    bigBoss.setScale(2);
+    this.placeBosses();
     // this.setCollisions();
+  }
+
+  placeBosses() {
+    const startingAreaIndex = Phaser.Math.Between(0, this.bossStartAreas.length - 1);
+    const startingArea = this.bossStartAreas[startingAreaIndex];
+
+    const x = Phaser.Math.Between(startingArea.x, startingArea.x + startingArea.width);
+    const y = Phaser.Math.Between(startingArea.y, startingArea.y + startingArea.height);
+    const bigBoss = new BigBoss(this, x, y);
+
+    bigBoss.setScale(2);
   }
 
   createMap() {
@@ -66,7 +77,13 @@ export default class BelowSurface extends Phaser.Scene {
     this.detailsLayer = this.map.createStaticLayer('details', this.tiles, 0, 0);
     this.obstaclesLayer.setCollisionBetween(0, 200);
 
-    this.bossStartAreas = this.map.findObject('objects', (obj) => obj.name === 'BossSpawnPoint1');
+    this.bossStartArea1 = this.map.findObject('BossSpawnPoints', (obj) => obj.name === 'BossSpawnPoint1');
+    this.bossStartArea2 = this.map.findObject('BossSpawnPoints', (obj) => obj.name === 'BossSpawnPoint2');
+    this.bossStartArea3 = this.map.findObject('BossSpawnPoints', (obj) => obj.name === 'BossSpawnPoint3');
+
+    this.bossStartAreas.push(this.bossStartArea1);
+    this.bossStartAreas.push(this.bossStartArea2);
+    this.bossStartAreas.push(this.bossStartArea3);
   }
 
   createCursor() {
