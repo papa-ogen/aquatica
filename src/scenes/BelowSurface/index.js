@@ -58,7 +58,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.placeBosses();
 
     this.enemies = this.physics.add.group();
-    this.enemies.add(this.fishPlugin.fishes);
+    // this.enemies.add(this.fishPlugin.fishes);
     this.enemies.add(this.bigBoss);
     // this.setCollisions();
   }
