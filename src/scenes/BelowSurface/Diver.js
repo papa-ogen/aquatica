@@ -1,16 +1,26 @@
 import Phaser from 'phaser';
+import StatusBar from './StatusBar';
 
-export default class Diver extends Phaser.Physics.Arcade.Sprite {
+export default class Diver extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
-    super(scene, x, y, 'diver');
+    super(scene, x, y);
 
     this.cursors = scene.cursors;
     this.props = {
       controlsActive: true,
     };
 
-    scene.physics.world.enable(this);
     scene.add.existing(this);
+
+    this.diver = scene.add.sprite(0, 0, 'diver');
+
+    this.add(this.diver);
+
+    this.hp = new StatusBar(scene, -20, 10);
+    this.oxygen = new StatusBar(scene, -20, 20, 0x11ACFA);
+
+    this.add(this.hp);
+    this.add(this.oxygen);
 
     const particles = this.scene.add.particles('bubble');
 
@@ -24,6 +34,27 @@ export default class Diver extends Phaser.Physics.Arcade.Sprite {
     });
 
     emitter.startFollow(this);
+
+    this.timer = scene.time.addEvent({
+      delay: 1000,
+      callback: () => this.decreaseOxygen(0.5),
+      callbackScope: this,
+      loop: true,
+    });
+  }
+
+  decreaseOxygen(amount) {
+    if (this.oxygen.decrease(amount)) {
+      this.alive = false;
+
+      // this.play(`${this.color}Dead`);
+    }
+  }
+
+  damage(amount) {
+    if (this.hp.decrease(amount)) {
+      this.alive = false;
+    }
   }
 
   updateControls() {
@@ -44,9 +75,7 @@ export default class Diver extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
-
+  preUpdate() {
     if (this.props.controlsActive) {
       this.updateControls();
     }
