@@ -24,6 +24,7 @@ export default class BelowSurface extends Phaser.Scene {
     };
     this.cameraFollow = null;
     this.bossStartAreas = [];
+    this.enemies = [];
   }
 
   init(config) {
@@ -55,6 +56,10 @@ export default class BelowSurface extends Phaser.Scene {
     this.cameras.main.startFollow(this.cameraFollow);
 
     this.placeBosses();
+
+    this.enemies = this.physics.add.group();
+    this.enemies.add(this.fishPlugin.fishes);
+    this.enemies.add(this.bigBoss);
     // this.setCollisions();
   }
 
@@ -64,9 +69,9 @@ export default class BelowSurface extends Phaser.Scene {
 
     const x = Phaser.Math.Between(startingArea.x, startingArea.x + startingArea.width);
     const y = Phaser.Math.Between(startingArea.y, startingArea.y + startingArea.height);
-    const bigBoss = new BigBoss(this, x, y);
+    this.bigBoss = new BigBoss(this, x, y);
 
-    bigBoss.setScale(2);
+    this.bigBoss.setScale(2);
   }
 
   createMap() {
