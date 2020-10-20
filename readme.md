@@ -60,8 +60,8 @@ MVP FOR GAME PLAY
 - [x] Create a complete map
 - [x] Add big bosses placeholder in the map that can be random generated in scene
 - [ ] Functionality to collect limited amount of Trivium for diver
-- [ ] Limited air for diver
-- [ ] Diver Health
+- [x] Limited air for diver
+- [x] Diver Health
 - [ ] Submarine Health
 - [ ] Engine on/off
 - [ ] Engine sound
