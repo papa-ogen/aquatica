@@ -126,11 +126,15 @@ class LoadingScene extends Phaser.Scene {
       'src/assets/sprites/fish-sprite.png',
       { frameWidth: 32, frameHeight: 32, endFrame: 18 });
 
+    // FX
     this.load.audio('ambient', 'src/assets/sounds/ambient.mp3');
     this.load.audio('blip', 'src/assets/sounds/blip.mp3');
     this.load.audio('engine', 'src/assets/sounds/engine.mp3');
     this.load.audio('engine-start', 'src/assets/sounds/engine-start.mp3');
     this.load.audio('explosion-underwater', 'src/assets/sounds/explosion-underwater-distant.mp3');
+
+    // Music
+    this.load.audio('music', 'src/assets/music/music_dave_miles_shades_of_orange.mp3');
   }
 }
 

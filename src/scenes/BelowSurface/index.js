@@ -47,6 +47,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCameraControls();
     this.addSounds();
 
+    this.musicSound.play({ ...this.soundConfig, volume: 0.2, mute: true });
     this.ambientSound.play(this.soundConfig);
     this.engineSound.play({ ...this.soundConfig, volume: 1 });
 
@@ -172,6 +173,7 @@ export default class BelowSurface extends Phaser.Scene {
   addSounds() {
     this.ambientSound = this.sound.add('ambient');
     this.engineSound = this.sound.add('engine');
+    this.musicSound = this.sound.add('music');
     this.soundConfig = {
       mute: false,
       volume: 2,
