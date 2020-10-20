@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export default class Dot extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'red');
+    super(scene, x, y, 'radar-dot');
 
     this.tween = null;
     this.scene = scene;

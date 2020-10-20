@@ -4,7 +4,7 @@ import { SHIP_STATE } from './constants';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'sub-2');
+    super(scene, x, y, 'sub');
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     const course = scene.sceneSettings.startingPlayerCourse;

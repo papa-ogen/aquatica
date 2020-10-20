@@ -94,6 +94,7 @@ class LoadingScene extends Phaser.Scene {
 
     // this.load.setPath('assets/');
     this.load.image('diver', 'src/assets/images/diver.png');
+    this.load.image('radar-dot', 'src/assets/images/radar-dot.png');
     this.load.image('radar-pointer', 'src/assets/images/radar-pointer.png');
     this.load.image('radar-body', 'src/assets/images/radar-body.png');
     this.load.image('compass-pointer-white', 'src/assets/images/compass-pointer-white.png');
@@ -125,7 +126,11 @@ class LoadingScene extends Phaser.Scene {
       'src/assets/sprites/fish-sprite.png',
       { frameWidth: 32, frameHeight: 32, endFrame: 18 });
 
-  //   this.load.audio('gunSound', require('../assets/sounds/Gun+Shot2.mp3'));
+    this.load.audio('ambient', 'src/assets/sounds/ambient.mp3');
+    this.load.audio('blip', 'src/assets/sounds/blip.mp3');
+    this.load.audio('engine', 'src/assets/sounds/engine.mp3');
+    this.load.audio('engine-start', 'src/assets/sounds/engine-start.mp3');
+    this.load.audio('explosion-underwater', 'src/assets/sounds/explosion-underwater-distant.mp3');
   }
 }
 

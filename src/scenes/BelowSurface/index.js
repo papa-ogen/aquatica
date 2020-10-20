@@ -45,6 +45,10 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCursor();
     this.createKeyboardEvents();
     this.createCameraControls();
+    this.addSounds();
+
+    this.ambientSound.play(this.soundConfig);
+    this.engineSound.play({ ...this.soundConfig, volume: 1 });
 
     this.fishPlugin.create(100);
 
@@ -61,7 +65,6 @@ export default class BelowSurface extends Phaser.Scene {
     // this.enemies.add(this.fishPlugin.fishes);
     this.enemies.add(this.bigBoss);
     // this.setCollisions();
-    console.log(this.map);
   }
 
   placeBosses() {
@@ -164,6 +167,20 @@ export default class BelowSurface extends Phaser.Scene {
     this.sceneSettings.diver.props.controlsActive = false;
     this.sceneSettings.player.props.controlsActive = true;
     this.maskPlugin.target = this.sceneSettings.player;
+  }
+
+  addSounds() {
+    this.ambientSound = this.sound.add('ambient');
+    this.engineSound = this.sound.add('engine');
+    this.soundConfig = {
+      mute: false,
+      volume: 2,
+      rate: 1,
+      detune: 0,
+      seek: 0,
+      loop: true,
+      delay: 0,
+    };
   }
 
   update(time, delta) {

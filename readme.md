@@ -64,7 +64,7 @@ MVP FOR GAME PLAY
 - [x] Diver Health
 - [ ] Submarine Health
 - [ ] Engine on/off
-- [ ] Engine sound
+- [x] Engine sound
 - [ ] Engine sound will attract boss
 - [ ] Add BigBoss shadow
 - [ ] Sound effects
