@@ -32,7 +32,7 @@ export const convertSpriteAngle = (angle) => {
 
 export const normalizeGauge = (panelDegrees, panelRange = 2, min, max, offset = 0) => {
   const arr = [{
-    degree: 0 + offset,
+    angle: 0 + offset,
     value: 0,
   }];
 
@@ -57,3 +57,12 @@ export const normalizeGauge = (panelDegrees, panelRange = 2, min, max, offset = 
 
 // TODO: get interval value
 export const getGaugeInterval = (min, max, panelDegrees) => panelDegrees / (max - min);
+
+export const normalizeVectors = ({ vector, origin, target }) => {
+  const { x, y } = vector;
+  const { width, height } = origin;
+  const { width: targetWidth, height: targetHeight } = target;
+  const variationX = targetWidth / width;
+  const variationY = targetHeight / height;
+  return { x: x * variationX, y: y * variationY };
+};

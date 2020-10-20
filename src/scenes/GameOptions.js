@@ -51,6 +51,7 @@ class GameOptions extends Phaser.Scene {
 
   resumeGame() {
     this.scene.resume('BelowSurface');
+    this.scene.resume('BelowSurfaceHUD');
     this.scene.stop();
 
     this.add.tween({

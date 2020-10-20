@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-export default class Diver extends Phaser.Physics.Arcade.Sprite {
+export default class BigBoss extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'manta');
 

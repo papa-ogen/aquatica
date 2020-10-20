@@ -70,3 +70,10 @@ MVP FOR GAME PLAY
 - [ ] Sound effects
 - [ ] Music
 - [ ] Limit map size
+- [ ] Design control panel
+- [ ] Design diver and sprites
+- [ ] Design submarine and sprites
+
+BUGS
+- [ ] Diver z-index should be lower than fish
+- [ ] Fish is moving in wrong direction

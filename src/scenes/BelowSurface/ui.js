@@ -64,7 +64,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   addGauges(height) {
-    this.compassPlugin.display(100, height - 100);
+    this.radarPlugin.create(100, height - 100, this.gameScene.enemies);
 
     this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
     this.speedGauge.display(this, 270, height - 100, 'Speed', 0, 100);
@@ -74,6 +74,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge');
     this.depthGauge.display(this, 610, height - 100, 'Depth', 0, 100);
+    this.compassPlugin.display(610, height - 250);
   }
 
   setupEvents() {

@@ -61,6 +61,7 @@ export default class BelowSurface extends Phaser.Scene {
     // this.enemies.add(this.fishPlugin.fishes);
     this.enemies.add(this.bigBoss);
     // this.setCollisions();
+    console.log(this.map);
   }
 
   placeBosses() {
@@ -124,6 +125,7 @@ export default class BelowSurface extends Phaser.Scene {
     const SpaceKey = this.input.keyboard.addKey('Space');
     SpaceKey.on('down', () => {
       this.scene.pause();
+      this.hudScene.scene.pause();
       this.scene.launch('GameOptions');
     });
 

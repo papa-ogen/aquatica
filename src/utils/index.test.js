@@ -6,6 +6,7 @@ import {
   convertSpriteAngle,
   normalizeGauge,
   getGaugeInterval,
+  normalizeVectors,
 } from './index';
 
 test('Get center of grid', (t) => {
@@ -76,15 +77,15 @@ test('Return a mapping object for gauge', (t) => {
 
   const expectedGaugeObject = [
     {
-      degree: 0,
+      angle: 0,
       value: 0,
     },
     {
-      degree: 160,
+      angle: 160,
       value: 3000,
     },
     {
-      degree: 320,
+      angle: 320,
       value: 6000,
     },
   ];
@@ -104,19 +105,19 @@ test('Return a mapping object for gauge with 12 interval', (t) => {
   const givenMaxValue = 600;
 
   const expectedGaugeObject = [
-    { degree: 0, value: 0 },
-    { degree: 26.666666666666668, value: 50 },
-    { degree: 53.333333333333336, value: 100 },
-    { degree: 80, value: 150 },
-    { degree: 106.66666666666667, value: 200 },
-    { degree: 133.33333333333334, value: 250 },
-    { degree: 160, value: 300 },
-    { degree: 186.66666666666669, value: 350 },
-    { degree: 213.33333333333334, value: 400 },
-    { degree: 240, value: 450 },
-    { degree: 266.6666666666667, value: 500 },
-    { degree: 293.33333333333337, value: 550 },
-    { degree: 320, value: 600 }];
+    { angle: 0, value: 0 },
+    { angle: 26.666666666666668, value: 50 },
+    { angle: 53.333333333333336, value: 100 },
+    { angle: 80, value: 150 },
+    { angle: 106.66666666666667, value: 200 },
+    { angle: 133.33333333333334, value: 250 },
+    { angle: 160, value: 300 },
+    { angle: 186.66666666666669, value: 350 },
+    { angle: 213.33333333333334, value: 400 },
+    { angle: 240, value: 450 },
+    { angle: 266.6666666666667, value: 500 },
+    { angle: 293.33333333333337, value: 550 },
+    { angle: 320, value: 600 }];
 
   t.deepEqual(normalizeGauge(givenPanelDegrees,
     givenPanelInterval, givenMinValue, givenMaxValue), expectedGaugeObject);
@@ -153,9 +154,39 @@ test('Return a mapping object for gauge with offset', (t) => {
   t.end();
 });
 
-test('Shpuld return degree interval', (t) => {
+test('Should return degree interval', (t) => {
   t.plan(2);
 
   t.equal(getGaugeInterval(0, 100, 100), 1);
   t.equal(getGaugeInterval(0, 6000, 300), 0.05);
+});
+
+test('Should return new vector based on target', (t) => {
+  t.plan(1);
+
+  const givenVector = {
+    x: 100,
+    y: 75,
+  };
+
+  const givenOrigin = {
+    width: 1000,
+    height: 1000,
+  };
+
+  const givenTarget = {
+    width: 100,
+    height: 100,
+  };
+
+  const expectedVector = {
+    x: 10,
+    y: 7.5,
+  };
+
+  t.deepEqual(normalizeVectors({
+    vector: givenVector,
+    origin: givenOrigin,
+    target: givenTarget,
+  }), expectedVector);
 });
