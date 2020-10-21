@@ -67,13 +67,19 @@ MVP FOR GAME PLAY
 - [x] Engine sound
 - [ ] Engine sound will attract boss
 - [ ] Add BigBoss shadow
+- [ ] Add BigBoss health
+- [ ] Add BigBoss attack
 - [ ] Sound effects
 - [ ] Music
 - [ ] Limit map size
 - [ ] Design control panel
 - [ ] Design diver and sprites
 - [ ] Design submarine and sprites
+- [ ] Design BigBoss and sprites
+- [ ] Design Splash screen / menu screen
+- [ ] Turn sound/music on/off
 
 BUGS
 - [ ] Diver z-index should be lower than fish
 - [ ] Fish is moving in wrong direction
+- [ ] radar-dot has ugly border

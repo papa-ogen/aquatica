@@ -45,11 +45,11 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCursor();
     this.createKeyboardEvents();
     this.createCameraControls();
-    this.addSounds();
+    // this.addSounds();
 
-    this.musicSound.play({ ...this.soundConfig, volume: 0.2, mute: true });
-    this.ambientSound.play(this.soundConfig);
-    this.engineSound.play({ ...this.soundConfig, volume: 1 });
+    // this.musicSound.play({ ...this.soundConfig, volume: 0.2, mute: true });
+    // this.ambientSound.play(this.soundConfig);
+    // this.engineSound.play({ ...this.soundConfig, volume: 1 });
 
     this.fishPlugin.create(100);
 

@@ -7,6 +7,8 @@ import {
   normalizeGauge,
   getGaugeInterval,
   normalizeVectors,
+  isOnLine,
+  distance,
 } from './index';
 
 test('Get center of grid', (t) => {
@@ -189,4 +191,32 @@ test('Should return new vector based on target', (t) => {
     origin: givenOrigin,
     target: givenTarget,
   }), expectedVector);
+});
+
+test('Calculate distance between two points', (t) => {
+  t.plan(1);
+  const x1 = 100;
+  const y1 = 0;
+  const x2 = 200;
+  const y2 = 0;
+  const a = x1 - x2;
+  const b = y1 - y2;
+
+  t.equal(distance(a, b), 100);
+});
+
+test('Is dot between two points', (t) => {
+  t.plan(1);
+  const x1 = 100;
+  const y1 = 0;
+  const x2 = 200;
+  const y2 = 0;
+  const x3 = 150;
+  const y3 = 0;
+
+  const distanceAb = distance(x1 - x2, y1 - y2);
+  const distanceBc = distance(x2 - x3, y2 - y3);
+  const distanceAc = distance(x1 - x3, y1 - y3);
+
+  t.equal(isOnLine(distanceAb, distanceBc, distanceAc), true);
 });

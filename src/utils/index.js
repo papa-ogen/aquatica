@@ -66,3 +66,7 @@ export const normalizeVectors = ({ vector, origin, target }) => {
   const variationY = targetHeight / height;
   return { x: x * variationX, y: y * variationY };
 };
+
+export const distance = (a, b) => Math.hypot(a, b);
+
+export const isOnLine = (a, b, c) => a + b === c;
