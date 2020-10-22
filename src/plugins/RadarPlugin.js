@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Dots from '../prefabs/Dots';
-// import { normalizeVectors, } from '../utils';
+import { isOnLine, getVectorFromAngle } from '../utils';
 
 const normalizeVectors = (vector) => {
   const min = 0;
@@ -10,12 +10,12 @@ const normalizeVectors = (vector) => {
 
   const normalizedEnemyX = (range[0] + ((vector.x - min) * variation)).toFixed(2);
   const normalizedEnemyY = (range[0] + ((vector.y - min) * variation)).toFixed(2);
-  return [normalizedEnemyX, normalizedEnemyY];
+  return [Math.round(normalizedEnemyX), Math.round(normalizedEnemyY)];
 };
 
-const distance = (a, b) => Math.hypot(a, b);
+// const distance = (a, b) => Math.hypot(a, b);
 
-export const isOnLine = (a, b, c) => a + b === c;
+// export const isOnLine = (a, b, c) => a + b === c;
 
 export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
   constructor(scene, pluginManager) {
@@ -23,15 +23,17 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
 
     this.scene = scene;
     this.enemies = this.scene.enemies;
+    this.player = null;
     this.dots = null;
     this.radarMaxLimit = 400;
   }
 
-  create(x, y, enemies) {
+  create(x, y, enemies, player) {
     this.addSounds();
 
     this.dots = new Dots(this.scene);
     this.enemies = enemies;
+    this.player = player;
 
     this.container = this.scene.add.container(x, y);
 
@@ -44,7 +46,7 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
     this.container.add(body);
     this.container.add(this.pointer);
 
-    // const blip = this.scene.add.image(normalizedEnemyX, normalizedEnemyY, 'radar-dot');
+    // const blip = this.scene.add.image(33, -55, 'radar-dot');
     // this.container.add(blip);
     // blip = this.scene.add.image(0, 60, 'radar-dot');
     // this.container.add(blip);
@@ -55,10 +57,12 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
     // blip = this.scene.add.image(-33, 64, 'radar-dot');
     // this.container.add(blip);
 
-    console.log(this.pointer.x, this.pointer.y, this.pointer.angle);
-    const targetX = this.pointer.x + (this.pointer.width * Math.cos(this.pointer.angle));
-    const targetY = this.pointer.y + (this.pointer.width * Math.sin(this.pointer.angle));
-    console.log(targetX, targetY, this.pointer.width);
+    // console.log(this.pointer.x, this.pointer.y, this.pointer.angle);
+    // const targetX = this.pointer.x + (this.pointer.width * Math.cos(this.pointer.angle));
+    // const targetY = this.pointer.y + (this.pointer.width * Math.sin(this.pointer.angle));
+    // console.log(targetX, targetY, this.pointer.width);
+
+    this.searchEnemies();
   }
 
   boot() {
@@ -71,27 +75,40 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
     const {
       angle, width, x, y,
     } = this.pointer;
-    const radarRadius = width * 2;
-    const origin = { x: 0, y: 0 };
     const enemies = this.enemies.getChildren();
-    const targetX = x + (width * Math.cos(angle));
-    const targetY = y + (width * Math.sin(angle));
-
-    // console.log(angle, targetX, targetY);
-    enemies.forEach((enemy) => {
-      const [enemyX, enemyY] = normalizeVectors(enemy);
-      const distanceAb = distance(origin.x - targetX, origin.y - targetY);
-      const distanceBc = distance(targetX - enemyX, targetY - enemyY);
-      const distanceAc = distance(origin.x - enemyX, origin.y - enemyY);
-
-      if (isOnLine(distanceAb, distanceBc, distanceAc)) {
-        console.log('hit');
-
-        this.blipSound.play(this.soundConfig);
-        const dot = this.dots.activate(enemyX, enemyY);
-        this.container.add(dot);
-      }
+    const fixedAngle = Math.round(angle);
+    const [targetX, targetY] = getVectorFromAngle({
+      x, y, angle, length: width,
     });
+
+    const [playerX, playerY] = normalizeVectors(this.player);
+
+    if (angle >= 90 && angle <= 91) {
+    // if (isOnLine({ x: 0, y: 0 }, { x: targetX, y: targetY }, { x: playerX, y: playerY })) {
+      this.blipSound.play(this.soundConfig);
+      const dot = this.dots.activate(playerX, playerY);
+      this.container.add(dot);
+    }
+
+    // const blip = this.scene.add.image(playerX, playerY, 'radar-dot');
+    // this.container.add(blip);
+    // // const blip2 = this.scene.add.image(0, 0, 'radar-dot');
+    // // this.container.add(blip2);
+
+    // console.log(playerX, playerY);
+    // console.log(isOnLine({ x: 0, y: 0 }, { x: targetX, y: targetY }, { x: playerX, y: playerY }));
+    // // console.log(targetX, targetY, blip.x, blip.y);
+    // // console.log(targetX, targetY, blip2.x, blip2.y);
+    // // console.log(isOnLine({ x: 0, y: 0 }, { x: targetX, y: targetY }, { x: blip.x, y: blip.y }));
+
+    // // enemies.forEach((enemy) => {
+    // //   const [enemyX, enemyY] = normalizeVectors(enemy);
+    // //   if (isOnLine({ x: 0, y: 0 }, { x: targetX, y: targetY }, { x: enemyX, y: enemyY })) {
+    // //     this.blipSound.play(this.soundConfig);
+    // //     const dot = this.dots.activate(enemyX, enemyY);
+    // //     this.container.add(dot);
+    // //   }
+    // // });
   }
 
   addSounds() {
@@ -109,9 +126,11 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
 
   update() {
     if (this.pointer) {
-      this.pointer.rotation += 0.01;
+      this.pointer.rotation += 0.02;
     }
 
-    if (this.pointer && this.enemies) { this.searchEnemies(); }
+    if (this.pointer && this.enemies) {
+      this.searchEnemies();
+    }
   }
 }

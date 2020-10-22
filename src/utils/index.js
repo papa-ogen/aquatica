@@ -67,6 +67,20 @@ export const normalizeVectors = ({ vector, origin, target }) => {
   return { x: x * variationX, y: y * variationY };
 };
 
-export const distance = (a, b) => Math.hypot(a, b);
+export const distance = (a, b) => Math.hypot((b.x - a.x), (b.y - a.y));
 
-export const isOnLine = (a, b, c) => a + b === c;
+export const isOnLine = (a, b, c) => {
+  const ab = distance(a, b);
+  const bc = distance(b, c);
+  const ac = distance(a, c);
+  return bc + ac === ab;
+};
+
+export const getVectorFromAngle = ({
+  x = 0, y = 0, angle = 0, length = 0,
+}) => {
+  const targetX = x + (length * Math.cos(angle));
+  const targetY = y + (length * Math.sin(angle));
+
+  return [targetX, targetY];
+};

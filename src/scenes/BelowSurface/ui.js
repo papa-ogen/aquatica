@@ -64,7 +64,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
   }
 
   addGauges(height) {
-    this.radarPlugin.create(100, height - 100, this.gameScene.enemies);
+    this.radarPlugin.create(100, height - 100,
+      this.gameScene.enemies, this.gameScene.sceneSettings.player);
 
     this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
     this.speedGauge.display(this, 270, height - 100, 'Speed', 0, 100);

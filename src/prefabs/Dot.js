@@ -13,6 +13,7 @@ export default class Dot extends Phaser.Physics.Arcade.Sprite {
 
     this.setActive(true);
     this.setVisible(true);
+    this.setAlpha(1);
     this.tween = this.scene.tweens.add({
       targets: this,
       alpha: { from: 1, to: 0 },

@@ -9,6 +9,7 @@ import {
   normalizeVectors,
   isOnLine,
   distance,
+  getVectorFromAngle,
 } from './index';
 
 test('Get center of grid', (t) => {
@@ -207,16 +208,30 @@ test('Calculate distance between two points', (t) => {
 
 test('Is dot between two points', (t) => {
   t.plan(1);
-  const x1 = 100;
-  const y1 = 0;
-  const x2 = 200;
-  const y2 = 0;
-  const x3 = 150;
-  const y3 = 0;
 
-  const distanceAb = distance(x1 - x2, y1 - y2);
-  const distanceBc = distance(x2 - x3, y2 - y3);
-  const distanceAc = distance(x1 - x3, y1 - y3);
+  const a = { x: 100, y: 0 };
+  const b = { x: 200, y: 0 };
+  const c = { x: 150, y: 0 };
 
-  t.equal(isOnLine(distanceAb, distanceBc, distanceAc), true);
+  t.equal(isOnLine(a, b, c), true);
+});
+
+// test('Is dot between two floating points', (t) => {
+//   t.plan(1);
+
+//   const a = { x: 100, y: 0 };
+//   const b = { x: 200, y: 0 };
+//   const c = { x: 150, y: 0 };
+
+//   t.equal(isOnLine(a, b, c), true);
+// });
+
+test('Get xy from given angle and length', (t) => {
+  t.plan(1);
+
+  const givenParams = {
+    x: 0, y: 0, length: 64, angle: -60,
+  };
+
+  t.deepEqual(getVectorFromAngle(givenParams), [-61, 20]);
 });
