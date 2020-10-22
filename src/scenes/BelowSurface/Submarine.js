@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
 import { SHIP_STATE } from './constants';
+import StatusBar from './StatusBar';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -29,7 +30,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     this.props = {
       controlsActive: true,
       state: SHIP_STATE.MOVING,
-
+      hp: new StatusBar(scene, -20, 10),
     };
 
     this.offset = new Phaser.Geom.Point(this.x + 10, this.y + 8);
@@ -68,6 +69,12 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     // set velocity on current
     // console.log(scene.sceneSettings.waterCurrentAngle,
     //   scene.sceneSettings.waterCurrentVelocity, this.angle);
+  }
+
+  damage(amount) {
+    if (this.props.hp.decrease(amount)) {
+      this.alive = false;
+    }
   }
 
   depthKeys() {

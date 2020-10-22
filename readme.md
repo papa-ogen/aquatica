@@ -62,7 +62,7 @@ MVP FOR GAME PLAY
 - [ ] Functionality to collect limited amount of Trivium for diver
 - [x] Limited air for diver
 - [x] Diver Health
-- [ ] Submarine Health
+- [x] Submarine Health
 - [ ] Engine on/off
 - [x] Engine sound
 - [ ] Engine sound will attract boss
@@ -78,8 +78,9 @@ MVP FOR GAME PLAY
 - [ ] Design BigBoss and sprites
 - [ ] Design Splash screen / menu screen
 - [ ] Turn sound/music on/off
+- [ ] Create submarine container
 
 BUGS
 - [ ] Diver z-index should be lower than fish
 - [ ] Fish is moving in wrong direction
-- [ ] radar-dot has ugly border
+- [x] radar-dot has ugly border
