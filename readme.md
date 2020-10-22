@@ -70,16 +70,16 @@ MVP FOR GAME PLAY
 - [ ] Add BigBoss health
 - [ ] Add BigBoss attack
 - [ ] Design BigBoss and sprites
-- [ ] Sound effects
+- [ ] Sound effects (dig, deploy diver, retract diver, big boss)
 - [ ] Music
-- [ ] Limit map size
+- [x] Limit map size
 - [ ] Design control panel
 - [ ] Design diver and sprites
 - [ ] Design submarine and sprites
 - [ ] Design Splash screen / menu screen
 - [ ] Turn sound/music on/off
 - [ ] Create submarine container
-- [ ] Add collision
+- [x] Add collision
 
 BUGS
 - [ ] Diver z-index should be lower than fish

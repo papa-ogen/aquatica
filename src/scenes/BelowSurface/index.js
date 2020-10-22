@@ -42,7 +42,7 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.stateMachine.send({ engineDecibel });
 
-    this.cameras.main.setBackgroundColor(0xeedf6a);
+    this.cameras.main.setBackgroundColor(0x000000);
 
     this.createMap();
     this.createCursor();
@@ -56,7 +56,7 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.fishPlugin.create(100);
 
-    this.sceneSettings.player = new Submarine(this, 500, 250);
+    this.sceneSettings.player = new Submarine(this, 400, 250);
 
     this.maskPlugin.create(this.sceneSettings.player);
 
@@ -68,7 +68,19 @@ export default class BelowSurface extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.enemies.add(this.bigBoss);
 
-    // this.setCollisions();
+    this.setCollisions();
+
+    this.sceneSettings.player.setCollideWorldBounds(true);
+    this.physics.world.on('collide', () => {
+      console.log('collide');
+    });
+    this.physics.world.on('overlap', () => {
+      console.log('overlap');
+    });
+
+    this.physics.world.on('worldbounds', () => {
+      console.log('worldbounds');
+    });
   }
 
   placeBosses() {
@@ -85,7 +97,7 @@ export default class BelowSurface extends Phaser.Scene {
   createMap() {
     this.map = this.make.tilemap({ key: 'level1' });
     this.tiles = this.map.addTilesetImage('desert-tiles');
-    // this.backgroundLayer = this.map.createDynamicLayer('background', this.tiles, 0, 0);
+    this.backgroundLayer = this.map.createDynamicLayer('background', this.tiles, 0, 0);
     this.obstaclesLayer = this.map.createStaticLayer('obstacles', this.tiles, 0, 0);
     this.detailsLayer = this.map.createStaticLayer('details', this.tiles, 0, 0);
     this.obstaclesLayer.setCollisionBetween(0, 200);
