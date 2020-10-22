@@ -85,7 +85,7 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
 
     if (angle >= 90 && angle <= 91) {
     // if (isOnLine({ x: 0, y: 0 }, { x: targetX, y: targetY }, { x: playerX, y: playerY })) {
-      this.blipSound.play(this.soundConfig);
+      // this.blipSound.play(this.soundConfig);
       const dot = this.dots.activate(playerX, playerY);
       this.container.add(dot);
     }

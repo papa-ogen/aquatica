@@ -63,22 +63,23 @@ MVP FOR GAME PLAY
 - [x] Limited air for diver
 - [x] Diver Health
 - [x] Submarine Health
-- [ ] Engine on/off
+- [x] Engine on/off (loose speed etc)
 - [x] Engine sound
 - [ ] Engine sound will attract boss
 - [ ] Add BigBoss shadow
 - [ ] Add BigBoss health
 - [ ] Add BigBoss attack
+- [ ] Design BigBoss and sprites
 - [ ] Sound effects
 - [ ] Music
 - [ ] Limit map size
 - [ ] Design control panel
 - [ ] Design diver and sprites
 - [ ] Design submarine and sprites
-- [ ] Design BigBoss and sprites
 - [ ] Design Splash screen / menu screen
 - [ ] Turn sound/music on/off
 - [ ] Create submarine container
+- [ ] Add collision
 
 BUGS
 - [ ] Diver z-index should be lower than fish

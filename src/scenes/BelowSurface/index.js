@@ -38,6 +38,9 @@ export default class BelowSurface extends Phaser.Scene {
     // const {
     //   width, height, centerX, centerY,
     // } = this.cameras.main;
+    const { engineDecibel } = this.sceneSettings.ship;
+
+    this.stateMachine.send({ engineDecibel });
 
     this.cameras.main.setBackgroundColor(0xeedf6a);
 
@@ -45,7 +48,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.createCursor();
     this.createKeyboardEvents();
     this.createCameraControls();
-    // this.addSounds();
+    this.addSounds();
 
     // this.musicSound.play({ ...this.soundConfig, volume: 0.2, mute: true });
     // this.ambientSound.play(this.soundConfig);
@@ -63,8 +66,8 @@ export default class BelowSurface extends Phaser.Scene {
     this.placeBosses();
 
     this.enemies = this.physics.add.group();
-    // this.enemies.add(this.fishPlugin.fishes);
     this.enemies.add(this.bigBoss);
+
     // this.setCollisions();
   }
 
@@ -186,7 +189,7 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   update(time, delta) {
-    const { player } = this.sceneSettings;
+    const { player, player: { throttle, props: { throttleDisabled } } } = this.sceneSettings;
 
     this.controls.update(delta);
 
@@ -198,6 +201,25 @@ export default class BelowSurface extends Phaser.Scene {
 
     const { stateMachine: state } = this;
     const maxAnchorSpeed = 5;
+
+    if (!state.context.engineRunning) {
+      if (!throttleDisabled) {
+        this.sceneSettings.player.props.throttleDisabled = true;
+        this.engineSound.pause();
+        state.send({ engineDecibel: 0 });
+      }
+      if (throttle > 0) {
+        this.sceneSettings.player.throttle -= 1;
+      }
+    } else if (state.context.engineRunning) {
+      if (throttleDisabled) {
+        this.sceneSettings.player.props.throttleDisabled = false;
+        this.engineSound.resume();
+        const { engineDecibel } = this.sceneSettings.ship;
+
+        state.send({ engineDecibel });
+      }
+    }
 
     if (player.currentSpeed > maxAnchorSpeed && state.current.name !== STATES.IS_MOVING) {
       state.setState(STATES.IS_MOVING);

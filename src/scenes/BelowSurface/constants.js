@@ -43,6 +43,7 @@ export const stateChart = {
     engineRunning: true,
     hasAnchor: false,
     diverDeployed: false,
+    engineDecibel: 0,
   },
   states: {
     [STATES.IS_MOVING]: {

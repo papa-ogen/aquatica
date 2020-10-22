@@ -18,6 +18,11 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
         text: 'Ship status',
         value: STATES.IS_MOVING,
       },
+      {
+        name: 'engingeDb',
+        text: 'Enginge Decibel',
+        value: 0,
+      },
     ];
   }
 
@@ -104,6 +109,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     const { stateMachine: state } = this.gameScene;
 
     this.updateText(undefined, 'shipStatus', state.current.name);
+    this.updateText(undefined, 'engingeDb', state.context.engineDecibel);
 
     const {
       angle, targetCourse, currentSpeed, throttle, currentDepth,

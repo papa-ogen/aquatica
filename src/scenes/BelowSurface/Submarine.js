@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
-import { SHIP_STATE } from './constants';
 import StatusBar from './StatusBar';
 
 class Submarine extends Phaser.Physics.Arcade.Sprite {
@@ -29,8 +28,9 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.props = {
       controlsActive: true,
-      state: SHIP_STATE.MOVING,
       hp: new StatusBar(scene, -20, 10),
+      throttleDisabled: false,
+      engingeDb: 0,
     };
 
     this.offset = new Phaser.Geom.Point(this.x + 10, this.y + 8);
@@ -124,7 +124,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
   updateControls() {
     // Set Throttle
-    if (this.cursors.up.isDown) {
+    const { throttleDisabled } = this.props;
+    if (this.cursors.up.isDown && !throttleDisabled) {
       this.throttle += 1;
 
       if (this.throttle >= this.maxSpeed) {
@@ -132,7 +133,7 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       }
     }
 
-    if (this.cursors.down.isDown) {
+    if (this.cursors.down.isDown && !throttleDisabled) {
       this.throttle -= 1;
 
       if (this.throttle <= 0) {
