@@ -7,14 +7,20 @@ export default class Diver extends Phaser.GameObjects.Container {
 
     this.cursors = scene.cursors;
     this.props = {
-      controlsActive: true,
+      controlsActive: false,
     };
 
     scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.setSize(32, 32);
 
     this.diver = scene.add.sprite(0, 0, 'diver');
 
+    // this.body.setCollideWorldBounds(true);
+
     this.add(this.diver);
+
+    this.setActive(false).setVisible(false);
 
     this.hp = new StatusBar(scene, -20, 10);
     this.oxygen = new StatusBar(scene, -20, 20, 0x11ACFA);
