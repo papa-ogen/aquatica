@@ -85,3 +85,4 @@ BUGS
 - [ ] Diver z-index should be lower than fish
 - [ ] Fish is moving in wrong direction
 - [x] radar-dot has ugly border
+- [ ] Can throttle even if anchored

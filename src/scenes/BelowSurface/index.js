@@ -35,9 +35,6 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   create() {
-    // const {
-    //   width, height, centerX, centerY,
-    // } = this.cameras.main;
     const { engineDecibel } = this.sceneSettings.ship;
 
     this.stateMachine.send({ engineDecibel });
@@ -110,7 +107,7 @@ export default class BelowSurface extends Phaser.Scene {
   }
 
   setCollisions() {
-    this.physics.add.collider(this.sceneSettings.player, this.obstaclesLayer, () => {
+    this.physics.add.collider(this.sceneSettings.diver, this.obstaclesLayer, () => {
       console.log('bump');
     });
     this.physics.add.collider(this.sceneSettings.diver, this.triviumLayer, () => {
@@ -119,6 +116,10 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.sceneSettings.player.setCollideWorldBounds(true);
 
+    const callback = function (body, blockedUp, blockedDown, blockedLeft, blockedRight) {
+      console.log('?????');
+    };
+
     this.physics.world.on('collide', () => {
       console.log('collide');
     });
@@ -126,16 +127,13 @@ export default class BelowSurface extends Phaser.Scene {
       console.log('overlap');
     });
 
-    this.physics.world.on('worldbounds', () => {
-      console.log('worldbounds');
-    });
+    this.physics.world.on('worldbounds', callback);
   }
 
   createCameraControls() {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.camera = this.cameras.main;
-    // this.camera.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     this.controls = new Phaser.Cameras.Controls.FixedKeyControl({
       camera: this.camera,
@@ -169,10 +167,7 @@ export default class BelowSurface extends Phaser.Scene {
   addDiver() {
     const { x: playerX, y: playerY } = this.sceneSettings.player;
 
-    this.sceneSettings.diver.x = playerX;
-    this.sceneSettings.diver.y = playerY;
-    this.sceneSettings.diver.setActive(true).setVisible(true);
-    this.sceneSettings.diver.props.controlsActive = true;
+    this.sceneSettings.diver.activate(playerX, playerY);
 
     this.sceneSettings.player.props.controlsActive = false;
     this.cameras.main.startFollow(this.sceneSettings.diver);

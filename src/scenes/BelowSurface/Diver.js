@@ -1,24 +1,30 @@
 import Phaser from 'phaser';
 import StatusBar from './StatusBar';
 
+const DIRECTIONS = {
+  TOP: 0, RIGHT: 90, DOWN: 180, LEFT: -90,
+};
+
 export default class Diver extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
     super(scene, x, y);
+
+    this.scene = scene;
 
     this.cursors = scene.cursors;
     this.props = {
       controlsActive: false,
     };
 
-    scene.add.existing(this);
-    scene.physics.world.enable(this);
     this.setSize(32, 32);
 
-    this.diver = scene.add.sprite(0, 0, 'diver');
+    scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.body.setCollideWorldBounds(true);
 
-    // this.body.setCollideWorldBounds(true);
+    this.sprite = scene.add.image(0, 0, 'diver');
 
-    this.add(this.diver);
+    this.add(this.sprite);
 
     this.setActive(false).setVisible(false);
 
@@ -33,15 +39,25 @@ export default class Diver extends Phaser.GameObjects.Container {
     const emitter = particles.createEmitter({
       speed: 0.1,
       scale: { start: 0.1, end: 0 },
-      // lifespan: { min: 1000, max: 1100 },
-      // frequency: 110,
-      // maxParticles: 10,
       blendMode: 'ADD',
     });
 
     emitter.startFollow(this);
 
-    this.timer = scene.time.addEvent({
+    this.props = { direction: DIRECTIONS.TOP };
+  }
+
+  activate(x = undefined, y = undefined) {
+    if (x && y) {
+      this.x = x;
+      this.y = y;
+    }
+
+    this.setActive(true).setVisible(true);
+    this.props.controlsActive = true;
+    this.oxygen.reset();
+
+    this.timer = this.scene.time.addEvent({
       delay: 1000,
       callback: () => this.decreaseOxygen(0.5),
       callbackScope: this,
@@ -49,11 +65,13 @@ export default class Diver extends Phaser.GameObjects.Container {
     });
   }
 
+  deActivate() {
+    this.setActive(false).setVisible(false);
+  }
+
   decreaseOxygen(amount) {
     if (this.oxygen.decrease(amount)) {
       this.alive = false;
-
-      // this.play(`${this.color}Dead`);
     }
   }
 
@@ -64,20 +82,36 @@ export default class Diver extends Phaser.GameObjects.Container {
   }
 
   updateControls() {
+    const {
+      TOP, RIGHT, DOWN, LEFT,
+    } = DIRECTIONS;
+    const prevDirection = this.props.direction;
+
     if (this.cursors.up.isDown) {
       this.y -= 1;
+      this.props.direction = TOP;
     }
 
     if (this.cursors.down.isDown) {
       this.y += 1;
+      this.props.direction = DOWN;
     }
 
     if (this.cursors.left.isDown) {
       this.x -= 1;
+      this.props.direction = LEFT;
     }
 
     if (this.cursors.right.isDown) {
       this.x += 1;
+      this.props.direction = RIGHT;
+    }
+    if (prevDirection !== this.props.direction) {
+      this.scene.add.tween({
+        targets: this.sprite,
+        duration: 500,
+        angle: { value: this.props.direction, duration: 500, ease: 'Power1' },
+      });
     }
   }
 

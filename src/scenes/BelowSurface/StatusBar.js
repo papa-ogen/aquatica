@@ -15,6 +15,10 @@ export default class StatusBar extends Phaser.GameObjects.Graphics {
     scene.add.existing(this);
   }
 
+  reset() {
+    this.value = 100;
+  }
+
   decrease(amount) {
     this.value -= amount;
 
