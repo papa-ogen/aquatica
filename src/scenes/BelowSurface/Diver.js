@@ -10,7 +10,7 @@ export default class Diver extends Phaser.GameObjects.Container {
     super(scene, x, y);
 
     this.scene = scene;
-
+    this.velocity = 50;
     this.cursors = scene.cursors;
     this.props = {
       controlsActive: false,
@@ -88,24 +88,36 @@ export default class Diver extends Phaser.GameObjects.Container {
     const prevDirection = this.props.direction;
 
     if (this.cursors.up.isDown) {
-      this.y -= 1;
+      this.body.setVelocityY(-this.velocity);
+      this.body.setVelocityX(0);
       this.props.direction = TOP;
     }
 
     if (this.cursors.down.isDown) {
-      this.y += 1;
+      this.body.setVelocityY(this.velocity);
+      this.body.setVelocityX(0);
       this.props.direction = DOWN;
     }
 
     if (this.cursors.left.isDown) {
-      this.x -= 1;
+      this.body.setVelocityX(-this.velocity);
+      this.body.setVelocityY(0);
       this.props.direction = LEFT;
     }
 
     if (this.cursors.right.isDown) {
-      this.x += 1;
+      this.body.setVelocityX(this.velocity);
+      this.body.setVelocityY(0);
       this.props.direction = RIGHT;
     }
+
+    if (this.cursors.up.isUp
+      && this.cursors.down.isUp
+      && this.cursors.left.isUp
+      && this.cursors.right.isUp) {
+      this.body.setVelocity(0);
+    }
+
     if (prevDirection !== this.props.direction) {
       this.scene.add.tween({
         targets: this.sprite,

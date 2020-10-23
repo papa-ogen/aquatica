@@ -60,6 +60,7 @@ MVP FOR GAME PLAY
 - [x] Create a complete map
 - [x] Add big bosses placeholder in the map that can be random generated in scene
 - [ ] Functionality to collect limited amount of Trivium for diver
+ - Implement astar amd change icon when hover over objects (trivium, enemy)
 - [x] Limited air for diver
 - [x] Diver Health
 - [x] Submarine Health

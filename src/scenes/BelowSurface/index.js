@@ -54,8 +54,10 @@ export default class BelowSurface extends Phaser.Scene {
     this.fishPlugin.create(100);
 
     this.sceneSettings.player = new Submarine(this, 400, 250);
+    this.sceneSettings.player.setBounce(1, 1);
     this.sceneSettings.diver = new Diver(this, 400, 250, 'diver');
-
+    this.addDiver();
+    this.sceneSettings.diver.body.setCollideWorldBounds(true);
     this.maskPlugin.create(this.sceneSettings.player);
 
     this.cameraFollow = this.sceneSettings.player;
@@ -89,6 +91,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.triviumLayer = this.map.createDynamicLayer('trivium', this.tiles, 0, 0);
 
     this.obstaclesLayer.setCollisionBetween(0, 200);
+    this.triviumLayer.setCollisionBetween(0, 200);
 
     this.bossStartArea1 = this.map.findObject('BossSpawnPoints', (obj) => obj.name === 'BossSpawnPoint1');
     this.bossStartArea2 = this.map.findObject('BossSpawnPoints', (obj) => obj.name === 'BossSpawnPoint2');
@@ -103,11 +106,11 @@ export default class BelowSurface extends Phaser.Scene {
     this.cursor = this.add.image(32, 32, 'cursor');
     this.cursor.setScale(0.5);
     this.cursor.setOrigin(0);
-    this.cursor.alpha = 0;
+    // this.cursor.alpha = 0;
   }
 
   setCollisions() {
-    this.physics.add.collider(this.sceneSettings.diver, this.obstaclesLayer, () => {
+    this.physics.add.collider(this.sceneSettings.player, this.obstaclesLayer, () => {
       console.log('bump');
     });
     this.physics.add.collider(this.sceneSettings.diver, this.triviumLayer, () => {
@@ -116,10 +119,6 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.sceneSettings.player.setCollideWorldBounds(true);
 
-    const callback = function (body, blockedUp, blockedDown, blockedLeft, blockedRight) {
-      console.log('?????');
-    };
-
     this.physics.world.on('collide', () => {
       console.log('collide');
     });
@@ -127,7 +126,9 @@ export default class BelowSurface extends Phaser.Scene {
       console.log('overlap');
     });
 
-    this.physics.world.on('worldbounds', callback);
+    this.physics.world.on('worldbounds', () => {
+      console.log('world');
+    });
   }
 
   createCameraControls() {
@@ -206,9 +207,15 @@ export default class BelowSurface extends Phaser.Scene {
     this.controls.update(delta);
 
     if (player.currentDepth >= this.sceneSettings.maxDepth) {
+      const cam = this.cameras.main;
+      cam.fade(250, 0, 0, 0);
+      cam.once('camerafadeoutcomplete', () => {
+        this.sceneSettings.player.destroy();
+        this.scene.restart();
+      });
       console.error('Boom you dead!');
       player.currentSpeed = 0;
-      this.pause();
+      // this.pause();
     }
 
     const { stateMachine: state } = this;
