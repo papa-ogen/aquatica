@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Diver from './BelowSurface/Diver';
+import Submarine from './BelowSurface/Submarine';
 
 export default class Test extends Phaser.Scene {
   constructor() {
@@ -33,15 +34,17 @@ export default class Test extends Phaser.Scene {
 
     this.createMap();
 
-    this.player = new Diver(this, 400, 400);
-    this.player.activate();
-    //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
-    //  body or it'll be given the default body size of 64x64.
-    this.player.setSize(32, 32);
+    this.player = new Submarine(this, 400, 400);
+    console.log(this.player.x);
+    // this.cameras.main.startFollow(this.player);
+    // this.player.activate();
+    // //  A Container has a default size of 0x0, so we need to give it a size before enabling a physics
+    // //  body or it'll be given the default body size of 64x64.
+    // this.player.setSize(32, 32);
 
-    this.physics.world.enable(this.player);
+    // this.physics.world.enable(this.player);
 
-    this.player.body.setCollideWorldBounds(true);
+    // this.player.body.setCollideWorldBounds(true);
 
     this.physics.add.collider(this.player, this.triviumLayer, () => {
       console.log('bump');
@@ -96,28 +99,6 @@ export default class Test extends Phaser.Scene {
 
     this.physics.world.on('worldbounds', () => {
       console.log('worldbounds');
-    });
-  }
-
-  update() {
-    if (this.player) {
-      // console.log(this.input);
-      // this.cursor.setAlpha(1);
-      // const worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
-      // const pointerTileX = this.map.worldToTileX(worldPoint.x);
-      // const pointerTileY = this.map.worldToTileY(worldPoint.y);
-      // this.cursor.x = this.map.tileToWorldX(pointerTileX);
-      // this.cursor.y = this.map.tileToWorldY(pointerTileY);
-      // this.cursor.setVisible(true);
-    }
-  }
-
-  debug() {
-    const debugGraphics = this.add.graphics().setAlpha(0.75);
-    this.obstaclesLayer.renderDebug(debugGraphics, {
-      tileColor: null, // Color of non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255), // Color of colliding face edges
     });
   }
 }

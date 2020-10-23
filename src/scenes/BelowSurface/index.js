@@ -54,10 +54,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.fishPlugin.create(100);
 
     this.sceneSettings.player = new Submarine(this, 400, 250);
-    this.sceneSettings.player.setBounce(1, 1);
-    this.sceneSettings.diver = new Diver(this, 400, 250, 'diver');
-    this.addDiver();
-    this.sceneSettings.diver.body.setCollideWorldBounds(true);
+
     this.maskPlugin.create(this.sceneSettings.player);
 
     this.cameraFollow = this.sceneSettings.player;
