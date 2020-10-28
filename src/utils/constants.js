@@ -23,5 +23,6 @@ export const FONTS = {
   HEADER: '',
   SUB_HEADER: '',
   NORMAL: '16px Arvo',
-  SMALL: '',
+  SMALL: '12px Arvo',
+  EXTRA_SMALL: '10px Arvo',
 };

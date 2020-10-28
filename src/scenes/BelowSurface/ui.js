@@ -36,7 +36,7 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     this.setupEvents();
     this.displayHeader(width, height);
-    this.addGauges(height);
+    this.addPanel(width, height);
 
     const buttons = [];
     this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
@@ -68,19 +68,31 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     );
   }
 
-  addGauges(height) {
-    this.radarPlugin.create(100, height - 100,
+  addPanel(width, height) {
+    const centerX = width / 2;
+    const bottomMargin = height - 100;
+
+    const panel = this.add.tileSprite(0, height - 88, 615, 88, 'panel-bg');
+    panel.setOrigin(0);
+
+    const panel2 = this.add.tileSprite(616, height - 88, 615, 88, 'panel-bg');
+    panel2.setOrigin(0);
+
+    this.radarPlugin.create(centerX, bottomMargin,
       this.gameScene.enemies, this.gameScene.sceneSettings.player);
 
+    const gaugeOffset = centerX + 150;
+
     this.speedGauge = this.plugins.start('GaugePlugin', 'speedGauge');
-    this.speedGauge.display(this, 270, height - 100, 'Speed', 0, 100);
-
     this.rpmGauge = this.plugins.start('GaugePlugin', 'rpmGauge');
-    this.rpmGauge.display(this, 440, height - 100, 'RPM', 0, 6000);
-
     this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge');
-    this.depthGauge.display(this, 610, height - 100, 'Depth', 0, 100);
-    this.compassPlugin.display(610, height - 250);
+    this.vuGauge = this.plugins.start('GaugePlugin', 'vuGauge');
+
+    this.speedGauge.create(this, gaugeOffset, bottomMargin + 25, 'Km/h', 'speed');
+    this.rpmGauge.create(this, gaugeOffset + 120, bottomMargin + 25, 'RPM', 'rpm');
+    this.depthGauge.create(this, gaugeOffset + 240, bottomMargin + 25, 'Depth', 'depth');
+    this.vuGauge.create(this, centerX - 150, bottomMargin + 25, 'VU', 'vu');
+    // this.compassPlugin.display(610, height - 250);
   }
 
   setupEvents() {
@@ -114,12 +126,11 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     const {
       angle, targetCourse, currentSpeed, throttle, currentDepth,
     } = this.gameScene.sceneSettings.player;
-    this.compassPlugin.update(angle, targetCourse);
+    // this.compassPlugin.update(angle, targetCourse);
     this.speedGauge.update(currentSpeed);
     this.depthGauge.update(currentDepth);
 
-    const convertedThrottle = (Math.round(throttle) * 100) / 2;
-    this.rpmGauge.update(convertedThrottle);
+    this.rpmGauge.update(throttle);
 
     // STATES
     if (state.current.name === STATES.IS_MOVING && !this.anchorButton.disabled) {

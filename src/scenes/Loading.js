@@ -93,26 +93,24 @@ class LoadingScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('level1', 'src/data/1.json');
 
     // this.load.setPath('assets/');
-    this.load.image('diver', 'src/assets/images/diver.png');
+    this.load.image('gauge-bg-vu', 'src/assets/images/gauge-bg-vu.png');
+    this.load.image('gauge-bg-0-6', 'src/assets/images/gauge-bg-0-6.png');
+    this.load.image('gauge-bg-0-60', 'src/assets/images/gauge-bg-0-60.png');
+    this.load.image('gauge-bg-0-600', 'src/assets/images/gauge-bg-0-600.png');
+    this.load.image('gauge-pointer', 'src/assets/images/gauge-pointer.png');
+    this.load.image('gauge-vu-pointer', 'src/assets/images/gauge-vu-pointer.png');
+    this.load.image('radar-bg', 'src/assets/images/radar-bg.png');
+    this.load.image('panel-bg', 'src/assets/images/panel-bg.png');
+
     this.load.image('radar-dot', 'src/assets/images/radar-dot.png');
     this.load.image('radar-pointer', 'src/assets/images/radar-pointer.png');
     this.load.image('radar-body', 'src/assets/images/radar-body.png');
-    this.load.image('compass-pointer-white', 'src/assets/images/compass-pointer-white.png');
-    this.load.image('compass-pointer', 'src/assets/images/compass-pointer.png');
-    this.load.image('compass-body', 'src/assets/images/compass-body.png');
-    this.load.image('gauge-bg', 'src/assets/images/gauge-bg.png');
+
+    this.load.image('diver', 'src/assets/images/diver.png');
     this.load.image('manta', 'src/assets/images/manta.png');
     this.load.image('sub-2', 'src/assets/images/sub-2.png');
     this.load.image('sub-2-shadow', 'src/assets/images/sub-2-shadow.png');
-    this.load.image('brick', ['src/assets/images/brick.jpg', 'src/assets/images/brick_n.png']);
     this.load.image('shark-bg', 'src/assets/images/shark-bg.jpg');
-    this.load.image('cockpit', 'src/assets/images/cockpit.png');
-    this.load.image('cockpit-hover', 'src/assets/images/cockpit-hover.png');
-    this.load.image('layout-square', 'src/assets/images/layout-square.png');
-    this.load.image('layout-square-hover', 'src/assets/images/layout-square-hover.png');
-    this.load.image('main', 'src/assets/images/main.png');
-    this.load.image('main-hover', 'src/assets/images/main-hover.png');
-    this.load.image('background', 'src/assets/images/shark-bg.jpg');
     this.load.image('desert-tiles', ['src/assets/sprites/desert-tiles.png', 'src/assets/sprites/desert-tiles_n.png']);
     this.load.image('red', 'src/assets/images/red.png');
     this.load.image('bubble', 'src/assets/images/bubble.png');

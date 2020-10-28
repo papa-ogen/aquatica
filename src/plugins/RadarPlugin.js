@@ -38,10 +38,10 @@ export default class RadarPlugin extends Phaser.Plugins.ScenePlugin {
     this.container = this.scene.add.container(x, y);
 
     this.pointer = this.scene.add.image(0, 0, 'radar-pointer')
-      .setOrigin(0, 1)
+      .setOrigin(0, 0.5)
       .setAngle(-90);
 
-    const body = this.scene.add.image(0, 0, 'radar-body');
+    const body = this.scene.add.image(0, 0, 'radar-bg');
 
     this.container.add(body);
     this.container.add(this.pointer);

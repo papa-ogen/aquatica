@@ -2,40 +2,87 @@ import Phaser from 'phaser';
 import { getGaugeInterval } from '../utils';
 import { FONTS } from '../utils/constants';
 
+const getGaugeSettings = (type) => {
+  switch (type) {
+    case 'vu':
+      return {
+        bg: 'gauge-bg-vu',
+        offset: 120,
+        defaultAngle: 230,
+        interval: 180,
+        min: 0,
+        max: 100,
+        pointer: 'gauge-vu-pointer',
+      };
+    case 'depth':
+      return {
+        bg: 'gauge-bg-0-600',
+        offset: 120,
+        defaultAngle: 130,
+        interval: 300,
+        min: 0,
+        max: 600,
+      };
+    case 'rpm':
+      return {
+        bg: 'gauge-bg-0-6',
+        offset: 120,
+        defaultAngle: 130,
+        interval: 300,
+        min: 0,
+        max: 6,
+      };
+    case 'speed':
+    default:
+      return {
+        bg: 'gauge-bg-0-60',
+        offset: 120,
+        defaultAngle: 130,
+        interval: 300,
+        min: 0,
+        max: 60,
+      };
+  }
+};
+
 export default class GaugePlugin extends Phaser.Plugins.BasePlugin {
   constructor(pluginManager) {
     super('GaugePlugin', pluginManager);
   }
 
-  display(scene, x, y, text = 'Gauge', min, max, interval, offset) {
-    this.offset = 120;
-    this.gaugeInterval = getGaugeInterval(min, max, 300);
+  create(scene, x, y, text = 'Gauge', gaugeType) {
+    const {
+      bg, offset, defaultAngle, min, max, interval, pointer,
+    } = getGaugeSettings(gaugeType);
 
-    // switch (gaugeType) {
-    //   case 'speed':
-    //     break;
-    //   case 'depth':
-    //     break;
-    //   case 'rpm':
-    //     break;
-    //   default:
-    // }
+    this.offset = offset;
+    this.gaugeInterval = getGaugeInterval(min, max, interval);
 
-    this.defaultAngle = 110; // offset to graphic
+    this.defaultAngle = defaultAngle; // offset to graphic
 
     this.container = scene.add.container(x, y);
 
-    this.text = scene.add.text(0, 22, text, { font: FONTS.NORMAL, fill: '#2e5959' })
-      .setOrigin(0.5);
+    if (pointer) {
+      console.log(gaugeType);
+      this.pointer = scene.add.image(2, 25, pointer);
+      this.pointer.setOrigin(0)
+        .setAngle(this.defaultAngle);
+    } else {
+      this.pointer = scene.add.image(0, 0, 'gauge-pointer');
+      this.pointer.setOrigin(0.3, 0.5)
+        .setAngle(this.defaultAngle);
+    }
 
-    this.pointer = scene.add.image(0, 0, 'compass-pointer')
-      .setOrigin(0.1, 0.5)
-      .setAngle(this.defaultAngle);
-
-    const body = scene.add.image(0, 0, 'gauge-bg');
+    const body = scene.add.image(0, 0, bg);
 
     this.container.add(body);
-    this.container.add(this.text);
+
+    if (text) {
+      this.text = scene.add.text(0, 28, text, { font: FONTS.EXTRA_SMALL, fill: '#2e5959' })
+        .setOrigin(0.5);
+      this.container.add(this.text);
+    }
+
     this.container.add(this.pointer);
   }
 

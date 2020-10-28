@@ -11,14 +11,14 @@ export default class Main extends Phaser.Scene {
   }
 
   create() {
-    // this.scene;
-    // .start('BelowSurface', {
-    //   ship: this.ship,
-    // })
-    // .start('BelowSurfaceHUD').stop();
+    this.scene
+      .start('BelowSurface', {
+        ship: this.ship,
+      })
+      .start('BelowSurfaceHUD').stop();
 
-    this.scene.start('Test', {
-      ship: this.ship,
-    });
+    // this.scene.start('Test', {
+    //   ship: this.ship,
+    // });
   }
 }

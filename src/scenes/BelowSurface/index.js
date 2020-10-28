@@ -53,7 +53,7 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.fishPlugin.create(100);
 
-    this.sceneSettings.player = new Submarine(this, 400, 250);
+    this.sceneSettings.player = new Submarine(this, 500, 500);
 
     this.maskPlugin.create(this.sceneSettings.player);
 
@@ -65,7 +65,7 @@ export default class BelowSurface extends Phaser.Scene {
     this.enemies = this.physics.add.group();
     this.enemies.add(this.bigBoss);
 
-    this.setCollisions();
+    // this.setCollisions();
   }
 
   placeBosses() {
