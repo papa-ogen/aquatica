@@ -26,6 +26,11 @@ class Game extends Phaser.Game {
       renderer: Phaser.WEBGL_MULTI,
       enableDebug: process.env.NODE_ENV === 'development',
       pixelArt: true,
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        parent: 'thegame',
+      },
       physics: {
         default: 'arcade',
         arcade: { debug: false },

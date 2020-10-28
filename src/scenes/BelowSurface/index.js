@@ -151,6 +151,10 @@ export default class BelowSurface extends Phaser.Scene {
       this.scene.pause();
       this.hudScene.scene.pause();
       this.scene.launch('GameOptions');
+
+      if (!this.scale.isFullscreen) {
+        this.scale.startFullscreen();
+      }
     });
 
     // const GKey = this.input.keyboard.addKey('g');
