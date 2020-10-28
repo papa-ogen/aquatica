@@ -2,10 +2,10 @@ import {
   ACTIONS,
 } from './constants';
 
-export const anchorButtonObject = (_this) => ({
+export const anchorButtonObject = (_this, width, height) => ({
   scene: _this,
-  x: 10,
-  y: 500,
+  x: 150,
+  y: height - 40,
   text: ACTIONS.DROP_ANCHOR,
   callback: () => {
     const { stateMachine: state } = _this.gameScene;
@@ -19,10 +19,10 @@ export const anchorButtonObject = (_this) => ({
   },
 });
 
-export const engineButtonObject = (_this) => ({
+export const engineButtonObject = (_this, width, height) => ({
   scene: _this,
-  x: 10,
-  y: 520,
+  x: 45,
+  y: height - 40,
   text: ACTIONS.ENGINGE_STOP,
   callback: () => {
     const { stateMachine: state } = _this.gameScene;
@@ -30,16 +30,16 @@ export const engineButtonObject = (_this) => ({
 
     state.send({ engineRunning: !engineRunning });
 
-    const btnText = engineRunning ? ACTIONS.ENGINGE_START : ACTIONS.ENGINGE_STOP;
+    const btnTexture = engineRunning ? 'engine-button' : 'engine-button-on';
 
-    _this.engineButton.buttonText.setText(btnText);
+    _this.engineButton.button.setTexture(btnTexture);
   },
 });
 
-export const deployButtonObject = (_this) => ({
+export const deployButtonObject = (_this, width, height) => ({
   scene: _this,
-  x: 10,
-  y: 540,
+  x: 100,
+  y: height - 40,
   text: ACTIONS.DEPLOY_DIVER,
   callback: () => {
     const { stateMachine: state } = _this.gameScene;

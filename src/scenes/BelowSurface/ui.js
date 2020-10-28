@@ -39,20 +39,20 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     this.addPanel(width, height);
 
     const buttons = [];
-    this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
     this.engineButton = this.plugins.start('ButtonPlugin', 'engineButton');
-    this.deployButton = this.plugins.start('ButtonPlugin', 'deployButton');
-    buttons.push(this.anchorButton);
+    this.anchorButton = this.plugins.start('TextButtonPlugin', 'anchorButton');
+    this.deployButton = this.plugins.start('TextButtonPlugin', 'deployButton');
     buttons.push(this.engineButton);
+    buttons.push(this.anchorButton);
     buttons.push(this.deployButton);
 
-    this.anchorButton.create(anchorButtonObject(this));
+    this.engineButton.create(engineButtonObject(this, width, height));
 
-    this.engineButton.create(engineButtonObject(this));
+    this.anchorButton.create(anchorButtonObject(this, width, height));
 
-    this.deployButton.create(deployButtonObject(this));
+    this.deployButton.create(deployButtonObject(this, width, height));
 
-    this.waterCurrentPlugin.create(75, height - 200);
+    this.waterCurrentPlugin.create(width - 75, 55);
     this.waterCurrentPlugin.wcAngle = this.gameScene.sceneSettings.waterCurrentAngle;
     this.waterCurrentPlugin.wcVelocity = this.gameScene.sceneSettings.waterCurrentVelocity;
   }
@@ -70,7 +70,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
   addPanel(width, height) {
     const centerX = width / 2;
-    const bottomMargin = height - 100;
+    const bottomMargin = height - 94;
+    const gaugesBottomMargin = height - 60;
 
     const panel = this.add.tileSprite(0, height - 88, 615, 88, 'panel-bg');
     panel.setOrigin(0);
@@ -88,10 +89,10 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
     this.depthGauge = this.plugins.start('GaugePlugin', 'depthGauge');
     this.vuGauge = this.plugins.start('GaugePlugin', 'vuGauge');
 
-    this.speedGauge.create(this, gaugeOffset, bottomMargin + 25, 'Km/h', 'speed');
-    this.rpmGauge.create(this, gaugeOffset + 120, bottomMargin + 25, 'RPM', 'rpm');
-    this.depthGauge.create(this, gaugeOffset + 240, bottomMargin + 25, 'Depth', 'depth');
-    this.vuGauge.create(this, centerX - 150, bottomMargin + 25, 'VU', 'vu');
+    this.speedGauge.create(this, gaugeOffset, gaugesBottomMargin, 'Km/h', 'speed');
+    this.rpmGauge.create(this, gaugeOffset + 120, gaugesBottomMargin, 'RPM', 'rpm');
+    this.depthGauge.create(this, gaugeOffset + 240, gaugesBottomMargin, 'Depth', 'depth');
+    this.vuGauge.create(this, centerX - 150, gaugesBottomMargin, 'VU', 'vu');
     // this.compassPlugin.display(610, height - 250);
   }
 

@@ -93,18 +93,23 @@ class LoadingScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('level1', 'src/data/1.json');
 
     // this.load.setPath('assets/');
+    this.load.image('gauge-bg-water-current', 'src/assets/images/gauge-bg-water-current.png');
     this.load.image('gauge-bg-vu', 'src/assets/images/gauge-bg-vu.png');
     this.load.image('gauge-bg-0-6', 'src/assets/images/gauge-bg-0-6.png');
     this.load.image('gauge-bg-0-60', 'src/assets/images/gauge-bg-0-60.png');
     this.load.image('gauge-bg-0-600', 'src/assets/images/gauge-bg-0-600.png');
     this.load.image('gauge-pointer', 'src/assets/images/gauge-pointer.png');
     this.load.image('gauge-vu-pointer', 'src/assets/images/gauge-vu-pointer.png');
+    this.load.image('gauge-water-current-pointer', 'src/assets/images/gauge-water-current-pointer.png');
     this.load.image('radar-bg', 'src/assets/images/radar-bg.png');
     this.load.image('panel-bg', 'src/assets/images/panel-bg.png');
 
     this.load.image('radar-dot', 'src/assets/images/radar-dot.png');
     this.load.image('radar-pointer', 'src/assets/images/radar-pointer.png');
     this.load.image('radar-body', 'src/assets/images/radar-body.png');
+
+    this.load.image('engine-button', 'src/assets/images/engine-button.png');
+    this.load.image('engine-button-on', 'src/assets/images/engine-button-on.png');
 
     this.load.image('diver', 'src/assets/images/diver.png');
     this.load.image('manta', 'src/assets/images/manta.png');

@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { FONTS } from '../utils/constants';
 
 export default class WaterCurrentPlugin extends Phaser.Plugins.ScenePlugin {
   constructor(scene, pluginManager) {
@@ -22,32 +23,28 @@ export default class WaterCurrentPlugin extends Phaser.Plugins.ScenePlugin {
   create(x, y) {
     this.container = this.scene.add.container(x, y);
 
-    const body = this.scene.add.image(0, 0, 'compass-body');
+    const body = this.scene.add.image(0, 0, 'gauge-bg-water-current');
 
-    this.currentCourseLabel = this.scene.add.text(0, -35, 'Course', { font: '16px roboto', fill: '#ffffff' })
-      .setOrigin(0.5);
-    this.currentCourseText = this.scene.add.text(0, -17, '0°', { font: '16px roboto', fill: '#ffffff' })
+    this.currentCourseText = this.scene.add.text(0, 85, '0°', { font: FONTS.SMALL, fill: '#ffffff' })
       .setOrigin(0.5);
 
-    this.velocityText = this.scene.add.text(0, 25, 'Velocity: 0', { font: '16px roboto', fill: '#ffffff' })
+    this.velocityText = this.scene.add.text(0, 55, 'Velocity: 0', { font: FONTS.SMALL, fill: '#ffffff' })
       .setOrigin(0.5);
 
-    this.pointer = this.scene.add.image(0, 0, 'compass-pointer')
+    this.pointer = this.scene.add.image(0, 0, 'gauge-water-current-pointer')
       .setOrigin(0.1, 0.5);
 
     this.container.add(body);
-    this.container.add(this.currentCourseLabel);
     this.container.add(this.currentCourseText);
     this.container.add(this.velocityText);
     this.container.add(this.pointer);
-    this.container.setScale(0.5);
   }
 
   update() {
     if (this.pointer) {
       const angleWithOffset = this.wcAngle - 90;
       this.pointer.angle = angleWithOffset;
-      this.currentCourseText.setText(`${this.wcAngle}°`);
+      this.currentCourseText.setText(`Course: ${this.wcAngle}°`);
       this.velocityText.setText(`Velocity: ${this.wcVelocity}`);
     }
   }

@@ -74,7 +74,7 @@ MVP FOR GAME PLAY
 - [ ] Sound effects (dig, deploy diver, retract diver, big boss)
 - [ ] Music
 - [x] Limit map size
-- [ ] Design control panel
+- [x] Design control panel
 - [ ] Design diver and sprites
 - [ ] Design submarine and sprites
 - [ ] Design Splash screen / menu screen
@@ -87,3 +87,4 @@ BUGS
 - [ ] Fish is moving in wrong direction
 - [x] radar-dot has ugly border
 - [ ] Can throttle even if anchored
+- [ ] scrolling in full screen

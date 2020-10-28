@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import Stats from 'stats.js';
 import Boot from './scenes/Boot';
 import Preload from './scenes/Loading';
 import Main from './scenes/Main';
@@ -11,6 +10,7 @@ import Test from './scenes/Test';
 // Plugins
 import CompassPlugin from './plugins/CompassPlugin';
 import GaugePlugin from './plugins/GaugePlugin';
+import TextButtonPlugin from './plugins/TextButtonPlugin';
 import ButtonPlugin from './plugins/ButtonPlugin';
 import FishPlugin from './plugins/FishPlugin';
 import MaskPlugin from './plugins/MaskPlugin';
@@ -35,6 +35,7 @@ class Game extends Phaser.Game {
           [
             { key: 'GaugePlugin', plugin: GaugePlugin },
             { key: 'ButtonPlugin', plugin: ButtonPlugin },
+            { key: 'TextButtonPlugin', plugin: TextButtonPlugin },
           ],
         scene: [
           // { key: 'Test', plugin: CompassPlugin, mapping: 'compass' },
