@@ -110,6 +110,8 @@ class LoadingScene extends Phaser.Scene {
 
     this.load.image('engine-button', 'src/assets/images/engine-button.png');
     this.load.image('engine-button-on', 'src/assets/images/engine-button-on.png');
+    this.load.image('switch', 'src/assets/images/switch.png');
+    this.load.image('switch-on', 'src/assets/images/switch-on.png');
 
     this.load.image('diver', 'src/assets/images/diver.png');
     this.load.image('manta', 'src/assets/images/manta.png');

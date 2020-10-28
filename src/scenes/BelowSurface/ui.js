@@ -40,17 +40,17 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     const buttons = [];
     this.engineButton = this.plugins.start('ButtonPlugin', 'engineButton');
-    this.anchorButton = this.plugins.start('TextButtonPlugin', 'anchorButton');
-    this.deployButton = this.plugins.start('TextButtonPlugin', 'deployButton');
+    this.anchorButton = this.plugins.start('ButtonPlugin', 'anchorButton');
+    this.deployButton = this.plugins.start('ButtonPlugin', 'deployButton');
     buttons.push(this.engineButton);
     buttons.push(this.anchorButton);
     buttons.push(this.deployButton);
 
-    this.engineButton.create(engineButtonObject(this, width, height));
+    this.engineButton.create(engineButtonObject(this, width, height - 47));
 
-    this.anchorButton.create(anchorButtonObject(this, width, height));
+    this.anchorButton.create(anchorButtonObject(this, width, height - 47));
 
-    this.deployButton.create(deployButtonObject(this, width, height));
+    this.deployButton.create(deployButtonObject(this, width, height - 47));
 
     this.waterCurrentPlugin.create(width - 75, 55);
     this.waterCurrentPlugin.wcAngle = this.gameScene.sceneSettings.waterCurrentAngle;

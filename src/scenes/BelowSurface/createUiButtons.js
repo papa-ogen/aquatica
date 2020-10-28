@@ -3,9 +3,10 @@ import {
 } from './constants';
 
 export const anchorButtonObject = (_this, width, height) => ({
+  isSwitch: true,
   scene: _this,
-  x: 150,
-  y: height - 40,
+  x: 200,
+  y: height,
   text: ACTIONS.DROP_ANCHOR,
   callback: () => {
     const { stateMachine: state } = _this.gameScene;
@@ -13,16 +14,16 @@ export const anchorButtonObject = (_this, width, height) => ({
 
     state.send({ hasAnchor: !hasAnchor });
 
-    const btnText = hasAnchor ? ACTIONS.DROP_ANCHOR : ACTIONS.PULL_ANCHOR;
+    const btnTexture = hasAnchor ? 'switch' : 'switch-on';
 
-    _this.anchorButton.buttonText.setText(btnText);
+    _this.anchorButton.button.setTexture(btnTexture);
   },
 });
 
 export const engineButtonObject = (_this, width, height) => ({
   scene: _this,
   x: 45,
-  y: height - 40,
+  y: height,
   text: ACTIONS.ENGINGE_STOP,
   callback: () => {
     const { stateMachine: state } = _this.gameScene;
@@ -37,9 +38,10 @@ export const engineButtonObject = (_this, width, height) => ({
 });
 
 export const deployButtonObject = (_this, width, height) => ({
+  isSwitch: true,
   scene: _this,
-  x: 100,
-  y: height - 40,
+  x: 120,
+  y: height,
   text: ACTIONS.DEPLOY_DIVER,
   callback: () => {
     const { stateMachine: state } = _this.gameScene;
@@ -47,9 +49,9 @@ export const deployButtonObject = (_this, width, height) => ({
 
     state.send({ diverDeployed: !diverDeployed });
 
-    const btnText = diverDeployed ? ACTIONS.DEPLOY_DIVER : ACTIONS.WITHDRAW_DIVER;
+    const btnTexture = diverDeployed ? 'switch' : 'switch-on';
 
-    _this.deployButton.buttonText.setText(btnText);
+    _this.deployButton.button.setTexture(btnTexture);
 
     if (!diverDeployed) {
       _this.gameScene.addDiver();
