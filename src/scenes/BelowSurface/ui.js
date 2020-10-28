@@ -133,6 +133,8 @@ export default class BelowSurfaceHUD extends Phaser.Scene {
 
     this.rpmGauge.update(throttle);
 
+    this.vuGauge.update(state.context.engineDecibel);
+
     // STATES
     if (state.current.name === STATES.IS_MOVING && !this.anchorButton.disabled) {
       this.anchorButton.disabled = true;

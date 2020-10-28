@@ -88,3 +88,4 @@ BUGS
 - [x] radar-dot has ugly border
 - [ ] Can throttle even if anchored
 - [ ] scrolling in full screen
+- [ ] states on buttons

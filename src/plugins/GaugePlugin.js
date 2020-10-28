@@ -7,9 +7,9 @@ const getGaugeSettings = (type) => {
     case 'vu':
       return {
         bg: 'gauge-bg-vu',
-        offset: 120,
+        offset: 230,
         defaultAngle: 230,
-        interval: 180,
+        interval: 75,
         min: 0,
         max: 100,
         pointer: 'gauge-vu-pointer',
