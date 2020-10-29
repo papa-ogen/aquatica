@@ -79,8 +79,9 @@ MVP FOR GAME PLAY
 - [ ] Design submarine and sprites
 - [ ] Design Splash screen / menu screen
 - [ ] Turn sound/music on/off
-- [ ] Create submarine container
+- [x] Create submarine container
 - [x] Add collision
+- [ ] Change diver movement to aStar
 
 BUGS
 - [ ] Diver z-index should be lower than fish

@@ -23,8 +23,8 @@ class GameOptions extends Phaser.Scene {
       },
     });
 
-    const SpaceKey = this.input.keyboard.addKey('Space');
-    SpaceKey.on('down', () => this.resumeGame());
+    this.input.keyboard.addKey('P')
+      .on('down', () => this.resumeGame());
   }
 
   setupUIElements() {

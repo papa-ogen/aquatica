@@ -67,6 +67,7 @@ export default class Diver extends Phaser.GameObjects.Container {
 
   deActivate() {
     this.setActive(false).setVisible(false);
+    this.props.controlsActive = false;
   }
 
   decreaseOxygen(amount) {

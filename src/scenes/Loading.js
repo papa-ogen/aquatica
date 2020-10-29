@@ -101,12 +101,11 @@ class LoadingScene extends Phaser.Scene {
     this.load.image('gauge-pointer', 'src/assets/images/gauge-pointer.png');
     this.load.image('gauge-vu-pointer', 'src/assets/images/gauge-vu-pointer.png');
     this.load.image('gauge-water-current-pointer', 'src/assets/images/gauge-water-current-pointer.png');
-    this.load.image('radar-bg', 'src/assets/images/radar-bg.png');
     this.load.image('panel-bg', 'src/assets/images/panel-bg.png');
 
+    this.load.image('radar-bg', 'src/assets/images/radar-bg.png');
     this.load.image('radar-dot', 'src/assets/images/radar-dot.png');
     this.load.image('radar-pointer', 'src/assets/images/radar-pointer.png');
-    this.load.image('radar-body', 'src/assets/images/radar-body.png');
 
     this.load.image('engine-button', 'src/assets/images/engine-button.png');
     this.load.image('engine-button-on', 'src/assets/images/engine-button-on.png');
@@ -117,7 +116,6 @@ class LoadingScene extends Phaser.Scene {
     this.load.image('manta', 'src/assets/images/manta.png');
     this.load.image('sub-2', 'src/assets/images/sub-2.png');
     this.load.image('sub-2-shadow', 'src/assets/images/sub-2-shadow.png');
-    this.load.image('shark-bg', 'src/assets/images/shark-bg.jpg');
     this.load.image('desert-tiles', ['src/assets/sprites/desert-tiles.png', 'src/assets/sprites/desert-tiles_n.png']);
     this.load.image('red', 'src/assets/images/red.png');
     this.load.image('bubble', 'src/assets/images/bubble.png');

@@ -2,9 +2,9 @@ import Phaser from 'phaser';
 import { isClosestDirectionLeft, convertSpriteAngle } from '../../utils';
 import StatusBar from './StatusBar';
 
-class Submarine extends Phaser.Physics.Arcade.Sprite {
+class Submarine extends Phaser.GameObjects.Container {
   constructor(scene, x, y) {
-    super(scene, x, y, 'sub-2');
+    super(scene, x, y);
 
     const { maxSpeed, acceleration, deceleration } = scene.sceneSettings.ship.speed;
     const course = scene.sceneSettings.startingPlayerCourse;
@@ -35,11 +35,15 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.offset = new Phaser.Geom.Point(this.x + 10, this.y + 8);
 
-    scene.physics.world.enable(this);
-    scene.add.existing(this);
+    this.setSize(64, 64);
 
-    // this.setScale(0.5);
-    this.setBounce(1, 1);
+    scene.add.existing(this);
+    scene.physics.world.enable(this);
+    this.body.setCollideWorldBounds(true);
+    this.body.setBounce(1, 1);
+
+    this.sprite = scene.add.image(0, 0, 'sub-2');
+    this.add(this.sprite);
 
     const particles = this.scene.add.particles('bubble');
 
@@ -50,12 +54,14 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     });
 
     // TODO: offset by Submarine (this) angle (this, x, y)
-    emitter.startFollow(this);
+    emitter.startFollow(this.sprite);
 
     this.shadow = this.scene.physics.add.sprite(this.offset.x, this.offset.y, 'sub-2-shadow')
       .setOrigin(0.5);
     this.shadow.alpha = 0.3;
     this.shadow.angle = course - 90;
+
+    this.add(this.shadow);
 
     this.createAnimations();
     // this.setCollideWorldBounds(true); // TODO: fix
@@ -64,47 +70,23 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
 
     this.verre = 0;
 
-    this.depthKeys();
-
     // set velocity on current
     // console.log(scene.sceneSettings.waterCurrentAngle,
     //   scene.sceneSettings.waterCurrentVelocity, this.angle);
+  }
+
+  activate() {
+    this.props.controlsActive = true;
+  }
+
+  deActivate() {
+    this.props.controlsActive = false;
   }
 
   damage(amount) {
     if (this.props.hp.decrease(amount)) {
       this.alive = false;
     }
-  }
-
-  depthKeys() {
-    // Accend
-    this.scene.input.keyboard.addKey('w')
-      .on('down', () => {
-        this.targetDepth -= 1;
-
-        if (this.targetDepth <= (this.sceneSettings.startingPlayerDepth - 20)) {
-          this.targetDepth = this.sceneSettings.startingPlayerDepth - 20;
-        }
-
-        this.scene.events.emit('updateTargetDepth', this.targetDepth);
-
-        // const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
-        // this.setScale(this.scale - scale);
-      });
-
-    // Dive
-    this.scene.input.keyboard.addKey('s')
-      .on('down', () => {
-        this.targetDepth += 1;
-        if (this.targetDepth >= this.scene.sceneSettings.maxDepth) {
-          this.targetDepth = this.scene.sceneSettings.maxDepth;
-
-          // const scale = (this.currentDepth - this.scene.sceneSettings.startingPlayerDepth) / 100;
-          // this.setScale(this.scale + scale);
-        }
-        this.scene.events.emit('updateTargetDepth', this.targetDepth);
-      });
   }
 
   createAnimations() {
@@ -158,8 +140,8 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  preUpdate(time, delta) {
-    super.preUpdate(time, delta);
+  preUpdate() {
+    // super.preUpdate(time, delta);
 
     if (this.props.controlsActive) {
       this.updateControls();
@@ -186,19 +168,6 @@ class Submarine extends Phaser.Physics.Arcade.Sprite {
       this.currentSpeed -= this.deceleration;
     } else if (this.currentSpeed < this.throttle) {
       this.currentSpeed += this.acceleration;
-    }
-
-    // Set Depth
-    if (this.targetDepth < this.currentDepth) {
-      this.currentDepth -= 0.01;
-      this.scene.events.emit('updateCurrentDepth', this.currentDepth);
-      const scale = this.shadow.scale - 0.01 / 100;
-      this.shadow.setScale(scale);
-    } else if (this.targetDepth > this.currentDepth) {
-      this.currentDepth += 0.01;
-      this.scene.events.emit('updateCurrentDepth', this.currentDepth);
-      const scale = this.shadow.scale + 0.01 / 100;
-      this.shadow.setScale(scale);
     }
 
     if (this.verre === 0) {

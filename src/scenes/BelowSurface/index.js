@@ -148,13 +148,16 @@ export default class BelowSurface extends Phaser.Scene {
 
     const SpaceKey = this.input.keyboard.addKey('Space');
     SpaceKey.on('down', () => {
-      this.scene.pause();
-      this.hudScene.scene.pause();
-      this.scene.launch('GameOptions');
-
       if (!this.scale.isFullscreen) {
         this.scale.startFullscreen();
       }
+    });
+
+    const PKey = this.input.keyboard.addKey('P');
+    PKey.on('down', () => {
+      this.scene.pause();
+      this.hudScene.scene.pause();
+      this.scene.launch('GameOptions');
     });
 
     // const GKey = this.input.keyboard.addKey('g');
@@ -171,19 +174,19 @@ export default class BelowSurface extends Phaser.Scene {
 
     this.sceneSettings.diver.activate(playerX, playerY);
 
-    this.sceneSettings.player.props.controlsActive = false;
+    this.sceneSettings.player.deActivate();
+
     this.cameras.main.startFollow(this.sceneSettings.diver);
     this.cameraFollow = this.sceneSettings.diver;
     this.maskPlugin.target = this.sceneSettings.diver;
   }
 
   hideDiver() {
-    this.sceneSettings.diver.setActive(false).setVisible(false);
-    // Todo: make sprite a container or group - group.killAndHide(sprite);
+    this.sceneSettings.diver.deActivate();
+    this.sceneSettings.player.activate();
+
     this.cameras.main.startFollow(this.sceneSettings.player);
     this.cameraFollow = this.sceneSettings.player;
-    this.sceneSettings.diver.props.controlsActive = false;
-    this.sceneSettings.player.props.controlsActive = true;
     this.maskPlugin.target = this.sceneSettings.player;
   }
 
