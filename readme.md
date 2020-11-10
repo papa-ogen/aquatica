@@ -67,17 +67,19 @@ MVP FOR GAME PLAY
 - [x] Engine on/off (loose speed etc)
 - [x] Engine sound
 - [ ] Engine sound will attract boss
-- [ ] Add BigBoss shadow
-- [ ] Add BigBoss health
-- [ ] Add BigBoss attack
-- [ ] Design BigBoss and sprites
+
 - [ ] Sound effects (dig, deploy diver, retract diver, big boss)
 - [ ] Music
 - [x] Limit map size
 - [x] Design control panel
+- [ ] Design tilemaps
 - [ ] Design diver and sprites
 - [ ] Design submarine and sprites
+- [ ] Design BigBoss and sprites 
 - [ ] Design Splash screen / menu screen
+- [ ] Add BigBoss shadow
+- [ ] Add BigBoss health
+- [ ] Add BigBoss attack
 - [ ] Turn sound/music on/off
 - [x] Create submarine container
 - [x] Add collision
